@@ -22,4 +22,4 @@ pnpm start
 
 ## Open in Browser
 
-http://localhost:3000/
+[http://localhost:3000/](http://localhost:3000/)
