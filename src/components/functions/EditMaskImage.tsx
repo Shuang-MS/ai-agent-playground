@@ -1,74 +1,85 @@
 import React from 'react';
-import { X } from 'react-feather';
 import { GptImage } from '../../types/GptImage';
 import { useContexts } from '../../providers/AppProvider';
-import { modalStyles } from '../../styles/modalStyles';
 import ErasableImage from '../ErasableImage';
+import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
+
+const style = {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+} as React.CSSProperties;
+
+const closeBtnStyle = {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  cursor: 'pointer',
+  height: '50px',
+  width: '70px',
+  fontSize: '18px',
+  backgroundColor: 'white',
+  border: '1px solid #ccc',
+  borderRadius: '5px',
+  color: 'black',
+  margin: '10px',
+  position: 'absolute',
+  top: '0',
+  right: '0',
+} as React.CSSProperties;
 
 const EditMaskImage: React.FC<{
   editImage: GptImage | null;
   setEditImage: (editImage: GptImage | null) => void;
 }> = ({ editImage, setEditImage }) => {
-  const { isNightMode, setMaskImage, maskImage } = useContexts();
-  const importModalStyles = modalStyles({ isNightMode });
+  const { setMaskImage, maskImage } = useContexts();
 
   if (!editImage) {
     return null;
   }
 
+  const open = true;
+
   return (
-    <div
-      style={{
-        ...importModalStyles.backdrop,
-        zIndex: 10000,
-      }}
-    >
-      <div
+    <div>
+      <Modal
+        open={open}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
         style={{
-          ...importModalStyles.modal,
-          width: '1028px',
-          height: '1028px',
+          zIndex: 9999999,
+          backgroundColor: 'black',
         }}
       >
-        <div style={importModalStyles.header}>
-          <h2>Edit Mask Image</h2>
+        <Box sx={style}>
           <button
-            key="close"
-            onClick={() => setEditImage(null)}
-            style={importModalStyles.closeBtn}
+            style={{ ...closeBtnStyle, left: '0' }}
+            onClick={() => setMaskImage('')}
           >
-            <X />
+            Reset
           </button>
-        </div>
 
-        <button
-          style={{
-            cursor: 'pointer',
-            height: '50px',
-            width: '70px',
-            position: 'absolute',
-            fontSize: '18px',
-            backgroundColor: 'white',
-            border: '1px solid #ccc',
-            borderRadius: '5px',
-            color: 'black',
-          }}
-          onClick={() => setMaskImage('')}
-        >
-          Reset
-        </button>
-        <ErasableImage
-          imageBase64={
-            maskImage
-              ? maskImage
-              : `data:image/png;base64,${editImage.b64_json}`
-          }
-          width={1024}
-          height={1024}
-          eraserRadius={20}
-          onImageChange={(image: string) => setMaskImage(image)}
-        />
-      </div>
+          <button
+            style={{ ...closeBtnStyle, right: '0' }}
+            onClick={() => setEditImage(null)}
+          >
+            Close
+          </button>
+
+          <ErasableImage
+            imageBase64={
+              maskImage
+                ? maskImage
+                : `data:image/png;base64,${editImage.b64_json}`
+            }
+            width={1024}
+            height={1024}
+            eraserRadius={20}
+            onImageChange={(image: string) => setMaskImage(image)}
+          />
+        </Box>
+      </Modal>
     </div>
   );
 };

@@ -91,8 +91,6 @@ const PaintingResult: React.FC = () => {
             </button>
           </div>
 
-          <EditMaskImage editImage={editImage} setEditImage={setEditImage} />
-
           <div style={styles.content}>
             {images.length === 0 && <div key={'no-images'}>No images</div>}
 
@@ -133,6 +131,7 @@ const PaintingResult: React.FC = () => {
           <Image />
         </span>
       )}
+      <EditMaskImage editImage={editImage} setEditImage={setEditImage} />
       <ShowPainting />
     </>
   );
