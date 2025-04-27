@@ -1,6 +1,7 @@
 import { AzureOpenAI } from 'openai';
 import { Profiles } from './Profiles';
 import { Buffer } from 'buffer';
+import { GptImage } from '../types/GptImage';
 
 export const getOpenAIClientSSt = (ttsApiKey: string, ttsTargetUri: string) => {
   if (!ttsApiKey || !ttsTargetUri) {
@@ -220,11 +221,7 @@ function base64ToFile(base64: string, filename: string, mimeType: string) {
   return new File([buffer], filename, { type: mimeType });
 }
 
-export async function editImages(
-  prompt: string,
-  image_base_64: string,
-  maskImage: string,
-): Promise<any> {
+export async function editImages(image: GptImage): Promise<any> {
   const profiles = new Profiles();
   const profile = profiles.currentProfile;
 
@@ -239,23 +236,26 @@ export async function editImages(
     return 'Missing API key or target URI, Please check your settings';
   }
 
-  console.log('prompt', prompt);
-  console.log('image_base_64', image_base_64);
+  console.log('prompt', image.prompt);
+  console.log('image_base_64', image.b64_json);
 
   try {
     const form = new FormData();
+
     form.set('model', 'gpt-image-1');
+    form.set('prompt', image.prompt);
 
     form.append(
       'image[]',
-      base64ToFile(image_base_64, 'image.png', 'image/png'),
+      base64ToFile(image.b64_json, 'image.png', 'image/png'),
     );
 
-    if (maskImage) {
-      form.append('mask', base64ToFile(maskImage, 'mask.png', 'image/png'));
+    if (image.mask_b64_json) {
+      form.append(
+        'mask',
+        base64ToFile(image.mask_b64_json, 'mask.png', 'image/png'),
+      );
     }
-
-    form.set('prompt', prompt);
 
     const headers = {
       'api-key': gptImageApiKey,

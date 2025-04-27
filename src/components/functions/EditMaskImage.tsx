@@ -63,6 +63,8 @@ const EditMaskImage: React.FC<{
                   mask_b64_json: '',
                 },
               });
+
+              setEditImage(null);
             }}
           >
             Reset

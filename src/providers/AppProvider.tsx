@@ -747,25 +747,24 @@ export const AppProvider: React.FC<{
       return { error: 'no painting data, please generate painting first.' };
     }
 
-    const { b64_json, mask_b64_json } = gptImagesRef.current[len - 1];
+    const lastImage = gptImagesRef.current[len - 1];
 
     try {
-      const maskImage = mask_b64_json.replace('data:image/png;base64,', '');
-      const resp = await editImages(prompt, b64_json, maskImage);
+      const resp = await editImages(lastImage);
       const image = resp.data[0];
 
       const gptImage: GptImage = {
         id: uuidv4(),
         prompt: prompt,
         b64_json: image.b64_json,
-        mask_b64_json: maskImage,
+        mask_b64_json: '',
       };
 
       gptImagesDispatch({ type: 'add', gptImage });
 
-      console.log('painting', gptImage);
+      console.log('edit painting', gptImage);
 
-      if (maskImage) {
+      if (lastImage.mask_b64_json) {
         return {
           result: 'completed with mask, please check the results in the modal.',
         };
