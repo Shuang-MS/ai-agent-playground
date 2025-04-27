@@ -30,7 +30,7 @@ import { RealtimeEvent, RealtimeTokenUsage } from '../types/RealtimeEvent';
 import BuiltFunctionDisable from '../components/BuiltFunctionDisable';
 import { Profiles } from '../lib/Profiles';
 import Eraser from '../components/ErasableImage';
-import dog from '../static/dog.png';
+import { DOG_BASE64 } from '../static/dog';
 
 export function ConsolePageRealtime() {
   const {
@@ -420,9 +420,7 @@ export function ConsolePageRealtime() {
     setOutputAudioTokens((prev) => prev + e.output_token_details.audio_tokens);
   };
 
-  // dog.png 的 base64 数据
-  const dogBase64 = `data:image/png;base64,${dog}`;
-  const [img, setImg] = useState<string>(dogBase64);
+  const [img, setImg] = useState<string>(DOG_BASE64);
   /**
    * Render the application
    */
@@ -452,11 +450,13 @@ export function ConsolePageRealtime() {
         <Avatar />
         <Camera />
 
+        {/* <img src={img} alt="img" width={100} height={100} /> */}
         <Eraser
           src={img}
           size={30}
           onFinish={(newImg) => {
             console.log('newImg', newImg);
+            const base64 = newImg.split(',')[1];
             setImg(newImg); // 覆盖原图，效果实时
           }}
         />
