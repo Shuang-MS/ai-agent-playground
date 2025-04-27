@@ -739,12 +739,21 @@ export const AppProvider: React.FC<{
     try {
       const resp = await editImages(prompt, b64_json, maskImageRef.current);
       const image = resp.data[0];
+
       const gptImage: GptImage = {
         prompt: prompt,
         b64_json: image.b64_json,
       };
 
+      if (maskImageRef.current) {
+        gptImage.mask_b64_json = maskImageRef.current.replace(
+          'data:image/png;base64,',
+          '',
+        );
+      }
+
       gptImagesDispatch({ type: 'add', gptImage });
+
       console.log('painting', gptImage);
 
       setMaskImage('');

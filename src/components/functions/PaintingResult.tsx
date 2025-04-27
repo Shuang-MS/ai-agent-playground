@@ -145,20 +145,30 @@ const PaintingResult: React.FC = () => {
             {images.length === 0 && <div>No images</div>}
 
             {images.map((image: GptImage, index: number) => (
-              <img
-                src={`data:image/png;base64,${image.b64_json}`}
-                alt={image.prompt}
-                key={index}
-                style={styles.img}
-                onClick={() => {
-                  if (index + 1 < images.length) {
-                    alert('not last image');
-                    return;
-                  }
+              <>
+                {image.mask_b64_json && (
+                  <img
+                    src={`data:image/png;base64,${image.mask_b64_json}`}
+                    alt={image.prompt}
+                    key={`mask-${index}`}
+                    style={styles.img}
+                  />
+                )}
+                <img
+                  src={`data:image/png;base64,${image.b64_json}`}
+                  alt={image.prompt}
+                  key={index}
+                  style={styles.img}
+                  onClick={() => {
+                    if (index + 1 < images.length) {
+                      alert('not last image');
+                      return;
+                    }
 
-                  setEditImage(image);
-                }}
-              />
+                    setEditImage(image);
+                  }}
+                />
+              </>
             ))}
           </div>
         </div>
