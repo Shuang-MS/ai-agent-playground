@@ -1,9 +1,9 @@
 import React from 'react';
 import { GptImage } from '../../types/GptImage';
-import { useContexts } from '../../providers/AppProvider';
 import ErasableImage from '../ErasableImage';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
+import { useGptImagesDispatch } from '../../contexts/GptImagesContext';
 
 const style = {
   display: 'flex',
@@ -33,7 +33,7 @@ const EditMaskImage: React.FC<{
   editImage: GptImage | null;
   setEditImage: (editImage: GptImage | null) => void;
 }> = ({ editImage, setEditImage }) => {
-  const { setMaskImage, maskImage } = useContexts();
+  const gptImagesDispatch = useGptImagesDispatch()!;
 
   if (!editImage) {
     return null;
@@ -55,7 +55,15 @@ const EditMaskImage: React.FC<{
         <Box sx={style}>
           <button
             style={{ ...closeBtnStyle, left: '0' }}
-            onClick={() => setMaskImage('')}
+            onClick={() => {
+              gptImagesDispatch({
+                type: 'change',
+                gptImage: {
+                  ...editImage,
+                  mask_b64_json: '',
+                },
+              });
+            }}
           >
             Reset
           </button>
@@ -68,15 +76,10 @@ const EditMaskImage: React.FC<{
           </button>
 
           <ErasableImage
-            imageBase64={
-              maskImage
-                ? maskImage
-                : `data:image/png;base64,${editImage.b64_json}`
-            }
             width={1024}
             height={1024}
             eraserRadius={20}
-            onImageChange={(image: string) => setMaskImage(image)}
+            gptImage={editImage}
           />
         </Box>
       </Modal>

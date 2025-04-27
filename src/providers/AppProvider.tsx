@@ -13,7 +13,7 @@ import {
   IMAGE_MODIFY_INSTRUCTIONS_SPECIFIED,
   SYSTEM_INSTRUCTIONS,
 } from '../lib/instructions';
-
+import { v4 as uuidv4 } from 'uuid';
 import * as memory from '../tools/memory';
 import * as weather from '../tools/weather';
 import * as avatar from '../tools/avatar';
@@ -223,10 +223,6 @@ interface AppContextType {
   setMessages: React.Dispatch<React.SetStateAction<any[]>>;
 
   camera_on_handler: Function;
-
-  maskImage: string;
-  maskImageRef: React.MutableRefObject<string>;
-  setMaskImage: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const IS_DEBUG: boolean = window.location.href.includes('localhost');
@@ -308,26 +304,6 @@ export const AppProvider: React.FC<{
   useEffect(() => {
     cameraStatusRef.current = cameraStatus;
   }, [cameraStatus]);
-
-  // maskImage string
-  const [maskImage, setMaskImage] = useState<string>('');
-  const maskImageRef = useRef(maskImage);
-  useEffect(() => {
-    console.log('maskImage', maskImage);
-    maskImageRef.current = maskImage;
-
-    if (maskImage) {
-      replaceInstructions(
-        IMAGE_MODIFY_INSTRUCTIONS_NOT_SPECIFIED,
-        IMAGE_MODIFY_INSTRUCTIONS_SPECIFIED,
-      );
-    } else {
-      replaceInstructions(
-        IMAGE_MODIFY_INSTRUCTIONS_SPECIFIED,
-        IMAGE_MODIFY_INSTRUCTIONS_NOT_SPECIFIED,
-      );
-    }
-  }, [maskImage]);
 
   // connectStatus string
   const [connectStatus, setConnectStatus] = useState(CONNECT_DISCONNECTED);
@@ -716,6 +692,18 @@ export const AppProvider: React.FC<{
     gptImagesRef.current = images;
     if (images.length > 0) {
       replaceInstructions(IMAGE_HAS_NOT_UPLOADED, IMAGE_HAS_UPLOADED);
+
+      if (images[images.length - 1].mask_b64_json) {
+        replaceInstructions(
+          IMAGE_MODIFY_INSTRUCTIONS_NOT_SPECIFIED,
+          IMAGE_MODIFY_INSTRUCTIONS_SPECIFIED,
+        );
+      } else {
+        replaceInstructions(
+          IMAGE_MODIFY_INSTRUCTIONS_SPECIFIED,
+          IMAGE_MODIFY_INSTRUCTIONS_NOT_SPECIFIED,
+        );
+      }
     } else {
       replaceInstructions(IMAGE_HAS_UPLOADED, IMAGE_HAS_NOT_UPLOADED);
     }
@@ -732,8 +720,10 @@ export const AppProvider: React.FC<{
       const image = resp.data[0];
 
       const gptImage: GptImage = {
+        id: uuidv4(),
         prompt: prompt,
         b64_json: image.b64_json,
+        mask_b64_json: '',
       };
 
       gptImagesDispatch({ type: 'add', gptImage });
@@ -757,31 +747,25 @@ export const AppProvider: React.FC<{
       return { error: 'no painting data, please generate painting first.' };
     }
 
-    const { b64_json } = gptImagesRef.current[len - 1];
+    const { b64_json, mask_b64_json } = gptImagesRef.current[len - 1];
 
     try {
-      const resp = await editImages(prompt, b64_json, maskImageRef.current);
+      const maskImage = mask_b64_json.replace('data:image/png;base64,', '');
+      const resp = await editImages(prompt, b64_json, maskImage);
       const image = resp.data[0];
 
       const gptImage: GptImage = {
+        id: uuidv4(),
         prompt: prompt,
         b64_json: image.b64_json,
+        mask_b64_json: maskImage,
       };
-
-      if (maskImageRef.current) {
-        gptImage.mask_b64_json = maskImageRef.current.replace(
-          'data:image/png;base64,',
-          '',
-        );
-      }
 
       gptImagesDispatch({ type: 'add', gptImage });
 
       console.log('painting', gptImage);
 
-      setMaskImage('');
-
-      if (maskImageRef.current) {
+      if (maskImage) {
         return {
           result: 'completed with mask, please check the results in the modal.',
         };
@@ -843,8 +827,10 @@ export const AppProvider: React.FC<{
     const currentPhoto = photosRef.current[photosRef.current.length - 1];
     const base64Data = currentPhoto.split(',')[1];
     const gptImage: GptImage = {
+      id: uuidv4(),
       prompt: 'take a photo',
       b64_json: base64Data,
+      mask_b64_json: '',
     };
     gptImagesDispatch({ type: 'add', gptImage });
     return { message: 'ok' };
@@ -1112,9 +1098,6 @@ export const AppProvider: React.FC<{
         messages,
         setMessages,
         camera_on_handler,
-        maskImage,
-        maskImageRef,
-        setMaskImage,
       }}
     >
       {children}
