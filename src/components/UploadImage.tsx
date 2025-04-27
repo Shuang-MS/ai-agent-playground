@@ -22,20 +22,29 @@ export function UploadImage({}: {}) {
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const base64String = e.target?.result as string;
-      // Remove the data:image/png;base64, prefix
-      const base64Data = base64String.split(',')[1];
+    const img = new window.Image();
+    img.onload = () => {
+      if (img.width !== 1024 || img.height !== 1024) {
+        alert('Image must be 1024x1024 pixels');
+        return;
+      }
 
-      const gptImage: GptImage = {
-        prompt: 'modify the image',
-        b64_json: base64Data,
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const base64String = e.target?.result as string;
+        // Remove the data:image/png;base64, prefix
+        const base64Data = base64String.split(',')[1];
+
+        const gptImage: GptImage = {
+          prompt: 'modify the image',
+          b64_json: base64Data,
+        };
+
+        gptImagesDispatch({ type: 'add', gptImage });
       };
-
-      gptImagesDispatch({ type: 'add', gptImage });
+      reader.readAsDataURL(file);
     };
-    reader.readAsDataURL(file);
+    img.src = URL.createObjectURL(file);
   };
 
   return (

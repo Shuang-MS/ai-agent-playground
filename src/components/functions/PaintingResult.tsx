@@ -5,8 +5,8 @@ import { Image } from 'react-feather';
 import { useGptImages } from '../../contexts/GptImagesContext';
 import { useContexts } from '../../providers/AppProvider';
 import { modalStyles } from '../../styles/modalStyles';
-import ErasableImage from '../ErasableImage';
 import transparent from '../../../src/static/transparent.png';
+import EditMaskImage from './EditMaskImage';
 
 const PaintingResult: React.FC = () => {
   const images = useGptImages();
@@ -44,68 +44,6 @@ const PaintingResult: React.FC = () => {
     setMaskImage('');
   }, [images, setIsShow, setEditImage, setMaskImage]);
 
-  const EditMaskImage = () => {
-    if (!editImage) {
-      return null;
-    }
-
-    return (
-      <div
-        style={{
-          ...importModalStyles.backdrop,
-          zIndex: 10000,
-        }}
-      >
-        <div
-          style={{
-            ...importModalStyles.modal,
-            width: '1028px',
-            height: '1028px',
-          }}
-        >
-          <div style={importModalStyles.header}>
-            <h2>Edit Mask Image</h2>
-            <button
-              key="close"
-              onClick={() => setEditImage(null)}
-              style={importModalStyles.closeBtn}
-            >
-              <X />
-            </button>
-          </div>
-
-          <button
-            style={{
-              cursor: 'pointer',
-              height: '50px',
-              width: '70px',
-              position: 'absolute',
-              fontSize: '18px',
-              backgroundColor: 'white',
-              border: '1px solid #ccc',
-              borderRadius: '5px',
-              color: 'black',
-            }}
-            onClick={() => setMaskImage('')}
-          >
-            Reset
-          </button>
-          <ErasableImage
-            imageBase64={
-              maskImage
-                ? maskImage
-                : `data:image/png;base64,${editImage.b64_json}`
-            }
-            width={1024}
-            height={1024}
-            eraserRadius={20}
-            onImageChange={(image: string) => setMaskImage(image)}
-          />
-        </div>
-      </div>
-    );
-  };
-
   const ImageItem = ({
     b64_json,
     prompt,
@@ -126,7 +64,8 @@ const PaintingResult: React.FC = () => {
         style={{
           ...styles.img,
           background: `url(${transparent})`,
-          opacity: isMask ? 0.5 : 1,
+          opacity: isLast ? 1 : 0.7,
+          cursor: isLast ? 'pointer' : 'not-allowed',
         }}
         onClick={isLast ? onClick : undefined}
       />
@@ -152,7 +91,7 @@ const PaintingResult: React.FC = () => {
             </button>
           </div>
 
-          <EditMaskImage />
+          <EditMaskImage editImage={editImage} setEditImage={setEditImage} />
 
           <div style={styles.content}>
             {images.length === 0 && <div key={'no-images'}>No images</div>}
