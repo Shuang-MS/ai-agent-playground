@@ -237,7 +237,7 @@ export async function editImages(image: GptImage): Promise<any> {
   }
 
   console.log('prompt', image.prompt);
-  console.log('image_base_64', image.b64_json);
+  console.log('image_base_64', image.b64);
 
   try {
     const form = new FormData();
@@ -245,15 +245,12 @@ export async function editImages(image: GptImage): Promise<any> {
     form.set('model', 'gpt-image-1');
     form.set('prompt', image.prompt);
 
-    form.append(
-      'image[]',
-      base64ToFile(image.b64_json, 'image.png', 'image/png'),
-    );
+    form.append('image[]', base64ToFile(image.b64, 'image.png', 'image/png'));
 
-    if (image.mask_b64_json) {
+    if (image.mask_b64) {
       form.append(
         'mask',
-        base64ToFile(image.mask_b64_json, 'mask.png', 'image/png'),
+        base64ToFile(image.mask_b64, 'mask.png', 'image/png'),
       );
     }
 

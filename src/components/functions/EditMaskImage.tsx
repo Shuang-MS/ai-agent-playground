@@ -60,7 +60,7 @@ const EditMaskImage: React.FC<{
                 type: 'change',
                 gptImage: {
                   ...editImage,
-                  mask_b64_json: '',
+                  mask_b64: '',
                 },
               });
 

@@ -26,7 +26,7 @@ const ErasableImage: React.FC<ErasableImageProps> = ({
     const ctx = canvas.getContext('2d', { alpha: true });
     if (!ctx) return;
     const img = new window.Image();
-    img.src = `data:image/png;base64,${gptImage?.mask_b64_json ? gptImage.mask_b64_json : gptImage.b64_json}`;
+    img.src = `data:image/png;base64,${gptImage?.mask_b64 ? gptImage.mask_b64 : gptImage.b64}`;
     img.onload = () => {
       ctx.clearRect(0, 0, width, height);
       ctx.drawImage(img, 0, 0, width, height);
@@ -137,7 +137,7 @@ const ErasableImage: React.FC<ErasableImageProps> = ({
             type: 'change',
             gptImage: {
               ...gptImage,
-              mask_b64_json: base64.replace('data:image/png;base64,', ''),
+              mask_b64: base64.replace('data:image/png;base64,', ''),
             },
           });
         }

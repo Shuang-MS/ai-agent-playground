@@ -693,7 +693,7 @@ export const AppProvider: React.FC<{
     if (images.length > 0) {
       replaceInstructions(IMAGE_HAS_NOT_UPLOADED, IMAGE_HAS_UPLOADED);
 
-      if (images[images.length - 1].mask_b64_json) {
+      if (images[images.length - 1].mask_b64) {
         replaceInstructions(
           IMAGE_MODIFY_INSTRUCTIONS_NOT_SPECIFIED,
           IMAGE_MODIFY_INSTRUCTIONS_SPECIFIED,
@@ -722,8 +722,8 @@ export const AppProvider: React.FC<{
       const gptImage: GptImage = {
         id: uuidv4(),
         prompt: prompt,
-        b64_json: image.b64_json,
-        mask_b64_json: '',
+        b64: image.b64_json,
+        mask_b64: '',
       };
 
       gptImagesDispatch({ type: 'add', gptImage });
@@ -738,7 +738,7 @@ export const AppProvider: React.FC<{
   };
 
   const image_modify_handler: Function = async ({
-    prompt,
+    edit_prompt,
   }: {
     [key: string]: any;
   }) => {
@@ -755,16 +755,16 @@ export const AppProvider: React.FC<{
 
       const gptImage: GptImage = {
         id: uuidv4(),
-        prompt: prompt,
-        b64_json: image.b64_json,
-        mask_b64_json: '',
+        prompt: edit_prompt,
+        b64: image.b64_json,
+        mask_b64: '',
       };
 
       gptImagesDispatch({ type: 'add', gptImage });
 
       console.log('edit painting', gptImage);
 
-      if (lastImage.mask_b64_json) {
+      if (lastImage.mask_b64) {
         return {
           result: 'completed with mask, please check the results in the modal.',
         };
@@ -828,8 +828,8 @@ export const AppProvider: React.FC<{
     const gptImage: GptImage = {
       id: uuidv4(),
       prompt: 'take a photo',
-      b64_json: base64Data,
-      mask_b64_json: '',
+      b64: base64Data,
+      mask_b64: '',
     };
     gptImagesDispatch({ type: 'add', gptImage });
     return { message: 'ok' };

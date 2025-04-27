@@ -3,16 +3,16 @@ import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/clie
 export const definition: ToolDefinitionType = {
   name: 'image_modify',
   description:
-    'modify generated painting. edit generated image. you have a mask image for modifying certain parts, so do not ask user provide mask image or specify the parts to modify, respond wait message to the user before calling the tool.',
+    'modify generated painting or uploaded image. you have a mask image for modifying certain parts, so do not ask user provide mask image or specify the parts to modify, respond wait message to the user before calling the tool.',
   parameters: {
     type: 'object',
     properties: {
-      prompt: {
+      edit_prompt: {
         type: 'string',
-        description: 'prompt of the image',
+        description: 'prompt of the edited image',
       },
     },
-    required: ['prompt'],
+    required: ['edit_prompt'],
     strict: true,
   },
 };

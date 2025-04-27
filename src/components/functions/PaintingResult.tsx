@@ -93,9 +93,7 @@ const PaintingResult: React.FC = () => {
             {images.map((image: GptImage, index: number) => (
               <ImageItem
                 key={image.id}
-                b64_json={
-                  image.mask_b64_json ? image.mask_b64_json : image.b64_json
-                }
+                b64_json={image.mask_b64 ? image.mask_b64 : image.b64}
                 prompt={image.prompt}
                 onClick={() => {
                   setEditImage(image);

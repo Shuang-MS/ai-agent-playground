@@ -18,8 +18,8 @@ function gptImagesReducer(images: GptImage[], action: GptImageAction) {
         {
           id: action.gptImage.id,
           prompt: action.gptImage.prompt,
-          b64_json: action.gptImage.b64_json,
-          mask_b64_json: action.gptImage.mask_b64_json,
+          b64: action.gptImage.b64,
+          mask_b64: action.gptImage.mask_b64,
         },
       ];
     }
