@@ -43,20 +43,19 @@ const PaintingResult: React.FC = () => {
   }, [images, setIsShow, setEditImage]);
 
   const ImageItem = ({
-    b64_json,
-    prompt,
+    image,
     onClick,
     isLast = false,
   }: {
-    b64_json: string;
-    prompt: string;
+    image: GptImage;
     onClick: () => void;
     isLast?: boolean;
   }) => {
+    const b64 = image.mask_b64 ? image.mask_b64 : image.b64;
     return (
       <img
-        src={`data:image/png;base64,${b64_json}`}
-        alt={prompt}
+        src={`data:image/png;base64,${isLast ? b64 : image.b64}`}
+        alt={image.prompt}
         style={{
           ...styles.img,
           background: `url(${transparent})`,
@@ -93,8 +92,7 @@ const PaintingResult: React.FC = () => {
             {images.map((image: GptImage, index: number) => (
               <ImageItem
                 key={image.id}
-                b64_json={image.mask_b64 ? image.mask_b64 : image.b64}
-                prompt={image.prompt}
+                image={image}
                 onClick={() => {
                   setEditImage(image);
                 }}
