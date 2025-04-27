@@ -6,6 +6,7 @@ import { useGptImages } from '../../contexts/GptImagesContext';
 import { useContexts } from '../../providers/AppProvider';
 import { modalStyles } from '../../styles/modalStyles';
 import ErasableImage from '../ErasableImage';
+import transparent from '../../../src/static/transparent.png';
 
 const PaintingResult: React.FC = () => {
   const images = useGptImages();
@@ -151,7 +152,13 @@ const PaintingResult: React.FC = () => {
                     src={`data:image/png;base64,${image.mask_b64_json}`}
                     alt={image.prompt}
                     key={`mask-${index}`}
-                    style={styles.img}
+                    style={{
+                      ...styles.img,
+                      opacity: 0.5,
+                      border: '1px solid red',
+                      borderRadius: '5px',
+                      background: `url(${transparent})`,
+                    }}
                   />
                 )}
                 <img

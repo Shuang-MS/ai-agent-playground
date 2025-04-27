@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-
+import transparent from '../../src/static/transparent.png';
 interface ErasableImageProps {
   imageBase64: string;
   width?: number;
@@ -22,7 +22,7 @@ const ErasableImage: React.FC<ErasableImageProps> = ({
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d', { alpha: true });
     if (!ctx) return;
     const img = new window.Image();
     img.src = imageBase64;
@@ -40,7 +40,7 @@ const ErasableImage: React.FC<ErasableImageProps> = ({
     if (!imgLoaded) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d', { alpha: true });
     if (!ctx) return;
 
     interface PointerPos {
@@ -111,14 +111,34 @@ const ErasableImage: React.FC<ErasableImageProps> = ({
       lastPos = null;
 
       if (canvas) {
-        const base64 = canvas.toDataURL('image/png');
-        if (onImageChange) {
-          onImageChange(base64);
+        // Ensure the canvas has an alpha channel
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = canvas.width;
+        tempCanvas.height = canvas.height;
+        const tempCtx = tempCanvas.getContext('2d', { alpha: true });
+
+        if (tempCtx) {
+          // Draw the current canvas content to the temporary canvas
+          tempCtx.drawImage(canvas, 0, 0);
+
+          // Get the image data to ensure alpha values are preserved
+          const imageData = tempCtx.getImageData(
+            0,
+            0,
+            canvas.width,
+            canvas.height,
+          );
+
+          // Convert to base64 with alpha channel preserved
+          const base64 = tempCanvas.toDataURL('image/png');
+
+          if (onImageChange) {
+            onImageChange(base64);
+          }
         }
       }
     };
 
-    // 事件监听绑定
     canvas.addEventListener('mousedown', startErase as EventListener);
     window.addEventListener('mousemove', eraseMove as EventListener);
     window.addEventListener('mouseup', endErase as EventListener);
@@ -129,7 +149,6 @@ const ErasableImage: React.FC<ErasableImageProps> = ({
     });
     window.addEventListener('touchend', endErase as EventListener);
 
-    // 事件解绑
     return () => {
       canvas.removeEventListener('mousedown', startErase as EventListener);
       window.removeEventListener('mousemove', eraseMove as EventListener);
@@ -150,8 +169,9 @@ const ErasableImage: React.FC<ErasableImageProps> = ({
         border: 'none',
         display: 'block',
         touchAction: 'none',
-        background: 'black',
+        background: `url(${transparent})`,
         zIndex: 1000,
+        cursor: 'crosshair',
       }}
     />
   );
