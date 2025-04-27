@@ -150,8 +150,9 @@ const ErasableImage: React.FC<ErasableImageProps> = ({
         border: 'none',
         display: 'block',
         touchAction: 'none',
-        background: 'black',
+        background: 'red',
         zIndex: 1000,
+        cursor: 'crosshair',
       }}
     />
   );
