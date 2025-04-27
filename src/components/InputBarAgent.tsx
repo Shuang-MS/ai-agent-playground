@@ -6,7 +6,7 @@ import * as SpeechSDK from 'microsoft-cognitiveservices-speech-sdk';
 import './InputBar.scss';
 import { CONNECT_CONNECTED } from '../lib/const';
 import { Profiles } from '../lib/Profiles';
-import { RecommandText } from './RecommandText';
+import { RecommendText } from './RecommendText';
 
 export function InputBarAgent({
   setAgentRunning: setAgentRunning,
@@ -175,7 +175,7 @@ export function InputBarAgent({
         <div>
           {!agentRunning && (
             <>
-              <RecommandText
+              <RecommendText
                 handleInputButtonClick={sendText}
                 messages={[
                   'what is the weather in tokyo?',
@@ -186,7 +186,7 @@ export function InputBarAgent({
                   'open camera',
                 ]}
               />
-              <RecommandText
+              <RecommendText
                 handleInputButtonClick={sendText}
                 messages={[
                   'use browser to search for azure news',

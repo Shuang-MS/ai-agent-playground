@@ -44,21 +44,6 @@ const PaintingResult: React.FC = () => {
     setMaskImage('');
   }, [images, setIsShow, setEditImage, setMaskImage]);
 
-  function getImageSizeFromBase64(
-    base64: string,
-  ): Promise<{ width: number; height: number }> {
-    return new Promise((resolve, reject) => {
-      const img = new window.Image();
-      img.onload = () => {
-        resolve({ width: img.naturalWidth, height: img.naturalHeight });
-      };
-      img.onerror = (e) => {
-        reject(new Error('图片加载失败'));
-      };
-      img.src = base64;
-    });
-  }
-
   const EditMaskImage = () => {
     if (!editImage) {
       return null;
@@ -121,6 +106,33 @@ const PaintingResult: React.FC = () => {
     );
   };
 
+  const ImageItem = ({
+    b64_json,
+    prompt,
+    onClick,
+    isMask = false,
+    isLast = false,
+  }: {
+    b64_json: string;
+    prompt: string;
+    onClick: () => void;
+    isMask?: boolean;
+    isLast?: boolean;
+  }) => {
+    return (
+      <img
+        src={`data:image/png;base64,${b64_json}`}
+        alt={prompt}
+        style={{
+          ...styles.img,
+          background: `url(${transparent})`,
+          opacity: isMask ? 0.5 : 1,
+        }}
+        onClick={isLast ? onClick : undefined}
+      />
+    );
+  };
+
   const ShowPainting = () => {
     if (!isShow) {
       return null;
@@ -143,37 +155,29 @@ const PaintingResult: React.FC = () => {
           <EditMaskImage />
 
           <div style={styles.content}>
-            {images.length === 0 && <div>No images</div>}
+            {images.length === 0 && <div key={'no-images'}>No images</div>}
 
             {images.map((image: GptImage, index: number) => (
               <>
                 {image.mask_b64_json && (
-                  <img
-                    src={`data:image/png;base64,${image.mask_b64_json}`}
-                    alt={image.prompt}
-                    key={`mask-${index}`}
-                    style={{
-                      ...styles.img,
-                      opacity: 0.5,
-                      border: '1px solid red',
-                      borderRadius: '5px',
-                      background: `url(${transparent})`,
+                  <ImageItem
+                    b64_json={image.mask_b64_json}
+                    prompt={image.prompt}
+                    isMask={true}
+                    onClick={() => {
+                      console.log('image', image);
                     }}
                   />
                 )}
-                <img
-                  src={`data:image/png;base64,${image.b64_json}`}
-                  alt={image.prompt}
-                  key={index}
-                  style={styles.img}
-                  onClick={() => {
-                    if (index + 1 < images.length) {
-                      alert('not last image');
-                      return;
-                    }
 
+                <ImageItem
+                  b64_json={image.b64_json}
+                  prompt={image.prompt}
+                  onClick={() => {
                     setEditImage(image);
                   }}
+                  isMask={false}
+                  isLast={index === images.length - 1}
                 />
               </>
             ))}

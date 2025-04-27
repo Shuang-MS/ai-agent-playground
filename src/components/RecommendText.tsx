@@ -1,7 +1,7 @@
 import { useContexts } from '../providers/AppProvider';
 import './InputBar.scss';
 
-export function RecommandText({
+export function RecommendText({
   handleInputButtonClick,
   messages,
 }: {
@@ -21,7 +21,6 @@ export function RecommandText({
       backgroundColor: isNightMode
         ? 'rgba(0, 0, 0, 0.3)'
         : 'rgba(255, 255, 255, 0.4)',
-
       border: 'none',
       padding: '3px 4px',
       fontSize: '14px',
