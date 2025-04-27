@@ -13,6 +13,14 @@ const PaintingResult: React.FC = () => {
   const { isNightMode, setMaskImage, maskImage } = useContexts();
   const gptImages = useGptImages();
   const importModalStyles = modalStyles({ isNightMode });
+  const [editImage, setEditImage] = useState<GptImage | null>(null);
+
+  useEffect(() => {
+    if (isShow) {
+      setEditImage(null);
+      setMaskImage('');
+    }
+  }, [isShow, setEditImage, setMaskImage]);
 
   const styles = {
     content: {
@@ -26,13 +34,53 @@ const PaintingResult: React.FC = () => {
     img: {
       width: '300px',
       height: 'auto',
-      zIndex: 1000,
     } as React.CSSProperties,
   };
 
   useEffect(() => {
     setIsShow(images.length > 0);
   }, [images]);
+
+  function getImageSizeFromBase64(
+    base64: string,
+  ): Promise<{ width: number; height: number }> {
+    return new Promise((resolve, reject) => {
+      const img = new window.Image();
+      img.onload = () => {
+        resolve({ width: img.naturalWidth, height: img.naturalHeight });
+      };
+      img.onerror = (e) => {
+        reject(new Error('图片加载失败'));
+      };
+      img.src = base64;
+    });
+  }
+
+  const EditMaskImage = () => {
+    if (!editImage) {
+      return null;
+    }
+
+    // get editImage real size
+    (async () => {
+      const size = await getImageSizeFromBase64(editImage.b64_json);
+      const width = size.width;
+      const height = size.height;
+      alert(`width: ${width}, height: ${height}`);
+    })();
+
+    return (
+      <ErasableImage
+        imageBase64={
+          maskImage ? maskImage : `data:image/png;base64,${editImage.b64_json}`
+        }
+        width={300}
+        height={300}
+        eraserRadius={20}
+        onImageChange={(image: string) => setMaskImage(image)}
+      />
+    );
+  };
 
   const ShowPainting = () => {
     if (!isShow) {
@@ -53,39 +101,26 @@ const PaintingResult: React.FC = () => {
             </button>
           </div>
 
+          <EditMaskImage />
+
           <div style={styles.content}>
             {images.length === 0 && <div>No images</div>}
 
             {images.map((image: GptImage, index: number) => (
-              <>
-                {/* display when not last index */}
-                {index + 1 < images.length && (
-                  <img
-                    src={`data:image/png;base64,${image.b64_json}`}
-                    alt={image.prompt}
-                    key={index}
-                    style={styles.img}
-                  />
-                )}
+              <img
+                src={`data:image/png;base64,${image.b64_json}`}
+                alt={image.prompt}
+                key={index}
+                style={styles.img}
+                onClick={() => {
+                  if (index + 1 < images.length) {
+                    alert('not last image');
+                    return;
+                  }
 
-                {/* display only last index */}
-                {index + 1 >= images.length && (
-                  <div style={styles.img}>
-                    <ErasableImage
-                      key={index}
-                      imageBase64={
-                        maskImage
-                          ? maskImage
-                          : `data:image/png;base64,${image.b64_json}`
-                      }
-                      width={300}
-                      height={300}
-                      eraserRadius={20}
-                      onImageChange={(image: string) => setMaskImage(image)}
-                    />
-                  </div>
-                )}
-              </>
+                  setEditImage(image);
+                }}
+              />
             ))}
           </div>
         </div>
