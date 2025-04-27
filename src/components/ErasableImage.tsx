@@ -1,17 +1,17 @@
 import React, { useRef, useEffect, useState } from 'react';
 
 interface ErasableImageProps {
-  imageBase64: string; // 形如 data:image/png;base64,xxx
-  width?: number; // 画布宽度，默认 400
-  height?: number; // 画布高度，默认 400
-  eraserRadius?: number; // 橡皮擦半径，默认 20
-  onImageChange?: (base64: string) => void; // 擦除后image变化时触发
+  imageBase64: string;
+  width?: number;
+  height?: number;
+  eraserRadius?: number;
+  onImageChange?: (base64: string) => void;
 }
 
 const ErasableImage: React.FC<ErasableImageProps> = ({
   imageBase64,
-  width = 300,
-  height = 300,
+  width = 1024,
+  height = 1024,
   eraserRadius = 20,
   onImageChange,
 }) => {
