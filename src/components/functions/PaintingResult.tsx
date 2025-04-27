@@ -6,6 +6,7 @@ import { useGptImages } from '../../contexts/GptImagesContext';
 import { useContexts } from '../../providers/AppProvider';
 import { modalStyles } from '../../styles/modalStyles';
 import ErasableImage from '../ErasableImage';
+import transparent from '../../../src/static/transparent.png';
 
 const PaintingResult: React.FC = () => {
   const images = useGptImages();
@@ -156,6 +157,7 @@ const PaintingResult: React.FC = () => {
                       opacity: 0.5,
                       border: '1px solid red',
                       borderRadius: '5px',
+                      background: `url(${transparent})`,
                     }}
                   />
                 )}
