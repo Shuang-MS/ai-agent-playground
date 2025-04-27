@@ -1,202 +1,160 @@
 import React, { useRef, useEffect, useState } from 'react';
 
-// 定义组件 props 的类型
-export interface EraserProps {
-  src: string; // base64 PNG 图片（dataURL 形式）
-  width?: number; // 画布宽度（可选，不填则用图片宽度）
-  height?: number; // 画布高度（可选，不填则用图片高度）
-  size?: number; // 橡皮擦直径（可选，默认 20）
-  onFinish?: (newBase64: string) => void; // 松开鼠标/手指后的回调
+interface ErasableImageProps {
+  imageBase64: string; // 形如 data:image/png;base64,xxx
+  width?: number; // 画布宽度，默认 400
+  height?: number; // 画布高度，默认 400
+  eraserRadius?: number; // 橡皮擦半径，默认 20
+  onImageChange?: (base64: string) => void; // 擦除后image变化时触发
 }
 
-const Eraser: React.FC<EraserProps> = ({
-  src,
-  width,
-  height,
-  size = 20,
-  onFinish,
+const ErasableImage: React.FC<ErasableImageProps> = ({
+  imageBase64,
+  width = 400,
+  height = 400,
+  eraserRadius = 20,
+  onImageChange,
 }) => {
-  console.log('src', src);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [isDrawing, setIsDrawing] = useState(false);
-  const [imgSize, setImgSize] = useState<{ width: number; height: number }>({
-    width: width ?? 300, // 默认宽度设为300
-    height: height ?? 300, // 默认高度设为300
-  });
-  const [error, setError] = useState<string | null>(null);
+  const isErasing = useRef<boolean>(false);
+  const [imgLoaded, setImgLoaded] = useState<boolean>(false);
 
-  // 图片加载与初始化
+  // 绘制图片到 canvas
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) {
-      setError('Canvas元素未找到');
-      return;
-    }
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) {
-      setError('无法获取Canvas上下文');
-      return;
-    }
-
-    // 设置初始画布尺寸
-    canvas.width = imgSize.width;
-    canvas.height = imgSize.height;
-
-    // 清空画布
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // 检查src是否有效
-    if (!src || typeof src !== 'string' || src.trim() === '') {
-      setError('无效的图片源');
-      return;
-    }
-
-    const img = new window.Image();
-
-    img.onload = () => {
-      try {
-        const iw = width ?? img.width;
-        const ih = height ?? img.height;
-
-        // 更新画布尺寸
-        canvas.width = iw;
-        canvas.height = ih;
-        setImgSize({ width: iw, height: ih });
-
-        // 清空画布并绘制图像
-        ctx.clearRect(0, 0, iw, ih);
-        ctx.drawImage(img, 0, 0, iw, ih);
-
-        console.log('图像已成功加载到画布', { width: iw, height: ih });
-        setError(null);
-      } catch (err) {
-        console.error('绘制图像时出错:', err);
-        setError(
-          `绘制图像时出错: ${err instanceof Error ? err.message : String(err)}`,
-        );
-      }
-    };
-
-    img.onerror = (err) => {
-      console.error('图片加载失败:', err);
-      setError('图片加载失败');
-    };
-
-    img.src = src;
-  }, [src, width, height]);
-
-  // 获取鼠标或触摸坐标
-  const getPos = (
-    e:
-      | React.MouseEvent<HTMLCanvasElement, MouseEvent>
-      | React.TouchEvent<HTMLCanvasElement>,
-  ) => {
-    const canvas = canvasRef.current;
-    if (!canvas) return { x: 0, y: 0 };
-
-    let x = 0,
-      y = 0;
-    if ('touches' in e && e.touches.length > 0) {
-      const rect = canvas.getBoundingClientRect();
-      x = e.touches[0].clientX - rect.left;
-      y = e.touches[0].clientY - rect.top;
-    } else if ('nativeEvent' in e) {
-      const mouseEvent = e as React.MouseEvent<HTMLCanvasElement, MouseEvent>;
-      x = mouseEvent.nativeEvent.offsetX;
-      y = mouseEvent.nativeEvent.offsetY;
-    }
-    return { x, y };
-  };
-
-  // 实际擦除函数
-  const erase = (x: number, y: number) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
-    ctx.save();
-    ctx.globalCompositeOperation = 'destination-out';
-    ctx.beginPath();
-    ctx.arc(x, y, size / 2, 0, 2 * Math.PI, false);
-    ctx.fill();
-    ctx.restore();
-  };
+    const img = new window.Image();
+    img.src = imageBase64;
+    img.onload = () => {
+      ctx.clearRect(0, 0, width, height);
+      ctx.drawImage(img, 0, 0, width, height);
+      setImgLoaded(true);
+    };
+    img.onerror = () => {
+      setImgLoaded(false);
+    };
+  }, [imageBase64, width, height]);
 
-  // 事件处理
-  const handleStart = (
-    e:
-      | React.MouseEvent<HTMLCanvasElement, MouseEvent>
-      | React.TouchEvent<HTMLCanvasElement>,
-  ) => {
-    e.preventDefault();
-    setIsDrawing(true);
-    const { x, y } = getPos(e);
-    erase(x, y);
-  };
+  useEffect(() => {
+    if (!imgLoaded) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
 
-  const handleMove = (
-    e:
-      | React.MouseEvent<HTMLCanvasElement, MouseEvent>
-      | React.TouchEvent<HTMLCanvasElement>,
-  ) => {
-    if (!isDrawing) return;
-    e.preventDefault();
-    const { x, y } = getPos(e);
-    erase(x, y);
-  };
-
-  const handleEnd = () => {
-    setIsDrawing(false);
-    if (onFinish && canvasRef.current) {
-      const data = canvasRef.current.toDataURL('image/png');
-      onFinish(data);
+    interface PointerPos {
+      x: number;
+      y: number;
     }
-  };
+    let lastPos: PointerPos | null = null;
+
+    const getPointerPos = (e: MouseEvent | TouchEvent): PointerPos => {
+      const rect = canvas.getBoundingClientRect();
+      let clientX: number, clientY: number;
+      if ('touches' in e && e.touches.length) {
+        clientX = e.touches[0].clientX;
+        clientY = e.touches[0].clientY;
+      } else if ('clientX' in e && 'clientY' in e) {
+        clientX = (e as MouseEvent).clientX;
+        clientY = (e as MouseEvent).clientY;
+      } else {
+        clientX = 0;
+        clientY = 0;
+      }
+      return {
+        x: clientX - rect.left,
+        y: clientY - rect.top,
+      };
+    };
+
+    const eraseAtPos = (x: number, y: number) => {
+      ctx.save();
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.beginPath();
+      ctx.arc(x, y, eraserRadius, 0, Math.PI * 2, false);
+      ctx.fill();
+      ctx.restore();
+    };
+
+    const eraseLine = (from: PointerPos, to: PointerPos) => {
+      const dist = Math.hypot(to.x - from.x, to.y - from.y);
+      const steps = Math.max(1, Math.ceil(dist / (eraserRadius / 2)));
+      for (let i = 0; i <= steps; i++) {
+        const x = from.x + ((to.x - from.x) * i) / steps;
+        const y = from.y + ((to.y - from.y) * i) / steps;
+        eraseAtPos(x, y);
+      }
+    };
+
+    const startErase = (e: MouseEvent | TouchEvent) => {
+      e.preventDefault();
+      isErasing.current = true;
+      lastPos = getPointerPos(e);
+      eraseAtPos(lastPos.x, lastPos.y);
+    };
+
+    const eraseMove = (e: MouseEvent | TouchEvent) => {
+      if (!isErasing.current) return;
+      e.preventDefault();
+      const pos = getPointerPos(e);
+      if (lastPos) {
+        eraseLine(lastPos, pos);
+      } else {
+        eraseAtPos(pos.x, pos.y);
+      }
+      lastPos = pos;
+    };
+
+    const endErase = () => {
+      isErasing.current = false;
+      lastPos = null;
+
+      if (canvas) {
+        const base64 = canvas.toDataURL('image/png');
+        if (onImageChange) {
+          onImageChange(base64);
+        }
+      }
+    };
+
+    // 事件监听绑定
+    canvas.addEventListener('mousedown', startErase as EventListener);
+    window.addEventListener('mousemove', eraseMove as EventListener);
+    window.addEventListener('mouseup', endErase as EventListener);
+
+    canvas.addEventListener('touchstart', startErase as EventListener);
+    window.addEventListener('touchmove', eraseMove as EventListener, {
+      passive: false,
+    });
+    window.addEventListener('touchend', endErase as EventListener);
+
+    // 事件解绑
+    return () => {
+      canvas.removeEventListener('mousedown', startErase as EventListener);
+      window.removeEventListener('mousemove', eraseMove as EventListener);
+      window.removeEventListener('mouseup', endErase as EventListener);
+
+      canvas.removeEventListener('touchstart', startErase as EventListener);
+      window.removeEventListener('touchmove', eraseMove as EventListener);
+      window.removeEventListener('touchend', endErase as EventListener);
+    };
+  }, [imgLoaded, eraserRadius, onImageChange]);
 
   return (
-    <div style={{ position: 'relative' }}>
-      {error && (
-        <div
-          style={{
-            color: 'red',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            background: 'rgba(255,255,255,0.8)',
-            padding: '5px',
-            zIndex: 10,
-          }}
-        >
-          {error}
-        </div>
-      )}
-      <canvas
-        ref={canvasRef}
-        width={imgSize.width}
-        height={imgSize.height}
-        style={{
-          touchAction: 'none',
-          display: 'block',
-          border: '1px solid #aaa',
-          background: 'transparent',
-          maxWidth: '100%',
-          height: 'auto',
-          backgroundImage: `url(${src})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-        onMouseDown={handleStart}
-        onMouseMove={handleMove}
-        onMouseUp={handleEnd}
-        onMouseLeave={handleEnd}
-        onTouchStart={handleStart}
-        onTouchMove={handleMove}
-        onTouchEnd={handleEnd}
-      />
-    </div>
+    <canvas
+      ref={canvasRef}
+      width={width}
+      height={height}
+      style={{
+        border: '1px solid #ccc',
+        display: 'block',
+        touchAction: 'none',
+        background: 'transparent',
+      }}
+    />
   );
 };
 
-export default Eraser;
+export default ErasableImage;

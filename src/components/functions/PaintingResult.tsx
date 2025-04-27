@@ -5,6 +5,7 @@ import { Image } from 'react-feather';
 import { useGptImages } from '../../contexts/GptImagesContext';
 import { useContexts } from '../../providers/AppProvider';
 import { modalStyles } from '../../styles/modalStyles';
+import ErasableImage from '../ErasableImage';
 
 const PaintingResult: React.FC = () => {
   const images = useGptImages();
@@ -56,11 +57,13 @@ const PaintingResult: React.FC = () => {
 
             {images.map((image: GptImage, index: number) => (
               <div key={index}>
-                <img
-                  src={`data:image/png;base64,${image.b64_json}`}
-                  alt={image.prompt}
+                <ErasableImage
                   key={index}
-                  style={styles.img}
+                  imageBase64={`data:image/png;base64,${image.b64_json}`}
+                  width={400}
+                  height={400}
+                  eraserRadius={20}
+                  onImageChange={(b64) => console.log('最新base64为：', b64)}
                 />
               </div>
             ))}
