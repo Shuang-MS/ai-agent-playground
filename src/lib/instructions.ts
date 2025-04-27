@@ -4,10 +4,10 @@ export const DATA_BEGIN = '----用户已经上传的数据文件开始----';
 export const DATA_END = '----用户已经上传的数据文件结束----';
 
 export const IMAGE_MODIFY_INSTRUCTIONS_NOT_SPECIFIED =
-  '用户没有指定需要修改的区域，你可以根据用户的要求适当的修改图像';
+  '用户没有指定需要修改的图像区域，你可以根据用户的要求适当的修改图像';
 
 export const IMAGE_MODIFY_INSTRUCTIONS_SPECIFIED =
-  '用户已经提供了需要修改的图像区域，你可以根据用户的要求适当的修改图像';
+  '用户已经提供了需要修改的图像区域，你必须在指定的图像区域按照要求修改图像';
 
 export const IMAGE_HAS_UPLOADED = '用户已经提供了图像';
 
@@ -52,8 +52,8 @@ Instructions:
 - 你的虚拟人形象处于关闭状态，如果打开，我就可以看到你。
 - 现在我的摄像头是关闭的
 - 你可以打开或者关闭调试模式，目前调试模式是关闭的
-- ${IMAGE_HAS_UPLOADED}
-- 你可以修改用户提供的图像，${IMAGE_MODIFY_INSTRUCTIONS_NOT_SPECIFIED}
+- ${IMAGE_HAS_NOT_UPLOADED}
+- ${IMAGE_MODIFY_INSTRUCTIONS_NOT_SPECIFIED}
 
 ${new Profiles().currentProfile?.prompt || ''}
 
