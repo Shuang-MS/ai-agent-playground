@@ -33,9 +33,9 @@ class Profile {
   public avatarSubKey: string = '';
   public completionApiKey: string = '';
   public completionTargetUri: string = '';
-  public dallApiKey: string = '';
-  public dallTargetUri: string = '';
   public deepSeekApiKey: string = '';
+  public gptImageApiKey: string = '';
+  public gptImageTargetUri: string = '';
   public deepSeekDeploymentName: string = 'DeepSeek-R1';
   public deepSeekFunctionCalling: string = DEEPSEEK_FUNCTION_CALL_DISABLE;
   public deepSeekTargetUri: string = '';
@@ -253,8 +253,8 @@ export class Profiles {
     p.cogSvcRegion = localStorage.getItem('cogSvcRegion') || '';
     p.cogSvcSubKey = localStorage.getItem('cogSvcSubKey') || '';
 
-    p.dallTargetUri = localStorage.getItem('dallTargetUri') || '';
-    p.dallApiKey = localStorage.getItem('dallApiKey') || '';
+    p.gptImageTargetUri = localStorage.getItem('gptImageTargetUri') || '';
+    p.gptImageApiKey = localStorage.getItem('gptImageApiKey') || '';
 
     p.graphragUrl = localStorage.getItem('graphragUrl') || '';
     p.graphragApiKey = localStorage.getItem('graphragApiKey') || '';
