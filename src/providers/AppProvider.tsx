@@ -6,7 +6,13 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { SYSTEM_INSTRUCTIONS } from '../lib/instructions';
+import {
+  IMAGE_HAS_NOT_UPLOADED,
+  IMAGE_HAS_UPLOADED,
+  IMAGE_MODIFY_INSTRUCTIONS_NOT_SPECIFIED,
+  IMAGE_MODIFY_INSTRUCTIONS_SPECIFIED,
+  SYSTEM_INSTRUCTIONS,
+} from '../lib/instructions';
 
 import * as memory from '../tools/memory';
 import * as weather from '../tools/weather';
@@ -309,6 +315,18 @@ export const AppProvider: React.FC<{
   useEffect(() => {
     console.log('maskImage', maskImage);
     maskImageRef.current = maskImage;
+
+    if (maskImage) {
+      replaceInstructions(
+        IMAGE_MODIFY_INSTRUCTIONS_NOT_SPECIFIED,
+        IMAGE_MODIFY_INSTRUCTIONS_SPECIFIED,
+      );
+    } else {
+      replaceInstructions(
+        IMAGE_MODIFY_INSTRUCTIONS_SPECIFIED,
+        IMAGE_MODIFY_INSTRUCTIONS_NOT_SPECIFIED,
+      );
+    }
   }, [maskImage]);
 
   // connectStatus string
@@ -696,6 +714,11 @@ export const AppProvider: React.FC<{
   const images = useGptImages();
   useEffect(() => {
     gptImagesRef.current = images;
+    if (images.length > 0) {
+      replaceInstructions(IMAGE_HAS_NOT_UPLOADED, IMAGE_HAS_UPLOADED);
+    } else {
+      replaceInstructions(IMAGE_HAS_UPLOADED, IMAGE_HAS_NOT_UPLOADED);
+    }
   }, [images, gptImagesRef]);
 
   const painting_handler: Function = async ({

@@ -170,7 +170,6 @@ const ErasableImage: React.FC<ErasableImageProps> = ({
         display: 'block',
         touchAction: 'none',
         background: `url(${transparent})`,
-        zIndex: 1000,
         cursor: 'crosshair',
       }}
     />

@@ -6,7 +6,9 @@ import * as SpeechSDK from 'microsoft-cognitiveservices-speech-sdk';
 import './InputBar.scss';
 import { clientHiEnglish, CONNECT_CONNECTED } from '../lib/const';
 import { Profiles } from '../lib/Profiles';
-import { RecommandText } from './RecommandText';
+import { RecommendText } from './RecommendText';
+import { UploadImage } from './UploadImage';
+
 export function InputBarAssistant({
   setMessagesAssistant,
   setAssistantRunning,
@@ -187,7 +189,7 @@ export function InputBarAssistant({
     <>
       {connectStatus === CONNECT_CONNECTED && (
         <div>
-          <RecommandText
+          <RecommendText
             handleInputButtonClick={sendText}
             messages={[
               'open camera',
@@ -260,6 +262,8 @@ export function InputBarAssistant({
               )}
             </button>
           </div>
+
+          <UploadImage />
         </div>
       )}
     </>

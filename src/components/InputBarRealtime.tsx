@@ -5,7 +5,8 @@ import './InputBar.scss';
 import { CONNECT_CONNECTED } from '../lib/const';
 import { RealtimeClient } from '@theodoreniu/realtime-api-beta';
 import { WavStreamPlayer } from '../lib/wavtools';
-import { RecommandText } from './RecommandText';
+import { RecommendText } from './RecommendText';
+import { UploadImage } from './UploadImage';
 
 export function InputBarRealtime({
   wavStreamPlayer,
@@ -49,7 +50,7 @@ export function InputBarRealtime({
     <>
       {connectStatus === CONNECT_CONNECTED && (
         <div>
-          <RecommandText
+          <RecommendText
             handleInputButtonClick={sendText}
             messages={[
               'open camera',
@@ -80,6 +81,8 @@ export function InputBarRealtime({
             >
               <Send />
             </button>
+
+            <UploadImage />
           </div>
         </div>
       )}
