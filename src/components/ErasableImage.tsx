@@ -122,14 +122,6 @@ const ErasableImage: React.FC<ErasableImageProps> = ({
           // Draw the current canvas content to the temporary canvas
           tempCtx.drawImage(canvas, 0, 0);
 
-          // Get the image data to ensure alpha values are preserved
-          const imageData = tempCtx.getImageData(
-            0,
-            0,
-            canvas.width,
-            canvas.height,
-          );
-
           // Convert to base64 with alpha channel preserved
           const base64 = tempCanvas.toDataURL('image/png');
 
@@ -163,7 +155,7 @@ const ErasableImage: React.FC<ErasableImageProps> = ({
       window.removeEventListener('touchmove', eraseMove as EventListener);
       window.removeEventListener('touchend', endErase as EventListener);
     };
-  }, [imgLoaded, eraserRadius]);
+  }, [imgLoaded, eraserRadius, gptImage, gptImagesDispatch]);
 
   return (
     <canvas
