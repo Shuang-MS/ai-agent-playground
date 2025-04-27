@@ -739,13 +739,31 @@ export const AppProvider: React.FC<{
     try {
       const resp = await editImages(prompt, b64_json, maskImageRef.current);
       const image = resp.data[0];
+
       const gptImage: GptImage = {
         prompt: prompt,
         b64_json: image.b64_json,
       };
 
+      if (maskImageRef.current) {
+        gptImage.mask_b64_json = maskImageRef.current.replace(
+          'data:image/png;base64,',
+          '',
+        );
+      }
+
       gptImagesDispatch({ type: 'add', gptImage });
+
       console.log('painting', gptImage);
+
+      setMaskImage('');
+
+      if (maskImageRef.current) {
+        return {
+          result: 'completed with mask, please check the results in the modal.',
+        };
+      }
+
       return { result: 'completed, please check the results in the modal.' };
     } catch (error) {
       console.error('modify painting error', error);

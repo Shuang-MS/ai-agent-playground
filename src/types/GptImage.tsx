@@ -1,6 +1,7 @@
 export type GptImage = {
   prompt: string;
   b64_json: string;
+  mask_b64_json?: string;
 };
 
 export type GptImageAction = {
