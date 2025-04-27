@@ -696,7 +696,7 @@ export const AppProvider: React.FC<{
   const images = useGptImages();
   useEffect(() => {
     gptImagesRef.current = images;
-  }, [images]);
+  }, [images, gptImagesRef]);
 
   const painting_handler: Function = async ({
     prompt,
