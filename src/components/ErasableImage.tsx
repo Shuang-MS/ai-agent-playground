@@ -1,23 +1,24 @@
 import React, { useRef, useEffect, useState } from 'react';
 import transparent from '../../src/static/transparent.png';
+import { GptImage } from '../types/GptImage';
+import { useGptImagesDispatch } from '../contexts/GptImagesContext';
 interface ErasableImageProps {
-  imageBase64: string;
   width?: number;
   height?: number;
   eraserRadius?: number;
-  onImageChange?: (base64: string) => void;
+  gptImage: GptImage;
 }
 
 const ErasableImage: React.FC<ErasableImageProps> = ({
-  imageBase64,
   width = 1024,
   height = 1024,
   eraserRadius = 20,
-  onImageChange,
+  gptImage,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const isErasing = useRef<boolean>(false);
   const [imgLoaded, setImgLoaded] = useState<boolean>(false);
+  const gptImagesDispatch = useGptImagesDispatch()!;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -25,7 +26,7 @@ const ErasableImage: React.FC<ErasableImageProps> = ({
     const ctx = canvas.getContext('2d', { alpha: true });
     if (!ctx) return;
     const img = new window.Image();
-    img.src = imageBase64;
+    img.src = `data:image/png;base64,${gptImage?.mask_b64 ? gptImage.mask_b64 : gptImage.b64}`;
     img.onload = () => {
       ctx.clearRect(0, 0, width, height);
       ctx.drawImage(img, 0, 0, width, height);
@@ -34,7 +35,7 @@ const ErasableImage: React.FC<ErasableImageProps> = ({
     img.onerror = () => {
       setImgLoaded(false);
     };
-  }, [imageBase64, width, height]);
+  }, [gptImage, width, height]);
 
   useEffect(() => {
     if (!imgLoaded) return;
@@ -132,9 +133,13 @@ const ErasableImage: React.FC<ErasableImageProps> = ({
           // Convert to base64 with alpha channel preserved
           const base64 = tempCanvas.toDataURL('image/png');
 
-          if (onImageChange) {
-            onImageChange(base64);
-          }
+          gptImagesDispatch({
+            type: 'change',
+            gptImage: {
+              ...gptImage,
+              mask_b64: base64.replace('data:image/png;base64,', ''),
+            },
+          });
         }
       }
     };
@@ -158,7 +163,7 @@ const ErasableImage: React.FC<ErasableImageProps> = ({
       window.removeEventListener('touchmove', eraseMove as EventListener);
       window.removeEventListener('touchend', endErase as EventListener);
     };
-  }, [imgLoaded, eraserRadius, onImageChange]);
+  }, [imgLoaded, eraserRadius]);
 
   return (
     <canvas

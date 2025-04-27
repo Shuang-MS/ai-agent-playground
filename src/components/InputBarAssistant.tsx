@@ -226,6 +226,8 @@ export function InputBarAssistant({
               <Send />
             </button>
 
+            <UploadImage />
+
             <button
               onClick={() => {
                 setAssistantRunning(false);
@@ -262,8 +264,6 @@ export function InputBarAssistant({
               )}
             </button>
           </div>
-
-          <UploadImage />
         </div>
       )}
     </>

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { X } from 'react-feather';
-import { GptImage } from '../../types/GptImage';
 import { Bell } from 'react-feather';
 import { useBellMessages } from '../../contexts/BellMessagesContext';
 import { useContexts } from '../../providers/AppProvider';
 import { modalStyles } from '../../styles/modalStyles';
+import { BellMessage as BellMessageType } from '../../types/BellMessage';
 
 const BellMessage: React.FC = () => {
   const messages = useBellMessages();
@@ -53,7 +53,7 @@ const BellMessage: React.FC = () => {
           <div style={styles.content}>
             {messages.length === 0 && <div>No messages</div>}
 
-            {messages.map((message: GptImage) => (
+            {messages.map((message: BellMessageType) => (
               <div>
                 <img
                   src={`data:image/png;base64,${message.b64_json}`}

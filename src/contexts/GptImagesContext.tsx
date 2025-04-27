@@ -16,16 +16,17 @@ function gptImagesReducer(images: GptImage[], action: GptImageAction) {
       return [
         ...images,
         {
+          id: action.gptImage.id,
           prompt: action.gptImage.prompt,
-          b64_json: action.gptImage.b64_json,
-          mask_b64_json: action.gptImage.mask_b64_json,
+          b64: action.gptImage.b64,
+          mask_b64: action.gptImage.mask_b64,
         },
       ];
     }
 
     case 'change': {
       return images.map((t) => {
-        if (t.prompt === action.gptImage.prompt) {
+        if (t.id === action.gptImage.id) {
           return action.gptImage;
         } else {
           return t;
@@ -34,7 +35,7 @@ function gptImagesReducer(images: GptImage[], action: GptImageAction) {
     }
 
     case 'delete': {
-      return images.filter((t) => t.prompt !== action.gptImage.prompt);
+      return images.filter((t) => t.id !== action.gptImage.id);
     }
 
     default: {

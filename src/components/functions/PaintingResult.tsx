@@ -11,7 +11,7 @@ import EditMaskImage from './EditMaskImage';
 const PaintingResult: React.FC = () => {
   const images = useGptImages();
   const [isShow, setIsShow] = useState(false);
-  const { isNightMode, setMaskImage, maskImage } = useContexts();
+  const { isNightMode } = useContexts();
 
   const importModalStyles = modalStyles({ isNightMode });
   const [editImage, setEditImage] = useState<GptImage | null>(null);
@@ -20,7 +20,7 @@ const PaintingResult: React.FC = () => {
     if (!isShow) {
       setEditImage(null);
     }
-  }, [isShow, setEditImage, setMaskImage]);
+  }, [isShow, setEditImage]);
 
   const styles = {
     content: {
@@ -40,21 +40,17 @@ const PaintingResult: React.FC = () => {
 
   useEffect(() => {
     setIsShow(images.length > 0);
-    setEditImage(null);
-    setMaskImage('');
-  }, [images, setIsShow, setEditImage, setMaskImage]);
+  }, [images, setIsShow, setEditImage]);
 
   const ImageItem = ({
     b64_json,
     prompt,
     onClick,
-    isMask = false,
     isLast = false,
   }: {
     b64_json: string;
     prompt: string;
     onClick: () => void;
-    isMask?: boolean;
     isLast?: boolean;
   }) => {
     return (
@@ -95,28 +91,15 @@ const PaintingResult: React.FC = () => {
             {images.length === 0 && <div key={'no-images'}>No images</div>}
 
             {images.map((image: GptImage, index: number) => (
-              <>
-                {image.mask_b64_json && (
-                  <ImageItem
-                    b64_json={image.mask_b64_json}
-                    prompt={image.prompt}
-                    isMask={true}
-                    onClick={() => {
-                      console.log('image', image);
-                    }}
-                  />
-                )}
-
-                <ImageItem
-                  b64_json={image.b64_json}
-                  prompt={image.prompt}
-                  onClick={() => {
-                    setEditImage(image);
-                  }}
-                  isMask={false}
-                  isLast={index === images.length - 1}
-                />
-              </>
+              <ImageItem
+                key={image.id}
+                b64_json={image.mask_b64 ? image.mask_b64 : image.b64}
+                prompt={image.prompt}
+                onClick={() => {
+                  setEditImage(image);
+                }}
+                isLast={index === images.length - 1}
+              />
             ))}
           </div>
         </div>
