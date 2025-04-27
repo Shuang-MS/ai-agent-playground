@@ -11,14 +11,13 @@ const PaintingResult: React.FC = () => {
   const images = useGptImages();
   const [isShow, setIsShow] = useState(false);
   const { isNightMode, setMaskImage, maskImage } = useContexts();
-  const gptImages = useGptImages();
+
   const importModalStyles = modalStyles({ isNightMode });
   const [editImage, setEditImage] = useState<GptImage | null>(null);
 
   useEffect(() => {
-    if (isShow) {
+    if (!isShow) {
       setEditImage(null);
-      setMaskImage('');
     }
   }, [isShow, setEditImage, setMaskImage]);
 
@@ -34,11 +33,14 @@ const PaintingResult: React.FC = () => {
     img: {
       width: '300px',
       height: 'auto',
+      objectFit: 'contain',
     } as React.CSSProperties,
   };
 
   useEffect(() => {
     setIsShow(images.length > 0);
+    setEditImage(null);
+    setMaskImage('');
   }, [images]);
 
   function getImageSizeFromBase64(
@@ -61,24 +63,56 @@ const PaintingResult: React.FC = () => {
       return null;
     }
 
-    // get editImage real size
-    (async () => {
-      const size = await getImageSizeFromBase64(editImage.b64_json);
-      const width = size.width;
-      const height = size.height;
-      alert(`width: ${width}, height: ${height}`);
-    })();
-
     return (
-      <ErasableImage
-        imageBase64={
-          maskImage ? maskImage : `data:image/png;base64,${editImage.b64_json}`
-        }
-        width={300}
-        height={300}
-        eraserRadius={20}
-        onImageChange={(image: string) => setMaskImage(image)}
-      />
+      <div
+        style={{
+          ...importModalStyles.backdrop,
+          zIndex: 10000,
+        }}
+      >
+        <div
+          style={{
+            ...importModalStyles.modal,
+            width: '1028px',
+            height: '1028px',
+          }}
+        >
+          <div style={importModalStyles.header}>
+            <h2>Edit Mask Image</h2>
+            <button
+              key="close"
+              onClick={() => setEditImage(null)}
+              style={importModalStyles.closeBtn}
+            >
+              <X />
+            </button>
+          </div>
+
+          <button
+            style={{
+              cursor: 'pointer',
+              height: '50px',
+              width: '70px',
+              position: 'absolute',
+              fontSize: '18px',
+            }}
+            onClick={() => setMaskImage('')}
+          >
+            Reset
+          </button>
+          <ErasableImage
+            imageBase64={
+              maskImage
+                ? maskImage
+                : `data:image/png;base64,${editImage.b64_json}`
+            }
+            width={1024}
+            height={1024}
+            eraserRadius={20}
+            onImageChange={(image: string) => setMaskImage(image)}
+          />
+        </div>
+      </div>
     );
   };
 
@@ -89,7 +123,7 @@ const PaintingResult: React.FC = () => {
 
     return (
       <div style={importModalStyles.backdrop}>
-        <div style={importModalStyles.modal} className={'modal'}>
+        <div style={{ ...importModalStyles.modal }} className={'modal'}>
           <div style={importModalStyles.header}>
             <h2>Images</h2>
             <button
@@ -130,7 +164,7 @@ const PaintingResult: React.FC = () => {
 
   return (
     <>
-      {gptImages.length > 0 && (
+      {images.length > 0 && (
         <span onClick={() => setIsShow(true)}>
           <Image />
         </span>
