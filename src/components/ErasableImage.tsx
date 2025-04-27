@@ -10,8 +10,8 @@ interface ErasableImageProps {
 
 const ErasableImage: React.FC<ErasableImageProps> = ({
   imageBase64,
-  width = 400,
-  height = 400,
+  width = 300,
+  height = 300,
   eraserRadius = 20,
   onImageChange,
 }) => {
@@ -19,7 +19,6 @@ const ErasableImage: React.FC<ErasableImageProps> = ({
   const isErasing = useRef<boolean>(false);
   const [imgLoaded, setImgLoaded] = useState<boolean>(false);
 
-  // 绘制图片到 canvas
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;

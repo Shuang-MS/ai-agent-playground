@@ -10,7 +10,7 @@ import ErasableImage from '../ErasableImage';
 const PaintingResult: React.FC = () => {
   const images = useGptImages();
   const [isShow, setIsShow] = useState(false);
-  const { isNightMode } = useContexts();
+  const { isNightMode, setMaskImage, maskImage } = useContexts();
   const gptImages = useGptImages();
   const importModalStyles = modalStyles({ isNightMode });
 
@@ -24,8 +24,9 @@ const PaintingResult: React.FC = () => {
       gridGap: '10px',
     } as React.CSSProperties,
     img: {
-      width: '100%',
+      width: '300px',
       height: 'auto',
+      zIndex: 1000,
     } as React.CSSProperties,
   };
 
@@ -56,16 +57,35 @@ const PaintingResult: React.FC = () => {
             {images.length === 0 && <div>No images</div>}
 
             {images.map((image: GptImage, index: number) => (
-              <div key={index}>
-                <ErasableImage
-                  key={index}
-                  imageBase64={`data:image/png;base64,${image.b64_json}`}
-                  width={400}
-                  height={400}
-                  eraserRadius={20}
-                  onImageChange={(b64) => console.log('最新base64为：', b64)}
-                />
-              </div>
+              <>
+                {/* display when not last index */}
+                {index + 1 < images.length && (
+                  <img
+                    src={`data:image/png;base64,${image.b64_json}`}
+                    alt={image.prompt}
+                    key={index}
+                    style={styles.img}
+                  />
+                )}
+
+                {/* display only last index */}
+                {index + 1 >= images.length && (
+                  <div style={styles.img}>
+                    <ErasableImage
+                      key={index}
+                      imageBase64={
+                        maskImage
+                          ? maskImage
+                          : `data:image/png;base64,${image.b64_json}`
+                      }
+                      width={300}
+                      height={300}
+                      eraserRadius={20}
+                      onImageChange={(image: string) => setMaskImage(image)}
+                    />
+                  </div>
+                )}
+              </>
             ))}
           </div>
         </div>

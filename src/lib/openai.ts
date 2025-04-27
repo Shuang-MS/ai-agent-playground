@@ -213,13 +213,17 @@ export async function getImages(prompt: string, n: number = 1): Promise<any> {
 }
 
 function base64ToFile(base64: string, filename: string, mimeType: string) {
-  const buffer = Buffer.from(base64, 'base64');
+  const buffer = Buffer.from(
+    base64.replace('data:image/png;base64,', ''),
+    'base64',
+  );
   return new File([buffer], filename, { type: mimeType });
 }
 
 export async function editImages(
   prompt: string,
   image_base_64: string,
+  maskImage: string,
 ): Promise<any> {
   const profiles = new Profiles();
   const profile = profiles.currentProfile;
@@ -239,15 +243,18 @@ export async function editImages(
   console.log('image_base_64', image_base_64);
 
   try {
-    const lotionFile = base64ToFile(
-      image_base_64,
-      'body-lotion.png',
-      'image/png',
-    );
-
     const form = new FormData();
     form.set('model', 'gpt-image-1');
-    form.append('image[]', lotionFile);
+
+    form.append(
+      'image[]',
+      base64ToFile(image_base_64, 'image.png', 'image/png'),
+    );
+
+    if (maskImage) {
+      form.append('mask', base64ToFile(maskImage, 'mask.png', 'image/png'));
+    }
+
     form.set('prompt', prompt);
 
     const headers = {

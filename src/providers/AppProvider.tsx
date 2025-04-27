@@ -217,6 +217,10 @@ interface AppContextType {
   setMessages: React.Dispatch<React.SetStateAction<any[]>>;
 
   camera_on_handler: Function;
+
+  maskImage: string;
+  maskImageRef: React.MutableRefObject<string>;
+  setMaskImage: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const IS_DEBUG: boolean = window.location.href.includes('localhost');
@@ -298,6 +302,14 @@ export const AppProvider: React.FC<{
   useEffect(() => {
     cameraStatusRef.current = cameraStatus;
   }, [cameraStatus]);
+
+  // maskImage string
+  const [maskImage, setMaskImage] = useState<string>('');
+  const maskImageRef = useRef(maskImage);
+  useEffect(() => {
+    console.log('maskImage', maskImage);
+    maskImageRef.current = maskImage;
+  }, [maskImage]);
 
   // connectStatus string
   const [connectStatus, setConnectStatus] = useState(CONNECT_DISCONNECTED);
@@ -717,14 +729,15 @@ export const AppProvider: React.FC<{
   }: {
     [key: string]: any;
   }) => {
-    if (!gptImagesRef.current || gptImagesRef.current.length === 0) {
+    const len = gptImagesRef.current?.length || 0;
+    if (!gptImagesRef.current || len === 0) {
       return { error: 'no painting data, please generate painting first.' };
     }
 
-    const { b64_json } = gptImagesRef.current[0];
+    const { b64_json } = gptImagesRef.current[len - 1];
 
     try {
-      const resp = await editImages(prompt, b64_json);
+      const resp = await editImages(prompt, b64_json, maskImageRef.current);
       const image = resp.data[0];
       const gptImage: GptImage = {
         prompt: prompt,
@@ -1058,6 +1071,9 @@ export const AppProvider: React.FC<{
         messages,
         setMessages,
         camera_on_handler,
+        maskImage,
+        maskImageRef,
+        setMaskImage,
       }}
     >
       {children}
