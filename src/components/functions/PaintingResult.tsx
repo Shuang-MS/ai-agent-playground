@@ -95,6 +95,10 @@ const PaintingResult: React.FC = () => {
               width: '70px',
               position: 'absolute',
               fontSize: '18px',
+              backgroundColor: 'white',
+              border: '1px solid #ccc',
+              borderRadius: '5px',
+              color: 'black',
             }}
             onClick={() => setMaskImage('')}
           >

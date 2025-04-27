@@ -746,6 +746,15 @@ export const AppProvider: React.FC<{
 
       gptImagesDispatch({ type: 'add', gptImage });
       console.log('painting', gptImage);
+
+      setMaskImage('');
+
+      if (maskImageRef.current) {
+        return {
+          result: 'completed with mask, please check the results in the modal.',
+        };
+      }
+
       return { result: 'completed, please check the results in the modal.' };
     } catch (error) {
       console.error('modify painting error', error);
