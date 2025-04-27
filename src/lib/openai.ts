@@ -164,7 +164,13 @@ export async function getJsonData(messages: any): Promise<string> {
   }
 }
 
-export async function getImages(prompt: string, n: number = 1): Promise<any> {
+export async function getImages({
+  prompt,
+  n = 1,
+}: {
+  prompt: string;
+  n: number;
+}): Promise<any> {
   const profiles = new Profiles();
   const profile = profiles.currentProfile;
 
@@ -221,7 +227,10 @@ function base64ToFile(base64: string, filename: string, mimeType: string) {
   return new File([buffer], filename, { type: mimeType });
 }
 
-export async function editImages(image: GptImage): Promise<any> {
+export async function editImages(
+  image: GptImage,
+  edit_requirements: string,
+): Promise<any> {
   const profiles = new Profiles();
   const profile = profiles.currentProfile;
 
@@ -243,7 +252,7 @@ export async function editImages(image: GptImage): Promise<any> {
     const form = new FormData();
 
     form.set('model', 'gpt-image-1');
-    form.set('prompt', image.prompt);
+    form.set('prompt', edit_requirements);
 
     form.append('image[]', base64ToFile(image.b64, 'image.png', 'image/png'));
 
@@ -276,7 +285,7 @@ export async function editImages(image: GptImage): Promise<any> {
 
     return {
       ...data,
-      prompt: prompt,
+      prompt: edit_requirements,
     };
   } catch (error) {
     console.error('Error edit images:', error);

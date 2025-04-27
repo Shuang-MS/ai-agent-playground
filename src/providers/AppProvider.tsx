@@ -711,25 +711,27 @@ export const AppProvider: React.FC<{
 
   const painting_handler: Function = async ({
     prompt,
-    n = 1,
+    n,
   }: {
     [key: string]: any;
   }) => {
     try {
-      const resp = await getImages((prompt = prompt), (n = n));
-      const image = resp.data[0];
+      const resp = await getImages({ prompt: prompt, n: n });
+      const images = resp.data;
 
-      const gptImage: GptImage = {
-        id: uuidv4(),
-        prompt: prompt,
-        b64: image.b64_json,
-        mask_b64: '',
-      };
+      for (const image of images) {
+        const gptImage: GptImage = {
+          id: uuidv4(),
+          prompt: prompt,
+          b64: image.b64_json,
+          mask_b64: '',
+        };
 
-      gptImagesDispatch({ type: 'add', gptImage });
-      console.log('painting', gptImage);
+        gptImagesDispatch({ type: 'add', gptImage });
+        console.log('painting', gptImage);
+      }
+
       console.log('gptImagesRef', gptImagesRef.current);
-
       return { result: 'completed, please check the results in the modal.' };
     } catch (error) {
       console.error('painting error', error);
@@ -738,7 +740,7 @@ export const AppProvider: React.FC<{
   };
 
   const image_modify_handler: Function = async ({
-    edit_prompt,
+    edit_requirements,
   }: {
     [key: string]: any;
   }) => {
@@ -750,12 +752,12 @@ export const AppProvider: React.FC<{
     const lastImage = gptImagesRef.current[len - 1];
 
     try {
-      const resp = await editImages(lastImage);
+      const resp = await editImages(lastImage, edit_requirements);
       const image = resp.data[0];
 
       const gptImage: GptImage = {
         id: uuidv4(),
-        prompt: edit_prompt,
+        prompt: edit_requirements,
         b64: image.b64_json,
         mask_b64: '',
       };

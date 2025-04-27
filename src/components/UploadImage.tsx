@@ -37,7 +37,7 @@ export function UploadImage({}: {}) {
 
         const gptImage: GptImage = {
           id: uuidv4(),
-          prompt: 'modify the image',
+          prompt: '',
           b64: base64Data,
           mask_b64: '',
         };

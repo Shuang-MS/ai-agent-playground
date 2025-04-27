@@ -7,12 +7,12 @@ export const definition: ToolDefinitionType = {
   parameters: {
     type: 'object',
     properties: {
-      edit_prompt: {
+      edit_requirements: {
         type: 'string',
-        description: 'prompt of the edited image',
+        description: 'requirements for modify image',
       },
     },
-    required: ['edit_prompt'],
+    required: ['edit_requirements'],
     strict: true,
   },
 };
