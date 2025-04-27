@@ -1,5 +1,6 @@
 import { AzureOpenAI } from 'openai';
 import { Profiles } from './Profiles';
+import { Buffer } from 'buffer';
 
 export const getOpenAIClientSSt = (ttsApiKey: string, ttsTargetUri: string) => {
   if (!ttsApiKey || !ttsTargetUri) {
@@ -166,27 +167,27 @@ export async function getImages(prompt: string, n: number = 1): Promise<any> {
   const profiles = new Profiles();
   const profile = profiles.currentProfile;
 
-  const dallApiKey = profile?.dallApiKey || '';
-  const dallTargetUri = profile?.dallTargetUri || '';
+  const gptImageApiKey = profile?.gptImageApiKey || '';
+  const gptImageTargetUri = profile?.gptImageTargetUri || '';
 
-  if (!dallApiKey || !dallTargetUri) {
+  if (!gptImageApiKey || !gptImageTargetUri) {
     return 'Missing API key or target URI, Please check your settings';
   }
 
   const headers = {
     'Content-Type': 'application/json',
-    'api-key': dallApiKey,
+    'api-key': gptImageApiKey,
   };
 
   try {
-    const response = await fetch(dallTargetUri, {
+    const response = await fetch(gptImageTargetUri, {
       method: 'POST',
       headers: headers,
       body: JSON.stringify({
         prompt: prompt,
         n: n,
         size: '1024x1024',
-        response_format: 'b64_json',
+        quality: 'medium',
       }),
     });
 
@@ -211,46 +212,59 @@ export async function getImages(prompt: string, n: number = 1): Promise<any> {
   }
 }
 
+function base64ToFile(base64: string, filename: string, mimeType: string) {
+  const buffer = Buffer.from(
+    base64.replace('data:image/png;base64,', ''),
+    'base64',
+  );
+  return new File([buffer], filename, { type: mimeType });
+}
+
 export async function editImages(
   prompt: string,
   image_base_64: string,
+  maskImage: string,
 ): Promise<any> {
   const profiles = new Profiles();
   const profile = profiles.currentProfile;
 
-  const completionApiKey = profile?.completionApiKey || '';
-  const completionTargetUri = profile?.completionTargetUri || '';
+  const gptImageApiKey = profile?.gptImageApiKey || '';
+  const gptImageTargetUri = profile?.gptImageTargetUri || '';
+  const gptImageEditTargetUri = gptImageTargetUri.replace(
+    'images/generations',
+    'images/edits',
+  );
 
-  if (!completionApiKey || !completionTargetUri) {
+  if (!gptImageApiKey || !gptImageTargetUri) {
     return 'Missing API key or target URI, Please check your settings';
   }
 
-  const headers = {
-    'Content-Type': 'application/json',
-    'api-key': completionApiKey,
-  };
-
-  // image_base_64 to io read
-  const base64 = image_base_64.split(',')[1];
-  const imageData = atob(base64);
-  const uint8Array = new Uint8Array(imageData.length);
-
-  for (let i = 0; i < imageData.length; i++) {
-    uint8Array[i] = imageData.charCodeAt(i);
-  }
-
-  const imageBlob = new Blob([uint8Array], { type: 'image/png' });
+  console.log('prompt', prompt);
+  console.log('image_base_64', image_base_64);
 
   try {
-    const response = await fetch(completionTargetUri, {
+    const form = new FormData();
+    form.set('model', 'gpt-image-1');
+
+    form.append(
+      'image[]',
+      base64ToFile(image_base_64, 'image.png', 'image/png'),
+    );
+
+    if (maskImage) {
+      form.append('mask', base64ToFile(maskImage, 'mask.png', 'image/png'));
+    }
+
+    form.set('prompt', prompt);
+
+    const headers = {
+      'api-key': gptImageApiKey,
+    };
+
+    const response = await fetch(gptImageEditTargetUri, {
       method: 'POST',
       headers: headers,
-      body: JSON.stringify({
-        prompt: prompt,
-        n: 1,
-        size: '1024x1024',
-        image: imageBlob,
-      }),
+      body: form as FormData,
     });
 
     if (!response.ok) {
@@ -259,6 +273,8 @@ export async function editImages(
 
     const data = await response.json();
 
+    console.log('data', data);
+
     data.prompt = prompt;
 
     return {
@@ -266,9 +282,9 @@ export async function editImages(
       prompt: prompt,
     };
   } catch (error) {
-    console.error('Error fetching completion:', error);
+    console.error('Error edit images:', error);
     return {
-      error: 'Error fetching completion',
+      error: 'Error edit images',
       prompt: prompt,
       data: [],
     };

@@ -26,7 +26,7 @@ import defaultIcon from '../static/logomark.svg';
 import { Profiles } from '../lib/Profiles';
 const DEFAULT = 'Default';
 const REAL_TIME_API = 'Realtime';
-const DALL_E = 'Dall-E';
+const GPT_IMAGE = 'Image';
 const GRAPHRAG = 'RAG';
 const SPEECH = 'Speech';
 const TTS = 'TTS';
@@ -577,8 +577,8 @@ const SettingsComponent: React.FC<{
     );
   };
 
-  // DALL-E Settings Tab
-  const DALLE = () => {
+  // GPT_IMAGE Settings Tab
+  const GptImage = () => {
     const [profiles, setProfiles] = useState(new Profiles());
 
     return (
@@ -587,12 +587,12 @@ const SettingsComponent: React.FC<{
         <input
           type={'text'}
           style={styles.settingInput}
-          value={profiles.currentProfile?.dallTargetUri || ''}
+          value={profiles.currentProfile?.gptImageTargetUri || ''}
           placeholder={
-            'https://xxx.openai.azure.com/openai/deployments/dall-e-3/images/generations?api-version=2024-02-01'
+            'https://xxx.openai.azure.com/openai/deployments/gpt-image-1/images/generations?api-version=2025-04-01-preview'
           }
           onChange={(e) => {
-            profiles.currentProfile!.dallTargetUri = e.target.value;
+            profiles.currentProfile!.gptImageTargetUri = e.target.value;
             profiles.save();
             setProfiles(new Profiles());
           }}
@@ -607,10 +607,10 @@ const SettingsComponent: React.FC<{
         <input
           type={isVisible ? 'text' : 'password'}
           style={styles.settingInput}
-          value={profiles.currentProfile?.dallApiKey || ''}
+          value={profiles.currentProfile?.gptImageApiKey || ''}
           placeholder={''}
           onChange={(e) => {
-            profiles.currentProfile!.dallApiKey = e.target.value;
+            profiles.currentProfile!.gptImageApiKey = e.target.value;
             profiles.save();
             setProfiles(new Profiles());
           }}
@@ -1341,8 +1341,8 @@ const SettingsComponent: React.FC<{
         return <SettingsTTS />;
       case GRAPHRAG:
         return <GraphRAG />;
-      case DALL_E:
-        return <DALLE />;
+      case GPT_IMAGE:
+        return <GptImage />;
       case COMPLETION:
         return <Completion />;
       case DEEPSEEK:
@@ -1491,11 +1491,11 @@ const SettingsComponent: React.FC<{
                 <button
                   style={{
                     ...styles.settingsTabButton,
-                    ...(activeTab === DALL_E ? styles.tabActive : {}),
+                    ...(activeTab === GPT_IMAGE ? styles.tabActive : {}),
                   }}
-                  onClick={() => setActiveTab(DALL_E)}
+                  onClick={() => setActiveTab(GPT_IMAGE)}
                 >
-                  {DALL_E}
+                  {GPT_IMAGE}
                 </button>
                 <button
                   style={{
