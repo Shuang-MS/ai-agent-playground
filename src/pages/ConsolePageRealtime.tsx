@@ -29,6 +29,8 @@ import { RealtimeClient } from '@theodoreniu/realtime-api-beta';
 import { RealtimeEvent, RealtimeTokenUsage } from '../types/RealtimeEvent';
 import BuiltFunctionDisable from '../components/BuiltFunctionDisable';
 import { Profiles } from '../lib/Profiles';
+import Eraser from '../components/ErasableImage';
+import dog from '../static/dog.png';
 
 export function ConsolePageRealtime() {
   const {
@@ -418,6 +420,9 @@ export function ConsolePageRealtime() {
     setOutputAudioTokens((prev) => prev + e.output_token_details.audio_tokens);
   };
 
+  // dog.png 的 base64 数据
+  const dogBase64 = `data:image/png;base64,${dog}`;
+  const [img, setImg] = useState<string>(dogBase64);
   /**
    * Render the application
    */
@@ -446,6 +451,15 @@ export function ConsolePageRealtime() {
         <BuiltFunctionDisable />
         <Avatar />
         <Camera />
+
+        <Eraser
+          src={img}
+          size={30}
+          onFinish={(newImg) => {
+            console.log('newImg', newImg);
+            setImg(newImg); // 覆盖原图，效果实时
+          }}
+        />
 
         <SettingsComponent connectStatus={connectStatus} />
 
