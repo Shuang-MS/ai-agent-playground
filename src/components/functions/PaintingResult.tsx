@@ -5,8 +5,8 @@ import { Image } from 'react-feather';
 import { useGptImages } from '../../contexts/GptImagesContext';
 import { useContexts } from '../../providers/AppProvider';
 import { modalStyles } from '../../styles/modalStyles';
-import ErasableImage from '../ErasableImage';
 import transparent from '../../../src/static/transparent.png';
+import EditMaskImage from './EditMaskImage';
 
 const PaintingResult: React.FC = () => {
   const images = useGptImages();
@@ -44,80 +44,31 @@ const PaintingResult: React.FC = () => {
     setMaskImage('');
   }, [images, setIsShow, setEditImage, setMaskImage]);
 
-  function getImageSizeFromBase64(
-    base64: string,
-  ): Promise<{ width: number; height: number }> {
-    return new Promise((resolve, reject) => {
-      const img = new window.Image();
-      img.onload = () => {
-        resolve({ width: img.naturalWidth, height: img.naturalHeight });
-      };
-      img.onerror = (e) => {
-        reject(new Error('图片加载失败'));
-      };
-      img.src = base64;
-    });
-  }
-
-  const EditMaskImage = () => {
-    if (!editImage) {
-      return null;
-    }
-
+  const ImageItem = ({
+    b64_json,
+    prompt,
+    onClick,
+    isMask = false,
+    isLast = false,
+  }: {
+    b64_json: string;
+    prompt: string;
+    onClick: () => void;
+    isMask?: boolean;
+    isLast?: boolean;
+  }) => {
     return (
-      <div
+      <img
+        src={`data:image/png;base64,${b64_json}`}
+        alt={prompt}
         style={{
-          ...importModalStyles.backdrop,
-          zIndex: 10000,
+          ...styles.img,
+          background: `url(${transparent})`,
+          opacity: isLast ? 1 : 0.7,
+          cursor: isLast ? 'pointer' : 'not-allowed',
         }}
-      >
-        <div
-          style={{
-            ...importModalStyles.modal,
-            width: '1028px',
-            height: '1028px',
-          }}
-        >
-          <div style={importModalStyles.header}>
-            <h2>Edit Mask Image</h2>
-            <button
-              key="close"
-              onClick={() => setEditImage(null)}
-              style={importModalStyles.closeBtn}
-            >
-              <X />
-            </button>
-          </div>
-
-          <button
-            style={{
-              cursor: 'pointer',
-              height: '50px',
-              width: '70px',
-              position: 'absolute',
-              fontSize: '18px',
-              backgroundColor: 'white',
-              border: '1px solid #ccc',
-              borderRadius: '5px',
-              color: 'black',
-            }}
-            onClick={() => setMaskImage('')}
-          >
-            Reset
-          </button>
-          <ErasableImage
-            imageBase64={
-              maskImage
-                ? maskImage
-                : `data:image/png;base64,${editImage.b64_json}`
-            }
-            width={1024}
-            height={1024}
-            eraserRadius={20}
-            onImageChange={(image: string) => setMaskImage(image)}
-          />
-        </div>
-      </div>
+        onClick={isLast ? onClick : undefined}
+      />
     );
   };
 
@@ -140,40 +91,30 @@ const PaintingResult: React.FC = () => {
             </button>
           </div>
 
-          <EditMaskImage />
-
           <div style={styles.content}>
-            {images.length === 0 && <div>No images</div>}
+            {images.length === 0 && <div key={'no-images'}>No images</div>}
 
             {images.map((image: GptImage, index: number) => (
               <>
                 {image.mask_b64_json && (
-                  <img
-                    src={`data:image/png;base64,${image.mask_b64_json}`}
-                    alt={image.prompt}
-                    key={`mask-${index}`}
-                    style={{
-                      ...styles.img,
-                      opacity: 0.5,
-                      border: '1px solid red',
-                      borderRadius: '5px',
-                      background: `url(${transparent})`,
+                  <ImageItem
+                    b64_json={image.mask_b64_json}
+                    prompt={image.prompt}
+                    isMask={true}
+                    onClick={() => {
+                      console.log('image', image);
                     }}
                   />
                 )}
-                <img
-                  src={`data:image/png;base64,${image.b64_json}`}
-                  alt={image.prompt}
-                  key={index}
-                  style={styles.img}
-                  onClick={() => {
-                    if (index + 1 < images.length) {
-                      alert('not last image');
-                      return;
-                    }
 
+                <ImageItem
+                  b64_json={image.b64_json}
+                  prompt={image.prompt}
+                  onClick={() => {
                     setEditImage(image);
                   }}
+                  isMask={false}
+                  isLast={index === images.length - 1}
                 />
               </>
             ))}
@@ -190,6 +131,7 @@ const PaintingResult: React.FC = () => {
           <Image />
         </span>
       )}
+      <EditMaskImage editImage={editImage} setEditImage={setEditImage} />
       <ShowPainting />
     </>
   );

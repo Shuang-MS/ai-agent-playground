@@ -19,7 +19,7 @@ export function modalStyles({ isNightMode }: { isNightMode: boolean }) {
     modal: {
       borderRadius: '4px',
       width: '900px',
-      maxHeight: '80%',
+      maxHeight: '90%',
       overflowY: 'auto',
       boxShadow: '0 0 10px rgba(0,0,0,0.3)',
       position: 'relative',
