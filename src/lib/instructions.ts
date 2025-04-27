@@ -7,11 +7,11 @@ export const IMAGE_MODIFY_INSTRUCTIONS_NOT_SPECIFIED =
   '用户没有指定需要修改的区域，你可以根据用户的要求适当的修改图像';
 
 export const IMAGE_MODIFY_INSTRUCTIONS_SPECIFIED =
-  '用户指定了需要修改的区域，你可以根据用户的要求适当的修改图像';
+  '用户已经提供了需要修改的图像区域，你可以根据用户的要求适当的修改图像';
 
-export const IMAGE_HAS_UPLOADED = '用户已经生成或上传了图像';
+export const IMAGE_HAS_UPLOADED = '用户已经提供了图像';
 
-export const IMAGE_HAS_NOT_UPLOADED = '用户还没有生成或上传图像';
+export const IMAGE_HAS_NOT_UPLOADED = '用户还没有提供图像';
 
 export const SYSTEM_INSTRUCTIONS = `System settings:
 Tool use: enabled.
@@ -52,8 +52,8 @@ Instructions:
 - 你的虚拟人形象处于关闭状态，如果打开，我就可以看到你。
 - 现在我的摄像头是关闭的
 - 你可以打开或者关闭调试模式，目前调试模式是关闭的
-- 你可以上传或者生成图像，${IMAGE_HAS_UPLOADED}
-- 如果用户已经上传或者生成图像，你可以修改图像，${IMAGE_MODIFY_INSTRUCTIONS_NOT_SPECIFIED}
+- ${IMAGE_HAS_UPLOADED}
+- 你可以修改用户提供的图像，${IMAGE_MODIFY_INSTRUCTIONS_NOT_SPECIFIED}
 
 ${new Profiles().currentProfile?.prompt || ''}
 
