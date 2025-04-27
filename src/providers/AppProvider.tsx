@@ -63,6 +63,7 @@ import axios from 'axios';
 import { GptImage } from '../types/GptImage';
 import { useOnlineStatus } from '../hooks/useOnlineStatus';
 import {
+  useGptImages,
   useGptImagesDispatch,
   useGptImagesRef,
 } from '../contexts/GptImagesContext';
@@ -680,6 +681,11 @@ export const AppProvider: React.FC<{
 
   const gptImagesDispatch = useGptImagesDispatch()!;
   const gptImagesRef = useGptImagesRef();
+  const images = useGptImages();
+  useEffect(() => {
+    gptImagesRef.current = images;
+  }, [images]);
+
   const painting_handler: Function = async ({
     prompt,
     n = 1,
@@ -708,25 +714,14 @@ export const AppProvider: React.FC<{
 
   const image_modify_handler: Function = async ({
     prompt,
-    index = 1,
   }: {
     [key: string]: any;
   }) => {
-    if (!gptImagesRef.current) {
+    if (!gptImagesRef.current || gptImagesRef.current.length === 0) {
       return { error: 'no painting data, please generate painting first.' };
     }
 
-    if (gptImagesRef.current.length === 0) {
-      return { error: 'no painting data, please generate painting first.' };
-    }
-
-    const realIndex = index - 1;
-
-    if (realIndex < 0 || realIndex >= gptImagesRef.current.length) {
-      return { error: 'index out of images, please check the index.' };
-    }
-
-    const { b64_json } = gptImagesRef.current[realIndex];
+    const { b64_json } = gptImagesRef.current[0];
 
     try {
       const resp = await editImages(prompt, b64_json);

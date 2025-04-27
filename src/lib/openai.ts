@@ -166,27 +166,27 @@ export async function getImages(prompt: string, n: number = 1): Promise<any> {
   const profiles = new Profiles();
   const profile = profiles.currentProfile;
 
-  const dallApiKey = profile?.dallApiKey || '';
-  const dallTargetUri = profile?.dallTargetUri || '';
+  const gptImageApiKey = profile?.gptImageApiKey || '';
+  const gptImageTargetUri = profile?.gptImageTargetUri || '';
 
-  if (!dallApiKey || !dallTargetUri) {
+  if (!gptImageApiKey || !gptImageTargetUri) {
     return 'Missing API key or target URI, Please check your settings';
   }
 
   const headers = {
     'Content-Type': 'application/json',
-    'api-key': dallApiKey,
+    'api-key': gptImageApiKey,
   };
 
   try {
-    const response = await fetch(dallTargetUri, {
+    const response = await fetch(gptImageTargetUri, {
       method: 'POST',
       headers: headers,
       body: JSON.stringify({
         prompt: prompt,
         n: n,
         size: '1024x1024',
-        response_format: 'b64_json',
+        quality: 'medium',
       }),
     });
 
@@ -218,38 +218,43 @@ export async function editImages(
   const profiles = new Profiles();
   const profile = profiles.currentProfile;
 
-  const completionApiKey = profile?.completionApiKey || '';
-  const completionTargetUri = profile?.completionTargetUri || '';
+  const gptImageApiKey = profile?.gptImageApiKey || '';
+  const gptImageTargetUri = profile?.gptImageTargetUri || '';
+  const gptImageEditTargetUri = gptImageTargetUri.replace(
+    'images/generations',
+    'images/edits',
+  );
 
-  if (!completionApiKey || !completionTargetUri) {
+  if (!gptImageApiKey || !gptImageTargetUri) {
     return 'Missing API key or target URI, Please check your settings';
   }
 
   const headers = {
     'Content-Type': 'application/json',
-    'api-key': completionApiKey,
+    'api-key': gptImageApiKey,
   };
 
-  // image_base_64 to io read
-  const base64 = image_base_64.split(',')[1];
-  const imageData = atob(base64);
-  const uint8Array = new Uint8Array(imageData.length);
-
-  for (let i = 0; i < imageData.length; i++) {
-    uint8Array[i] = imageData.charCodeAt(i);
-  }
-
-  const imageBlob = new Blob([uint8Array], { type: 'image/png' });
+  console.log('prompt', prompt);
+  console.log('image_base_64', image_base_64);
 
   try {
-    const response = await fetch(completionTargetUri, {
+    // image_base_64 to io read
+    const base64 = image_base_64.split(',')[1];
+    const imageData = atob(base64);
+    const uint8Array = new Uint8Array(imageData.length);
+
+    for (let i = 0; i < imageData.length; i++) {
+      uint8Array[i] = imageData.charCodeAt(i);
+    }
+
+    const imageBlob = new Blob([uint8Array], { type: 'image/png' });
+    const response = await fetch(gptImageEditTargetUri, {
       method: 'POST',
       headers: headers,
       body: JSON.stringify({
-        prompt: prompt,
-        n: 1,
-        size: '1024x1024',
+        model: 'gpt-image-1',
         image: imageBlob,
+        prompt: prompt,
       }),
     });
 
@@ -259,6 +264,8 @@ export async function editImages(
 
     const data = await response.json();
 
+    console.log('data', data);
+
     data.prompt = prompt;
 
     return {
@@ -266,9 +273,9 @@ export async function editImages(
       prompt: prompt,
     };
   } catch (error) {
-    console.error('Error fetching completion:', error);
+    console.error('Error edit images:', error);
     return {
-      error: 'Error fetching completion',
+      error: 'Error edit images',
       prompt: prompt,
       data: [],
     };

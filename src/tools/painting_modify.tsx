@@ -3,21 +3,16 @@ import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/clie
 export const definition: ToolDefinitionType = {
   name: 'painting_modify',
   description:
-    'modify generated painting. respond wait message to the user before calling the tool.',
+    'modify generated painting. edit generated image. respond wait message to the user before calling the tool.',
   parameters: {
     type: 'object',
     properties: {
       prompt: {
         type: 'string',
-        description: 'prompt of the painting',
-      },
-      index: {
-        type: 'number',
-        description: 'index of the painting',
-        default: 1,
+        description: 'prompt of the image',
       },
     },
-    required: ['prompt', 'index'],
+    required: ['prompt'],
     strict: true,
   },
 };
