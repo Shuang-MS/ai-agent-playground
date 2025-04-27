@@ -23,7 +23,7 @@ const PaintingResult: React.FC = () => {
 
   const styles = {
     content: {
-      padding: '20px',
+      padding: '10px',
       flexWrap: 'wrap',
       gap: '10px',
       display: 'grid',
@@ -31,7 +31,7 @@ const PaintingResult: React.FC = () => {
       gridGap: '10px',
     } as React.CSSProperties,
     img: {
-      width: '300px',
+      width: '290px',
       height: 'auto',
       objectFit: 'contain',
     } as React.CSSProperties,
