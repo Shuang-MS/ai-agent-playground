@@ -1,5 +1,6 @@
 import { AzureOpenAI } from 'openai';
 import { Profiles } from './Profiles';
+import { Buffer } from 'buffer';
 
 export const getOpenAIClientSSt = (ttsApiKey: string, ttsTargetUri: string) => {
   if (!ttsApiKey || !ttsTargetUri) {
@@ -211,6 +212,11 @@ export async function getImages(prompt: string, n: number = 1): Promise<any> {
   }
 }
 
+function base64ToFile(base64: string, filename: string, mimeType: string) {
+  const buffer = Buffer.from(base64, 'base64');
+  return new File([buffer], filename, { type: mimeType });
+}
+
 export async function editImages(
   prompt: string,
   image_base_64: string,
@@ -229,33 +235,29 @@ export async function editImages(
     return 'Missing API key or target URI, Please check your settings';
   }
 
-  const headers = {
-    'Content-Type': 'application/json',
-    'api-key': gptImageApiKey,
-  };
-
   console.log('prompt', prompt);
   console.log('image_base_64', image_base_64);
 
   try {
-    // image_base_64 to io read
-    const base64 = image_base_64.split(',')[1];
-    const imageData = atob(base64);
-    const uint8Array = new Uint8Array(imageData.length);
+    const lotionFile = base64ToFile(
+      image_base_64,
+      'body-lotion.png',
+      'image/png',
+    );
 
-    for (let i = 0; i < imageData.length; i++) {
-      uint8Array[i] = imageData.charCodeAt(i);
-    }
+    const form = new FormData();
+    form.set('model', 'gpt-image-1');
+    form.append('image[]', lotionFile);
+    form.set('prompt', prompt);
 
-    const imageBlob = new Blob([uint8Array], { type: 'image/png' });
+    const headers = {
+      'api-key': gptImageApiKey,
+    };
+
     const response = await fetch(gptImageEditTargetUri, {
       method: 'POST',
       headers: headers,
-      body: JSON.stringify({
-        model: 'gpt-image-1',
-        image: imageBlob,
-        prompt: prompt,
-      }),
+      body: form as FormData,
     });
 
     if (!response.ok) {
