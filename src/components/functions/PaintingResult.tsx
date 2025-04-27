@@ -41,7 +41,7 @@ const PaintingResult: React.FC = () => {
     setIsShow(images.length > 0);
     setEditImage(null);
     setMaskImage('');
-  }, [images]);
+  }, [images, setIsShow, setEditImage, setMaskImage]);
 
   function getImageSizeFromBase64(
     base64: string,
