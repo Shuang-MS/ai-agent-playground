@@ -147,10 +147,10 @@ const ErasableImage: React.FC<ErasableImageProps> = ({
       width={width}
       height={height}
       style={{
-        border: '1px solid #ccc',
+        border: 'none',
         display: 'block',
         touchAction: 'none',
-        background: 'transparent',
+        background: 'black',
         zIndex: 1000,
       }}
     />
