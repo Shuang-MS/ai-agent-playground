@@ -77,6 +77,10 @@ import { VectorStore } from 'openai/resources/vector-stores/vector-stores';
 import { Profiles } from '../lib/Profiles';
 import { GRAPHRAG_ABOUT } from '../tools/azure_docs';
 
+export type ReplaceInstructionsArray = {
+  source: string | RegExp;
+  target: string;
+};
 interface AppContextType {
   photos: string[];
   photosRef: React.MutableRefObject<string[]>;
@@ -108,6 +112,9 @@ interface AppContextType {
   llmInstructions: string;
   llmInstructionsRef: React.MutableRefObject<string>;
   replaceInstructions: (source: string | RegExp, target: string) => string;
+  replaceInstructionsArray: (
+    instructions: ReplaceInstructionsArray[],
+  ) => string;
 
   cameraStatus: string;
   cameraStatusRef: React.MutableRefObject<string>;
@@ -689,24 +696,37 @@ export const AppProvider: React.FC<{
   const gptImagesRef = useGptImagesRef();
   const images = useGptImages();
   useEffect(() => {
+    const instructions: ReplaceInstructionsArray[] = [];
+
     gptImagesRef.current = images;
+
     if (images.length > 0) {
-      replaceInstructions(IMAGE_HAS_NOT_UPLOADED, IMAGE_HAS_UPLOADED);
+      console.log('images', images);
+
+      instructions.push({
+        source: IMAGE_HAS_NOT_UPLOADED,
+        target: IMAGE_HAS_UPLOADED,
+      });
 
       if (images[images.length - 1].mask_b64) {
-        replaceInstructions(
-          IMAGE_MODIFY_INSTRUCTIONS_NOT_SPECIFIED,
-          IMAGE_MODIFY_INSTRUCTIONS_SPECIFIED,
-        );
+        instructions.push({
+          source: IMAGE_MODIFY_INSTRUCTIONS_NOT_SPECIFIED,
+          target: IMAGE_MODIFY_INSTRUCTIONS_SPECIFIED,
+        });
       } else {
-        replaceInstructions(
-          IMAGE_MODIFY_INSTRUCTIONS_SPECIFIED,
-          IMAGE_MODIFY_INSTRUCTIONS_NOT_SPECIFIED,
-        );
+        instructions.push({
+          source: IMAGE_MODIFY_INSTRUCTIONS_SPECIFIED,
+          target: IMAGE_MODIFY_INSTRUCTIONS_NOT_SPECIFIED,
+        });
       }
     } else {
-      replaceInstructions(IMAGE_HAS_UPLOADED, IMAGE_HAS_NOT_UPLOADED);
+      instructions.push({
+        source: IMAGE_HAS_UPLOADED,
+        target: IMAGE_HAS_NOT_UPLOADED,
+      });
     }
+
+    replaceInstructionsArray(instructions);
   }, [images, gptImagesRef]);
 
   const painting_handler: Function = async ({
@@ -966,7 +986,28 @@ export const AppProvider: React.FC<{
   }, [llmInstructions]);
 
   const replaceInstructions = (source: string | RegExp, target: string) => {
+    console.log('replaceInstructions', source, ' -> ', target);
     const new_instructions = llmInstructionsRef.current.replace(source, target);
+    setLlmInstructions(new_instructions);
+    return new_instructions;
+  };
+
+  const replaceInstructionsArray = (
+    instructions: ReplaceInstructionsArray[],
+  ) => {
+    let new_instructions = llmInstructionsRef.current;
+    for (const instruction of instructions) {
+      console.log(
+        'replaceInstructionsArray',
+        instruction.source,
+        ' -> ',
+        instruction.target,
+      );
+      new_instructions = new_instructions.replace(
+        instruction.source,
+        instruction.target,
+      );
+    }
     setLlmInstructions(new_instructions);
     return new_instructions;
   };
@@ -1099,6 +1140,7 @@ export const AppProvider: React.FC<{
         messages,
         setMessages,
         camera_on_handler,
+        replaceInstructionsArray,
       }}
     >
       {children}

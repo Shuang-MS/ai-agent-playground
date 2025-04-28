@@ -4,7 +4,8 @@ import { Image } from 'react-feather';
 import { useGptImagesDispatch } from '../contexts/GptImagesContext';
 import { useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-export function UploadImage({}: {}) {
+
+export function UploadImage() {
   const gptImagesDispatch = useGptImagesDispatch()!;
   const fileInputRef = useRef<HTMLInputElement>(null);
 
