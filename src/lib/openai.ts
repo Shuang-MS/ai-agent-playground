@@ -228,6 +228,7 @@ function base64ToFile(base64: string, filename: string, mimeType: string) {
 }
 
 export async function editImages(
+  images: GptImage[],
   image: GptImage,
   edit_requirements: string,
 ): Promise<any> {
@@ -254,7 +255,13 @@ export async function editImages(
     form.set('model', 'gpt-image-1');
     form.set('prompt', edit_requirements);
 
-    form.append('image[]', base64ToFile(image.b64, 'image.png', 'image/png'));
+    for (const item of images) {
+      console.log('item', item.id);
+      form.append(
+        'image[]',
+        base64ToFile(item.b64, `image-${item.id}.png`, 'image/png'),
+      );
+    }
 
     if (image.mask_b64) {
       form.append(
