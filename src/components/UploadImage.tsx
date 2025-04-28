@@ -3,8 +3,9 @@ import './InputBar.scss';
 import { Image } from 'react-feather';
 import { useGptImagesDispatch } from '../contexts/GptImagesContext';
 import { useRef } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
-export function UploadImage({}: {}) {
+export function UploadImage() {
   const gptImagesDispatch = useGptImagesDispatch()!;
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -36,8 +37,10 @@ export function UploadImage({}: {}) {
         const base64Data = base64String.split(',')[1];
 
         const gptImage: GptImage = {
-          prompt: 'modify the image',
-          b64_json: base64Data,
+          id: uuidv4(),
+          prompt: '',
+          b64: base64Data,
+          mask_b64: '',
         };
 
         gptImagesDispatch({ type: 'add', gptImage });

@@ -13,7 +13,7 @@ import {
   IMAGE_MODIFY_INSTRUCTIONS_SPECIFIED,
   SYSTEM_INSTRUCTIONS,
 } from '../lib/instructions';
-
+import { v4 as uuidv4 } from 'uuid';
 import * as memory from '../tools/memory';
 import * as weather from '../tools/weather';
 import * as avatar from '../tools/avatar';
@@ -77,6 +77,10 @@ import { VectorStore } from 'openai/resources/vector-stores/vector-stores';
 import { Profiles } from '../lib/Profiles';
 import { GRAPHRAG_ABOUT } from '../tools/azure_docs';
 
+export type ReplaceInstructionsArray = {
+  source: string | RegExp;
+  target: string;
+};
 interface AppContextType {
   photos: string[];
   photosRef: React.MutableRefObject<string[]>;
@@ -108,6 +112,9 @@ interface AppContextType {
   llmInstructions: string;
   llmInstructionsRef: React.MutableRefObject<string>;
   replaceInstructions: (source: string | RegExp, target: string) => string;
+  replaceInstructionsArray: (
+    instructions: ReplaceInstructionsArray[],
+  ) => string;
 
   cameraStatus: string;
   cameraStatusRef: React.MutableRefObject<string>;
@@ -223,10 +230,6 @@ interface AppContextType {
   setMessages: React.Dispatch<React.SetStateAction<any[]>>;
 
   camera_on_handler: Function;
-
-  maskImage: string;
-  maskImageRef: React.MutableRefObject<string>;
-  setMaskImage: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const IS_DEBUG: boolean = window.location.href.includes('localhost');
@@ -308,26 +311,6 @@ export const AppProvider: React.FC<{
   useEffect(() => {
     cameraStatusRef.current = cameraStatus;
   }, [cameraStatus]);
-
-  // maskImage string
-  const [maskImage, setMaskImage] = useState<string>('');
-  const maskImageRef = useRef(maskImage);
-  useEffect(() => {
-    console.log('maskImage', maskImage);
-    maskImageRef.current = maskImage;
-
-    if (maskImage) {
-      replaceInstructions(
-        IMAGE_MODIFY_INSTRUCTIONS_NOT_SPECIFIED,
-        IMAGE_MODIFY_INSTRUCTIONS_SPECIFIED,
-      );
-    } else {
-      replaceInstructions(
-        IMAGE_MODIFY_INSTRUCTIONS_SPECIFIED,
-        IMAGE_MODIFY_INSTRUCTIONS_NOT_SPECIFIED,
-      );
-    }
-  }, [maskImage]);
 
   // connectStatus string
   const [connectStatus, setConnectStatus] = useState(CONNECT_DISCONNECTED);
@@ -713,33 +696,62 @@ export const AppProvider: React.FC<{
   const gptImagesRef = useGptImagesRef();
   const images = useGptImages();
   useEffect(() => {
+    const instructions: ReplaceInstructionsArray[] = [];
+
     gptImagesRef.current = images;
+
     if (images.length > 0) {
-      replaceInstructions(IMAGE_HAS_NOT_UPLOADED, IMAGE_HAS_UPLOADED);
+      console.log('images', images);
+
+      instructions.push({
+        source: IMAGE_HAS_NOT_UPLOADED,
+        target: IMAGE_HAS_UPLOADED,
+      });
+
+      if (images[images.length - 1].mask_b64) {
+        instructions.push({
+          source: IMAGE_MODIFY_INSTRUCTIONS_NOT_SPECIFIED,
+          target: IMAGE_MODIFY_INSTRUCTIONS_SPECIFIED,
+        });
+      } else {
+        instructions.push({
+          source: IMAGE_MODIFY_INSTRUCTIONS_SPECIFIED,
+          target: IMAGE_MODIFY_INSTRUCTIONS_NOT_SPECIFIED,
+        });
+      }
     } else {
-      replaceInstructions(IMAGE_HAS_UPLOADED, IMAGE_HAS_NOT_UPLOADED);
+      instructions.push({
+        source: IMAGE_HAS_UPLOADED,
+        target: IMAGE_HAS_NOT_UPLOADED,
+      });
     }
+
+    replaceInstructionsArray(instructions);
   }, [images, gptImagesRef]);
 
   const painting_handler: Function = async ({
     prompt,
-    n = 1,
+    n,
   }: {
     [key: string]: any;
   }) => {
     try {
-      const resp = await getImages((prompt = prompt), (n = n));
-      const image = resp.data[0];
+      const resp = await getImages({ prompt: prompt, n: n });
+      const images = resp.data;
 
-      const gptImage: GptImage = {
-        prompt: prompt,
-        b64_json: image.b64_json,
-      };
+      for (const image of images) {
+        const gptImage: GptImage = {
+          id: uuidv4(),
+          prompt: prompt,
+          b64: image.b64_json,
+          mask_b64: '',
+        };
 
-      gptImagesDispatch({ type: 'add', gptImage });
-      console.log('painting', gptImage);
+        gptImagesDispatch({ type: 'add', gptImage });
+        console.log('painting', gptImage);
+      }
+
       console.log('gptImagesRef', gptImagesRef.current);
-
       return { result: 'completed, please check the results in the modal.' };
     } catch (error) {
       console.error('painting error', error);
@@ -748,7 +760,7 @@ export const AppProvider: React.FC<{
   };
 
   const image_modify_handler: Function = async ({
-    prompt,
+    edit_requirements,
   }: {
     [key: string]: any;
   }) => {
@@ -757,31 +769,24 @@ export const AppProvider: React.FC<{
       return { error: 'no painting data, please generate painting first.' };
     }
 
-    const { b64_json } = gptImagesRef.current[len - 1];
+    const lastImage = gptImagesRef.current[len - 1];
 
     try {
-      const resp = await editImages(prompt, b64_json, maskImageRef.current);
+      const resp = await editImages(lastImage, edit_requirements);
       const image = resp.data[0];
 
       const gptImage: GptImage = {
-        prompt: prompt,
-        b64_json: image.b64_json,
+        id: uuidv4(),
+        prompt: edit_requirements,
+        b64: image.b64_json,
+        mask_b64: '',
       };
-
-      if (maskImageRef.current) {
-        gptImage.mask_b64_json = maskImageRef.current.replace(
-          'data:image/png;base64,',
-          '',
-        );
-      }
 
       gptImagesDispatch({ type: 'add', gptImage });
 
-      console.log('painting', gptImage);
+      console.log('edit painting', gptImage);
 
-      setMaskImage('');
-
-      if (maskImageRef.current) {
+      if (lastImage.mask_b64) {
         return {
           result: 'completed with mask, please check the results in the modal.',
         };
@@ -843,8 +848,10 @@ export const AppProvider: React.FC<{
     const currentPhoto = photosRef.current[photosRef.current.length - 1];
     const base64Data = currentPhoto.split(',')[1];
     const gptImage: GptImage = {
+      id: uuidv4(),
       prompt: 'take a photo',
-      b64_json: base64Data,
+      b64: base64Data,
+      mask_b64: '',
     };
     gptImagesDispatch({ type: 'add', gptImage });
     return { message: 'ok' };
@@ -979,7 +986,28 @@ export const AppProvider: React.FC<{
   }, [llmInstructions]);
 
   const replaceInstructions = (source: string | RegExp, target: string) => {
+    console.log('replaceInstructions', source, ' -> ', target);
     const new_instructions = llmInstructionsRef.current.replace(source, target);
+    setLlmInstructions(new_instructions);
+    return new_instructions;
+  };
+
+  const replaceInstructionsArray = (
+    instructions: ReplaceInstructionsArray[],
+  ) => {
+    let new_instructions = llmInstructionsRef.current;
+    for (const instruction of instructions) {
+      console.log(
+        'replaceInstructionsArray',
+        instruction.source,
+        ' -> ',
+        instruction.target,
+      );
+      new_instructions = new_instructions.replace(
+        instruction.source,
+        instruction.target,
+      );
+    }
     setLlmInstructions(new_instructions);
     return new_instructions;
   };
@@ -1112,9 +1140,7 @@ export const AppProvider: React.FC<{
         messages,
         setMessages,
         camera_on_handler,
-        maskImage,
-        maskImageRef,
-        setMaskImage,
+        replaceInstructionsArray,
       }}
     >
       {children}

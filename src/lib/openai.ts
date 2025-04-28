@@ -1,6 +1,7 @@
 import { AzureOpenAI } from 'openai';
 import { Profiles } from './Profiles';
 import { Buffer } from 'buffer';
+import { GptImage } from '../types/GptImage';
 
 export const getOpenAIClientSSt = (ttsApiKey: string, ttsTargetUri: string) => {
   if (!ttsApiKey || !ttsTargetUri) {
@@ -163,7 +164,13 @@ export async function getJsonData(messages: any): Promise<string> {
   }
 }
 
-export async function getImages(prompt: string, n: number = 1): Promise<any> {
+export async function getImages({
+  prompt,
+  n = 1,
+}: {
+  prompt: string;
+  n: number;
+}): Promise<any> {
   const profiles = new Profiles();
   const profile = profiles.currentProfile;
 
@@ -221,9 +228,8 @@ function base64ToFile(base64: string, filename: string, mimeType: string) {
 }
 
 export async function editImages(
-  prompt: string,
-  image_base_64: string,
-  maskImage: string,
+  image: GptImage,
+  edit_requirements: string,
 ): Promise<any> {
   const profiles = new Profiles();
   const profile = profiles.currentProfile;
@@ -239,23 +245,23 @@ export async function editImages(
     return 'Missing API key or target URI, Please check your settings';
   }
 
-  console.log('prompt', prompt);
-  console.log('image_base_64', image_base_64);
+  console.log('prompt', image.prompt);
+  console.log('image_base_64', image.b64);
 
   try {
     const form = new FormData();
+
     form.set('model', 'gpt-image-1');
+    form.set('prompt', edit_requirements);
 
-    form.append(
-      'image[]',
-      base64ToFile(image_base_64, 'image.png', 'image/png'),
-    );
+    form.append('image[]', base64ToFile(image.b64, 'image.png', 'image/png'));
 
-    if (maskImage) {
-      form.append('mask', base64ToFile(maskImage, 'mask.png', 'image/png'));
+    if (image.mask_b64) {
+      form.append(
+        'mask',
+        base64ToFile(image.mask_b64, 'mask.png', 'image/png'),
+      );
     }
-
-    form.set('prompt', prompt);
 
     const headers = {
       'api-key': gptImageApiKey,
@@ -279,7 +285,7 @@ export async function editImages(
 
     return {
       ...data,
-      prompt: prompt,
+      prompt: edit_requirements,
     };
   } catch (error) {
     console.error('Error edit images:', error);
