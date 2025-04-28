@@ -761,18 +761,31 @@ export const AppProvider: React.FC<{
 
   const image_modify_handler: Function = async ({
     edit_requirements,
+    original_image_number,
   }: {
-    [key: string]: any;
+    [key: string | number]: any;
   }) => {
     const len = gptImagesRef.current?.length || 0;
     if (!gptImagesRef.current || len === 0) {
       return { error: 'no painting data, please generate painting first.' };
     }
 
+    if (original_image_number > len) {
+      return {
+        error: `no enough painting data, please generate or upload ${original_image_number} paintings first.`,
+      };
+    }
+
+    console.log('original_image_number', original_image_number);
+
     const lastImage = gptImagesRef.current[len - 1];
+    const images = [];
+    for (let i = len - 1; i >= len - original_image_number; i--) {
+      images.push(gptImagesRef.current[i]);
+    }
 
     try {
-      const resp = await editImages(lastImage, edit_requirements);
+      const resp = await editImages(images, lastImage, edit_requirements);
       const image = resp.data[0];
 
       const gptImage: GptImage = {
