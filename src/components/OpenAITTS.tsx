@@ -43,6 +43,7 @@ const OpenAITTS: React.FC = () => {
     sentencesRef.current = sentences;
   }, [sentences]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const fetchAudioStream = async (text: string) => {
     setIsCreating(true);
     console.log('isCreating', text);
@@ -107,7 +108,7 @@ const OpenAITTS: React.FC = () => {
     return () => {
       clearInterval(intervalId);
     };
-  }, []);
+  }, [avatarStatusRef, fetchAudioStream, needSpeechQueueRef]);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -141,7 +142,7 @@ const OpenAITTS: React.FC = () => {
     return () => {
       clearInterval(intervalId);
     };
-  }, []);
+  }, [avatarStatusRef, setCaption]);
 
   return null;
 };
