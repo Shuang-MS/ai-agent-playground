@@ -43,6 +43,7 @@ const OpenAITTS: React.FC = () => {
     sentencesRef.current = sentences;
   }, [sentences]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const fetchAudioStream = async (text: string) => {
     setIsCreating(true);
     console.log('isCreating', text);
