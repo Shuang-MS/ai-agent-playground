@@ -58,6 +58,8 @@ class Profile {
   public temperature: number = 0.5;
   public ttsApiKey: string = '';
   public ttsTargetUri: string = '';
+  public ttsModel: string = '';
+  public ttsVoice: string = '';
   public useAgentProxy: boolean = false;
 
   public isAssistant: boolean = this.assistantType === ASSISTANT_TYPE_ASSISTANT;
@@ -273,6 +275,8 @@ export class Profiles {
 
     p.ttsTargetUri = localStorage.getItem('ttsTargetUri') || '';
     p.ttsApiKey = localStorage.getItem('ttsApiKey') || '';
+    p.ttsModel = localStorage.getItem('ttsModel') || '';
+    p.ttsVoice = localStorage.getItem('ttsVoice') || '';
 
     p.bingApiKey = localStorage.getItem('bingApiKey') || '';
 
@@ -311,6 +315,8 @@ export class Profiles {
     localStorage.removeItem('mxnzpAppSecret');
     localStorage.removeItem('ttsTargetUri');
     localStorage.removeItem('ttsApiKey');
+    localStorage.removeItem('ttsModel');
+    localStorage.removeItem('ttsVoice');
     localStorage.removeItem('bingApiKey');
     localStorage.removeItem('functions');
     localStorage.removeItem('functionsUrl');

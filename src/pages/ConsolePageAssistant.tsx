@@ -37,6 +37,7 @@ import {
 import { Run } from 'openai/resources/beta/threads/runs/runs';
 import BuiltFunctionDisable from '../components/BuiltFunctionDisable';
 import { Profiles } from '../lib/Profiles';
+import OpenAITTS from '../components/OpenAITTS';
 
 export function ConsolePageAssistant() {
   const {
@@ -541,6 +542,8 @@ export function ConsolePageAssistant() {
         <BuiltFunctionDisable />
 
         <Avatar />
+
+        <OpenAITTS />
 
         <Camera />
 

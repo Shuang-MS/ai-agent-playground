@@ -109,7 +109,7 @@ const SettingsComponent: React.FC<{
       padding: '20px',
       borderRadius: '8px',
       color: isNightMode ? '#dddddf' : '#3e3e47',
-      width: '850px',
+      width: '895px',
       maxHeight: '90%',
       overflowY: 'auto',
     } as React.CSSProperties,
@@ -569,6 +569,32 @@ const SettingsComponent: React.FC<{
           placeholder={''}
           onChange={(e) => {
             profiles.currentProfile!.ttsApiKey = e.target.value;
+            profiles.save();
+            setProfiles(new Profiles());
+          }}
+        />
+
+        <div style={styles.settingLabel}>Model</div>
+        <input
+          type={'text'}
+          style={styles.settingInput}
+          value={profiles.currentProfile?.ttsModel || 'gpt-4o-mini-tts'}
+          placeholder={'gpt-4o-mini-tts'}
+          onChange={(e) => {
+            profiles.currentProfile!.ttsModel = e.target.value;
+            profiles.save();
+            setProfiles(new Profiles());
+          }}
+        />
+
+        <div style={styles.settingLabel}>Voice</div>
+        <input
+          type={'text'}
+          style={styles.settingInput}
+          value={profiles.currentProfile?.ttsVoice || 'alloy'}
+          placeholder={'alloy'}
+          onChange={(e) => {
+            profiles.currentProfile!.ttsVoice = e.target.value;
             profiles.save();
             setProfiles(new Profiles());
           }}
@@ -1464,12 +1490,15 @@ const SettingsComponent: React.FC<{
                 >
                   {SPEECH}
                 </button>
-                {/* <button
+                <button
+                  style={{
+                    ...styles.settingsTabButton,
+                    ...(activeTab === TTS ? styles.tabActive : {}),
+                  }}
                   onClick={() => setActiveTab(TTS)}
-                  className={activeTab === TTS ? 'active' : ''}
                 >
                   {TTS}
-                </button> */}
+                </button>
                 <button
                   style={{
                     ...styles.settingsTabButton,
