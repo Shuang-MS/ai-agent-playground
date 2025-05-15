@@ -107,7 +107,7 @@ const OpenAITTS: React.FC = () => {
     return () => {
       clearInterval(intervalId);
     };
-  }, []);
+  }, [avatarStatusRef, fetchAudioStream, needSpeechQueueRef]);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -141,7 +141,7 @@ const OpenAITTS: React.FC = () => {
     return () => {
       clearInterval(intervalId);
     };
-  }, []);
+  }, [avatarStatusRef, setCaption]);
 
   return null;
 };
