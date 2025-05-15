@@ -22,6 +22,8 @@ const OpenAITTS: React.FC = () => {
 
   const ttsApiKey = profile?.ttsApiKey || '';
   const ttsTargetUri = profile?.ttsTargetUri || '';
+  const ttsModel = profile?.ttsModel || '';
+  const ttsVoice = profile?.ttsVoice || '';
 
   const [isCreating, setIsCreating] = useState(false);
   const isCreatingRef = useRef(false);
@@ -47,6 +49,10 @@ const OpenAITTS: React.FC = () => {
     try {
       if (!text.trim()) return;
 
+      if (!ttsApiKey || !ttsTargetUri || !ttsModel || !ttsVoice) {
+        return;
+      }
+
       const client = getOpenAIClientSSt(ttsApiKey, ttsTargetUri);
 
       if (!client) {
@@ -55,8 +61,8 @@ const OpenAITTS: React.FC = () => {
       }
 
       const response = await client.audio.speech.create({
-        model: 'tts-1',
-        voice: 'echo',
+        model: ttsModel,
+        voice: ttsVoice,
         input: text,
         speed: 1.0,
       });
