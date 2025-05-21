@@ -45,7 +45,6 @@ export function ConsolePageAssistant() {
     connectMessage,
     connectStatus,
     isDebugModeRef,
-    loadFunctionsTools,
     recordTokenLatency,
     setAssistant,
     setConnectMessage,
@@ -198,18 +197,13 @@ export function ConsolePageAssistant() {
 
     const args = JSON.parse(call.function.arguments);
 
-    for (const fc of loadFunctionsTools) {
-      if (fc[0].name === call.function.name) {
+    for (const [definition, handler] of functionsToolsRef.current) {
+      if (definition.name === call?.function?.name) {
         const result = {
           name: call.function.name,
           arguments: args,
         };
         setMessages((prevMessages) => [result, ...prevMessages]);
-      }
-    }
-
-    for (const [definition, handler] of functionsToolsRef.current) {
-      if (definition.name === call?.function?.name) {
         return JSON.stringify(await handler({ ...args }));
       }
     }

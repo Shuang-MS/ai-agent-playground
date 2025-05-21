@@ -104,7 +104,8 @@ const SpeechTTS: React.FC = () => {
     return () => {
       clearInterval(intervalId);
     };
-  }, [avatarStatusRef, needSpeechQueueRef, addTask, setNeedSpeechQueue]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [avatarStatusRef, needSpeechQueueRef]);
 
   return null;
 };
