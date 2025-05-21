@@ -9,6 +9,7 @@ import {
   ASSISTANT_TYPES,
   DEEPSEEK_FUNCTION_CALL_DISABLE,
   DEFAULT_AGENT_API_URL,
+  SPEECH_LANGUAGE_DEFAULT,
 } from './const';
 import defaultIcon from '../static/logomark.svg';
 import { supportedAssistantTypes } from '../components/Settings';
@@ -29,6 +30,7 @@ class Profile {
   public buildInPrompt: boolean = false;
   public cogSvcRegion: string = 'southeastasia';
   public cogSvcSubKey: string = '';
+  public detectLanguage: string = SPEECH_LANGUAGE_DEFAULT;
   public avatarRegion: string = 'southeastasia';
   public avatarSubKey: string = '';
   public completionApiKey: string = '';

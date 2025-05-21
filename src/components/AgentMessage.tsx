@@ -85,7 +85,7 @@ const AgentUserMessage = ({ msg }: AgentMessageProps) => {
 };
 
 const AgentApproveMessage = ({ msg, sendMessage }: AgentMessageProps) => {
-  const [approveing, setApproveing] = useState<boolean>(false);
+  const [approving, setApproving] = useState<boolean>(false);
 
   return (
     <div className={'conversation-item assistant'}>
@@ -105,16 +105,16 @@ const AgentApproveMessage = ({ msg, sendMessage }: AgentMessageProps) => {
             display: msg?.approve_status === 0 ? 'block-inline' : 'none',
           }}
           onClick={async () => {
-            setApproveing(true);
+            setApproving(true);
             await sendMessage({
               type: 'approved',
               message_id: msg.id,
             });
-            setApproveing(false);
+            setApproving(false);
           }}
-          disabled={msg?.approve_status !== 0 || approveing}
+          disabled={msg?.approve_status !== 0 || approving}
         >
-          {approveing ? 'Approving...' : 'Approve'}
+          {approving ? 'Approving...' : 'Approve'}
         </button>
         <button
           style={{
@@ -122,16 +122,16 @@ const AgentApproveMessage = ({ msg, sendMessage }: AgentMessageProps) => {
             display: msg?.approve_status === 0 ? 'block-inline' : 'none',
           }}
           onClick={async () => {
-            setApproveing(true);
+            setApproving(true);
             await sendMessage({
               type: 'rejected',
               message_id: msg.id,
             });
-            setApproveing(false);
+            setApproving(false);
           }}
-          disabled={msg?.approve_status !== 0 || approveing}
+          disabled={msg?.approve_status !== 0 || approving}
         >
-          {approveing ? 'Rejecting...' : 'Reject'}
+          {approving ? 'Rejecting...' : 'Reject'}
         </button>
         <ClickToJson msg={msg} />
       </div>

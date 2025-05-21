@@ -4,7 +4,11 @@ import { useContexts } from '../providers/AppProvider';
 import { useEffect, useRef, useState } from 'react';
 import * as SpeechSDK from 'microsoft-cognitiveservices-speech-sdk';
 import './InputBar.scss';
-import { clientHiEnglish, CONNECT_CONNECTED } from '../lib/const';
+import {
+  clientHiEnglish,
+  CONNECT_CONNECTED,
+  SPEECH_LANGUAGE_DEFAULT,
+} from '../lib/const';
 import { Profiles } from '../lib/Profiles';
 import { RecommendText } from './RecommendText';
 import { UploadImage } from './UploadImage';
@@ -53,8 +57,7 @@ export function InputBarAssistant({
 
     const autoDetectSourceLanguageConfig =
       SpeechSDK.AutoDetectSourceLanguageConfig.fromLanguages([
-        'zh-CN',
-        'en-US',
+        profile?.detectLanguage || SPEECH_LANGUAGE_DEFAULT,
       ]);
 
     const speechConfig = SpeechSDK.SpeechConfig.fromEndpoint(
