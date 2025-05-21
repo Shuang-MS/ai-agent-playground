@@ -37,7 +37,7 @@ import {
 import { Run } from 'openai/resources/beta/threads/runs/runs';
 import BuiltFunctionDisable from '../components/BuiltFunctionDisable';
 import { Profiles } from '../lib/Profiles';
-import OpenAITTS from '../components/OpenAITTS';
+import SpeechTTS from '../components/SpeechTTS';
 
 export function ConsolePageAssistant() {
   const {
@@ -493,18 +493,6 @@ export function ConsolePageAssistant() {
       await createThread();
       setConnectStatus(CONNECT_CONNECTED);
       setConnectMessage('');
-
-      const profile = new Profiles().currentProfile;
-      const sse = new EventSource(profile.getAgentSseUrl());
-      sse.onmessage = (event) => {
-        console.log(event.data);
-      };
-      sse.onerror = (event) => {
-        console.error(event);
-      };
-      sse.onopen = (event) => {
-        console.log('sse open', event);
-      };
     } catch (error: any) {
       setConnectStatus(CONNECT_DISCONNECTED);
       setConnectMessage(error.message);
@@ -543,7 +531,7 @@ export function ConsolePageAssistant() {
 
         <Avatar />
 
-        <OpenAITTS />
+        <SpeechTTS />
 
         <Camera />
 

@@ -1,4 +1,4 @@
-import { CAMERA_PHOTO_LIMIT } from './const';
+import { CAMERA_PHOTO_LIMIT, SPEECH_LANGUAGE_DEFAULT } from './const';
 import { Profiles } from './Profiles';
 export const DATA_BEGIN = '----用户已经上传的数据文件开始----';
 export const DATA_END = '----用户已经上传的数据文件结束----';
@@ -54,6 +54,7 @@ Instructions:
 - 你可以打开或者关闭调试模式，目前调试模式是关闭的
 - ${IMAGE_HAS_NOT_UPLOADED}
 - ${IMAGE_MODIFY_INSTRUCTIONS_NOT_SPECIFIED}
+- 默认语言是 ${new Profiles().currentProfile?.detectLanguage || SPEECH_LANGUAGE_DEFAULT}
 
 ${new Profiles().currentProfile?.prompt || ''}
 

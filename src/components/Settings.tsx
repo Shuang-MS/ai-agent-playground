@@ -19,6 +19,14 @@ import {
   DEEPSEEK_FUNCTION_CALL_ENABLE,
   DEFAULT_AGENT_API_URL,
   NOT_SETTINGS_STATUS,
+  SPEECH_LANGUAGE_DEFAULT,
+  SPEECH_LANGUAGE_EN_US,
+  SPEECH_LANGUAGE_ZH_CN,
+  SPEECH_LANGUAGE_TH_TH,
+  SPEECH_LANGUAGE_VI_VN,
+  SPEECH_LANGUAGE_MS_MY,
+  SPEECH_LANGUAGE_KO_KR,
+  SPEECH_LANGUAGE_JA_JP,
 } from '../lib/const';
 import { useContexts } from '../providers/AppProvider';
 import { svgToBase64 } from '../lib/helper';
@@ -57,6 +65,16 @@ export const supportedAssistantTypes = [
   { value: ASSISTANT_TYPE_AGENT_AI, label: 'Agent API' },
   { value: ASSISTANT_TYPE_ASSISTANT, label: 'STT -> Assistant -> TTS' },
   { value: ASSISTANT_TYPE_DEEPSEEK, label: 'STT -> DeepSeek -> TTS' },
+];
+
+export const supportedSpeechLanguages = [
+  { value: SPEECH_LANGUAGE_ZH_CN, label: 'zh-CN' },
+  { value: SPEECH_LANGUAGE_EN_US, label: 'en-US' },
+  { value: SPEECH_LANGUAGE_VI_VN, label: 'vi-vn' },
+  { value: SPEECH_LANGUAGE_TH_TH, label: 'th-th' },
+  { value: SPEECH_LANGUAGE_JA_JP, label: 'ja-jp' },
+  { value: SPEECH_LANGUAGE_KO_KR, label: 'ko-kr' },
+  { value: SPEECH_LANGUAGE_MS_MY, label: 'ms-my' },
 ];
 
 const deepSeekFunctionCallingTypes = [
@@ -727,6 +745,19 @@ const SettingsComponent: React.FC<{
 
     return (
       <div>
+        <div style={styles.settingLabel}>Detect/Synthesize/LLM Language</div>
+        <Dropdown
+          options={supportedSpeechLanguages}
+          selectedValue={
+            profiles.currentProfile?.detectLanguage || SPEECH_LANGUAGE_DEFAULT
+          }
+          onChange={(e) => {
+            profiles.currentProfile!.detectLanguage = e;
+            profiles.save();
+            setProfiles(new Profiles());
+          }}
+        />
+
         <div style={styles.settingLabel}>Speech Region</div>
         <input
           type={'text'}
@@ -746,6 +777,7 @@ const SettingsComponent: React.FC<{
             {isVisible ? <FaRegEye /> : <FaRegEyeSlash />}
           </span>
         </div>
+
         <input
           type={isVisible ? 'text' : 'password'}
           style={styles.settingInput}
