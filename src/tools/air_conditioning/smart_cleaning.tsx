@@ -3,7 +3,7 @@ import { llmState } from '../../components/LlmState';
 
 export const definition: ToolDefinitionType = {
   name: 'turn_on_or_off_smart_cleaning',
-  description: `Turns on or off the air conditioning smart cleaning. 智能清洁`,
+  description: `Turns on or off the air conditioning smart cleaning. 智能清洁/智清洁`,
   parameters: {
     type: 'object',
     properties: {

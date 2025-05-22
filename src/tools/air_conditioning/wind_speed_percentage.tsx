@@ -11,7 +11,7 @@ export const definition: ToolDefinitionType = {
         type: 'number',
         description:
           'The wind speed percentage to set the air conditioning to.',
-        enum: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+        enum: [20, 30, 40, 50, 60, 70, 80, 90, 100],
       },
     },
   },

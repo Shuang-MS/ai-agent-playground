@@ -45,7 +45,7 @@ export const appendAirConditioningStateToInstructions = (
       instructions +
       `\n 空调是关闭状态，不能进行任何操作。
        \n 如果用户的操作包含打开空调，那么不用提示，你先打空调，再按照顺序执行其他操作。
-       \n 如果用户的操作不包含打开空调，需要提示空调是关闭状态，只能打开空调，不能进行其他任何操作，并且询问用户是否打开空调。
+       \n 如果用户的操作不包含打开空调，则只能进行定时开机操作，其他操作需要提示空调是关闭状态，只能打开空调，不能进行其他任何操作，并且询问用户是否打开空调。
   `;
 
     return instructions;
@@ -67,15 +67,15 @@ export const appendAirConditioningStateToInstructions = (
     \n速热模式：${llmState.heat_flash ? '开' : '关'}
     \n速冷模式：${llmState.cool_flash ? '开' : '关'}
     \n防直吹：${llmState.anti_direct_airflow ? '开' : '关'}
-    \n智能清洁：${llmState.smart_cleaning ? '开' : '关'}
+    \n智能清洁/智清洁：${llmState.smart_cleaning ? '开' : '关'}
     \n无风感：${llmState.wind_free ? '开' : '关'}
     \n电辅热：${llmState.electric_auxiliary_heating ? '开' : '关'}
-    \n定时开机：${llmState.scheduled_power_on_minutes}
-    \n定时关机：${llmState.scheduled_power_off_minutes}
+    \n定时开机(小时)：${llmState.scheduled_power_on_hours}
+    \n定时关机(小时)：${llmState.scheduled_power_off_hours}
     \n风向：${llmState.air_direction}
     \n屏幕显示：${llmState.screen_display ? '开' : '关'}
     \n风速百分比：${llmState.wind_speed_percentage}
-    \n节能模式：${llmState.energy_saving ? '开' : '关'}
+    \n节能模式/ECOMaster功能/ECO功能：${llmState.energy_saving ? '开' : '关'}
     \n室内温度：${llmState.indoor_temperature}
     \n室外温度：${llmState.outdoor_temperature}
     \n连续对话/自然对话：${llmState.continuous_dialogue ? '开' : '关'}

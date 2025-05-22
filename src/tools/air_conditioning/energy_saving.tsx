@@ -3,7 +3,7 @@ import { llmState } from '../../components/LlmState';
 
 export const definition: ToolDefinitionType = {
   name: 'turn_on_or_off_energy_saving',
-  description: `Turns on or off the air conditioning energy saving. 节能模式`,
+  description: `Turns on or off the air conditioning energy saving. 节能模式/节能省电模式/ECOMaster功能/ECO功能`,
   parameters: {
     type: 'object',
     properties: {

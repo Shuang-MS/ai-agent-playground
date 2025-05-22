@@ -3,7 +3,7 @@ import { llmState } from '../../components/LlmState';
 
 export const definition: ToolDefinitionType = {
   name: 'set_temperature',
-  description: `Sets the temperature of the air conditioning. 有点冷：+1度 / 有点热：-1度 / 太冷了：+3度 / 太热了：-3度`,
+  description: `Sets the temperature of the air conditioning. 有点冷：+1度 / 有点热：-1度 / 太冷了：+3度 / 太热了：-3度。最高是30度，最低是16度`,
   parameters: {
     type: 'object',
     properties: {

@@ -17,8 +17,8 @@ export interface LlmState {
   on: boolean;
   outdoor_temperature: number;
   purification_level: number;
-  scheduled_power_off_minutes: number;
-  scheduled_power_on_minutes: number;
+  scheduled_power_off_hours: number;
+  scheduled_power_on_hours: number;
   screen_display: boolean;
   smart_cleaning: boolean;
   temperature: number;
@@ -45,8 +45,8 @@ export const llmState: LlmState = {
   on: false,
   outdoor_temperature: 30,
   purification_level: 1,
-  scheduled_power_off_minutes: 0,
-  scheduled_power_on_minutes: 0,
+  scheduled_power_off_hours: 0,
+  scheduled_power_on_hours: 0,
   screen_display: false,
   smart_cleaning: false,
   temperature: 25,
