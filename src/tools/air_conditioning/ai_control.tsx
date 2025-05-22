@@ -2,7 +2,7 @@ import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/clie
 import { llmState } from '../../components/LlmState';
 
 export const definition: ToolDefinitionType = {
-  name: 'turn_on_off_ai_control',
+  name: 'turn_on_or_off_ai_control',
   description: `Turns on or off the air conditioning ai control. AI控制`,
   parameters: {
     type: 'object',

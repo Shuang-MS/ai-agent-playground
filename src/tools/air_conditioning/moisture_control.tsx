@@ -2,7 +2,7 @@ import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/clie
 import { llmState } from '../../components/LlmState';
 
 export const definition: ToolDefinitionType = {
-  name: 'turn_on_off_moisture_control',
+  name: 'turn_on_or_off_moisture_control',
   description: `Turns on or off the air conditioning moisture control. 湿度控制`,
   parameters: {
     type: 'object',

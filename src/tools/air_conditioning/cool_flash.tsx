@@ -2,7 +2,7 @@ import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/clie
 import { llmState } from '../../components/LlmState';
 
 export const definition: ToolDefinitionType = {
-  name: 'turn_on_off_cool_flash',
+  name: 'turn_on_or_off_cool_flash',
   description: `Turns on or off the air conditioning cool flash. 冷风闪烁`,
   parameters: {
     type: 'object',

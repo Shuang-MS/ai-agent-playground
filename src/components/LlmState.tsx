@@ -6,7 +6,6 @@ export interface LlmState {
   disinfection: boolean;
   ai_control: boolean;
   fresh_air_level: number;
-  fresh_air_on: boolean;
   purification_level: number;
   gear_level: number;
   volume: number;
@@ -32,7 +31,6 @@ export const llmState: LlmState = {
   disinfection: false,
   ai_control: false,
   fresh_air_level: 1,
-  fresh_air_on: false,
   purification_level: 1,
   gear_level: 1,
   volume: 5,

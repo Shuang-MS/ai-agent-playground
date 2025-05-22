@@ -40,6 +40,17 @@ export const appendAirConditioningStateToInstructions = (
     return instructions;
   }
 
+  if (!llmState.on) {
+    instructions =
+      instructions +
+      `\n 空调是关闭状态，不能进行任何操作。
+       \n 如果用户的操作包含打开空调，那么不用提示，你先打空调，再按照顺序执行其他操作。
+       \n 如果用户的操作不包含打开空调，需要提示空调是关闭状态，只能打开空调，不能进行其他任何操作，并且询问用户是否打开空调。
+  `;
+
+    return instructions;
+  }
+
   instructions =
     instructions +
     `\n空调状态状态如下：
@@ -48,8 +59,7 @@ export const appendAirConditioningStateToInstructions = (
     \n模式：${llmState.mode}
     \n除菌：${llmState.disinfection ? '开' : '关'}
     \nAI控制：${llmState.ai_control ? '开' : '关'}
-    \n新风级别：${llmState.fresh_air_level}
-    \n新风：${llmState.fresh_air_on ? '开' : '关'}
+    \n新风级别：${llmState.fresh_air_level ? llmState.fresh_air_level : '关闭'}
     \n净化级别：${llmState.purification_level ? llmState.purification_level : '关闭'}
     \n风速：${llmState.gear_level ? llmState.gear_level : '关闭'}
     \n音量：${llmState.volume ? llmState.volume : '静音'}

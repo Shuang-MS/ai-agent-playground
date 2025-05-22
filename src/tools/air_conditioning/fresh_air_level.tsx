@@ -3,14 +3,14 @@ import { llmState } from '../../components/LlmState';
 
 export const definition: ToolDefinitionType = {
   name: 'set_fresh_air_level',
-  description: `Sets the fresh air level of the air conditioning. 新风模式级别 1/2/3/4/5, 减小新风是当前级别-1, 增加新风是当前级别+1`,
+  description: `Sets the fresh air level of the air conditioning. 新风模式级别 0/1/2/3/4/5, 减小新风是当前级别-1, 增加新风是当前级别+1。0是关闭新风。`,
   parameters: {
     type: 'object',
     properties: {
       fresh_air_level: {
         type: 'number',
         description: 'The fresh air level to set the air conditioning to.',
-        enum: [1, 2, 3, 4, 5],
+        enum: [0, 1, 2, 3, 4, 5],
       },
     },
   },

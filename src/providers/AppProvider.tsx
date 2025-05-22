@@ -53,7 +53,6 @@ import * as air_mode from '../tools/air_conditioning/mode';
 import * as air_disinfection from '../tools/air_conditioning/disinfection';
 import * as air_ai_control from '../tools/air_conditioning/ai_control';
 import * as air_fresh_air_level from '../tools/air_conditioning/fresh_air_level';
-import * as air_turn_on_off_fresh_air from '../tools/air_conditioning/turn_on_off_fresh_air';
 import * as air_purification_level from '../tools/air_conditioning/purification_level';
 import * as air_gear_level from '../tools/air_conditioning/gear_level';
 import * as air_volume from '../tools/air_conditioning/volume';
@@ -1006,7 +1005,6 @@ export const AppProvider: React.FC<{
     [air_disinfection.definition, air_disinfection.handler],
     [air_ai_control.definition, air_ai_control.handler],
     [air_fresh_air_level.definition, air_fresh_air_level.handler],
-    [air_turn_on_off_fresh_air.definition, air_turn_on_off_fresh_air.handler],
     [air_purification_level.definition, air_purification_level.handler],
     [air_gear_level.definition, air_gear_level.handler],
     [air_volume.definition, air_volume.handler],
