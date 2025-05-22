@@ -102,6 +102,7 @@ export function ConsolePageRealtime() {
 
   useEffect(() => {
     updateInstructions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [llmInstructions]);
 
   useEffect(() => {
@@ -110,6 +111,7 @@ export function ConsolePageRealtime() {
     }, 5000);
 
     return () => clearInterval(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [llmInstructions]);
 
   useEffect(() => {

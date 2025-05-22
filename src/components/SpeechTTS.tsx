@@ -11,6 +11,7 @@ import {
   SPEECH_LANGUAGE_TH_TH,
   SPEECH_LANGUAGE_VI_VN,
   SPEECH_LANGUAGE_ZH_CN,
+  SPEECH_METHOD_COMPLETION,
   SPEECH_VOICE_WOMAN,
 } from '../lib/const';
 import { Profiles } from '../lib/Profiles';
@@ -37,8 +38,13 @@ const speechLanguageMapMan: Record<string, string> = {
 };
 
 const SpeechTTS: React.FC = () => {
-  const { needSpeechQueueRef, avatarStatusRef, setNeedSpeechQueue } =
-    useContexts();
+  const {
+    needSpeechQueueRef,
+    avatarStatusRef,
+    setNeedSpeechQueue,
+    lastMessageTextArrayRef,
+    setLastMessageTextArray,
+  } = useContexts();
 
   const profiles = new Profiles();
   const profile = profiles.currentProfile;
@@ -75,7 +81,7 @@ const SpeechTTS: React.FC = () => {
           text,
           (result) => {
             if (result.reason === sdk.ResultReason.SynthesizingAudioCompleted) {
-              console.log(`Speech synthesized for text [${text}]`);
+              console.log(`Speech synthesized: [${text}]`);
 
               resolve();
             } else if (result.reason === sdk.ResultReason.Canceled) {
@@ -118,20 +124,28 @@ const SpeechTTS: React.FC = () => {
         return;
       }
 
-      if (needSpeechQueueRef?.current?.length === 0) {
-        return;
+      if (profile?.speechMethod === SPEECH_METHOD_COMPLETION) {
+        if (lastMessageTextArrayRef.current.length === 0) {
+          return;
+        }
+        const current_text = lastMessageTextArrayRef.current[0];
+        addTask(current_text);
+        setLastMessageTextArray(lastMessageTextArrayRef.current.slice(1));
+      } else {
+        if (needSpeechQueueRef?.current?.length === 0) {
+          return;
+        }
+        const current_text = needSpeechQueueRef.current[0];
+        addTask(current_text);
+        setNeedSpeechQueue(needSpeechQueueRef.current.slice(1));
       }
-
-      const current_text = needSpeechQueueRef.current[0];
-      addTask(current_text);
-      setNeedSpeechQueue(needSpeechQueueRef.current.slice(1));
     }, 100);
 
     return () => {
       clearInterval(intervalId);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [avatarStatusRef, needSpeechQueueRef]);
+  }, [avatarStatusRef, needSpeechQueueRef, lastMessageTextArrayRef]);
 
   return null;
 };

@@ -10,6 +10,7 @@ import {
   DEEPSEEK_FUNCTION_CALL_DISABLE,
   DEFAULT_AGENT_API_URL,
   SPEECH_LANGUAGE_DEFAULT,
+  SPEECH_METHOD_DEFAULT,
 } from './const';
 import defaultIcon from '../static/logomark.svg';
 import { supportedAssistantTypes } from '../components/Settings';
@@ -31,6 +32,7 @@ class Profile {
   public cogSvcRegion: string = 'southeastasia';
   public cogSvcSubKey: string = '';
   public detectLanguage: string = SPEECH_LANGUAGE_DEFAULT;
+  public speechMethod: string = SPEECH_METHOD_DEFAULT;
   public speechVoice: string = 'Woman';
   public avatarRegion: string = 'southeastasia';
   public avatarSubKey: string = '';

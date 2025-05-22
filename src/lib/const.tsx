@@ -42,6 +42,10 @@ export const SPEECH_LANGUAGES = [
   SPEECH_LANGUAGE_MS_MY,
 ];
 
+export const SPEECH_METHOD_STREAM = 'Stream';
+export const SPEECH_METHOD_COMPLETION = 'Completion';
+export const SPEECH_METHOD_DEFAULT = SPEECH_METHOD_STREAM;
+
 export const DEEPSEEK_FUNCTION_CALL_ENABLE = 'Enable';
 export const DEEPSEEK_FUNCTION_CALL_DISABLE = 'Disable';
 

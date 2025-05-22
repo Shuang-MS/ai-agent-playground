@@ -32,6 +32,9 @@ import {
   SPEECH_VOICE_WOMAN,
   SPEECH_VOICE_MAN,
   SPEECH_VOICE_DEFAULT,
+  SPEECH_METHOD_STREAM,
+  SPEECH_METHOD_COMPLETION,
+  SPEECH_METHOD_DEFAULT,
 } from '../lib/const';
 import { useContexts } from '../providers/AppProvider';
 import { svgToBase64 } from '../lib/helper';
@@ -98,6 +101,11 @@ export const supportedSpeechVoices = [
 const deepSeekFunctionCallingTypes = [
   { value: DEEPSEEK_FUNCTION_CALL_DISABLE, label: 'Disable' },
   { value: DEEPSEEK_FUNCTION_CALL_ENABLE, label: 'Enable' },
+];
+
+const speechMethodOptions = [
+  { value: SPEECH_METHOD_STREAM, label: 'Stream' },
+  { value: SPEECH_METHOD_COMPLETION, label: 'Completion' },
 ];
 
 const buildInFunctionsOptions = [
@@ -791,6 +799,21 @@ const SettingsComponent: React.FC<{
               }
               onChange={(e) => {
                 profiles.currentProfile!.speechVoice = e;
+                profiles.save();
+                setProfiles(new Profiles());
+              }}
+            />
+          </div>
+
+          <div style={styles.settings_inline_block}>
+            <div style={styles.settingLabel}>Speech Method</div>
+            <Dropdown
+              options={speechMethodOptions}
+              selectedValue={
+                profiles.currentProfile?.speechMethod || SPEECH_METHOD_DEFAULT
+              }
+              onChange={(e) => {
+                profiles.currentProfile!.speechMethod = e;
                 profiles.save();
                 setProfiles(new Profiles());
               }}

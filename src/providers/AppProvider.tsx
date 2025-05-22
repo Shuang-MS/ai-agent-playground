@@ -60,6 +60,8 @@ import {
   CAMERA_READY,
   CAMERA_STARTING,
   CONNECT_DISCONNECTED,
+  SPEECH_METHOD_COMPLETION,
+  SPEECH_METHOD_STREAM,
   SWITCH_FUNCTIONS_AIR_CONDITIONING_CONTROL,
 } from '../lib/const';
 import {
@@ -276,7 +278,16 @@ export const AppProvider: React.FC<{
   const lastMessageTextArrayRef = useRef(lastMessageTextArray);
   useEffect(() => {
     lastMessageTextArrayRef.current = lastMessageTextArray;
-  }, [lastMessageTextArray]);
+    // get last message text
+    const lastMessageText =
+      lastMessageTextArray[lastMessageTextArray.length - 1];
+    if (
+      lastMessageText &&
+      profiles.currentProfile?.speechMethod === SPEECH_METHOD_COMPLETION
+    ) {
+      console.log(`Completion Speech need: [${lastMessageText}]`);
+    }
+  }, [lastMessageTextArray, profiles]);
 
   // caption string
   const [caption, setCaption] = useState('');
@@ -442,8 +453,10 @@ export const AppProvider: React.FC<{
 
     for (const sentence of sentences) {
       if (!sentence.exists) {
-        console.log(`speech need speak: ${sentence.sentence}`);
-        setNeedSpeechQueue([...needSpeechQueue, sentence.sentence]);
+        if (profiles.currentProfile?.speechMethod === SPEECH_METHOD_STREAM) {
+          console.log(`Stream Speech need: [${sentence.sentence}]`);
+          setNeedSpeechQueue([...needSpeechQueue, sentence.sentence]);
+        }
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

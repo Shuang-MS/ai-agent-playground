@@ -113,6 +113,7 @@ export function ConsolePageAssistant() {
     (async () => {
       await updateInstructions();
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [llmInstructions, assistantRef]);
 
   useEffect(() => {
@@ -123,6 +124,7 @@ export function ConsolePageAssistant() {
     }, 10000);
 
     return () => clearInterval(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [assistantRef, llmInstructions]);
 
   const cleanupAssistants = async () => {
