@@ -3,10 +3,50 @@ export interface LlmState {
   on: boolean;
   temperature: number;
   mode: string;
+  disinfection: boolean;
+  ai_control: boolean;
+  fresh_air_level: number;
+  fresh_air_on: boolean;
+  purification_level: number;
+  gear_level: number;
+  volume: number;
+  moisture_control: boolean;
+  heat_flash: boolean;
+  cool_flash: boolean;
+  anti_direct_airflow: boolean;
+  smart_cleaning: boolean;
+  wind_free: boolean;
+  electric_auxiliary_heating: boolean;
+  scheduled_power_on_minutes: number;
+  scheduled_power_off_minutes: number;
+  air_direction: string;
+  screen_display: boolean;
+  wind_speed_percentage: number;
+  energy_saving: boolean;
 }
 export const llmState: LlmState = {
   count: 0,
   on: false,
   temperature: 25,
   mode: '制冷模式',
+  disinfection: false,
+  ai_control: false,
+  fresh_air_level: 1,
+  fresh_air_on: false,
+  purification_level: 1,
+  gear_level: 1,
+  volume: 5,
+  moisture_control: false,
+  heat_flash: false,
+  cool_flash: false,
+  anti_direct_airflow: false,
+  smart_cleaning: false,
+  wind_free: false,
+  electric_auxiliary_heating: false,
+  scheduled_power_on_minutes: 0,
+  scheduled_power_off_minutes: 0,
+  air_direction: '关闭',
+  screen_display: false,
+  wind_speed_percentage: 50,
+  energy_saving: false,
 };

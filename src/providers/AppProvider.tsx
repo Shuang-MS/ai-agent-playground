@@ -50,6 +50,25 @@ import * as air_turn_on_off from '../tools/air_conditioning/turn_on_off';
 import * as air_get_info from '../tools/air_conditioning/get_info';
 import * as air_temperature from '../tools/air_conditioning/temperature';
 import * as air_mode from '../tools/air_conditioning/mode';
+import * as air_disinfection from '../tools/air_conditioning/disinfection';
+import * as air_ai_control from '../tools/air_conditioning/ai_control';
+import * as air_fresh_air_level from '../tools/air_conditioning/fresh_air_level';
+import * as air_turn_on_off_fresh_air from '../tools/air_conditioning/turn_on_off_fresh_air';
+import * as air_purification_level from '../tools/air_conditioning/purification_level';
+import * as air_gear_level from '../tools/air_conditioning/gear_level';
+import * as air_volume from '../tools/air_conditioning/volume';
+import * as air_moisture_control from '../tools/air_conditioning/moisture_control';
+import * as air_heat_flash from '../tools/air_conditioning/heat_flash';
+import * as air_cool_flash from '../tools/air_conditioning/cool_flash';
+import * as air_anti_direct_airflow from '../tools/air_conditioning/anti_direct_airflow';
+import * as air_smart_cleaning from '../tools/air_conditioning/smart_cleaning';
+import * as air_wind_free from '../tools/air_conditioning/wind_free';
+import * as air_electric_auxiliary_heating from '../tools/air_conditioning/electric_auxiliary_heating';
+import * as air_scheduled_power_on_or_off from '../tools/air_conditioning/scheduled_power_on_or_off';
+import * as air_direction from '../tools/air_conditioning/air_direction';
+import * as air_screen_display from '../tools/air_conditioning/screen_display';
+import * as air_wind_speed_percentage from '../tools/air_conditioning/wind_speed_percentage';
+import * as air_energy_saving from '../tools/air_conditioning/energy_saving';
 
 import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/client';
 import {
@@ -984,6 +1003,31 @@ export const AppProvider: React.FC<{
     [air_get_info.definition, air_get_info.handler],
     [air_temperature.definition, air_temperature.handler],
     [air_mode.definition, air_mode.handler],
+    [air_disinfection.definition, air_disinfection.handler],
+    [air_ai_control.definition, air_ai_control.handler],
+    [air_fresh_air_level.definition, air_fresh_air_level.handler],
+    [air_turn_on_off_fresh_air.definition, air_turn_on_off_fresh_air.handler],
+    [air_purification_level.definition, air_purification_level.handler],
+    [air_gear_level.definition, air_gear_level.handler],
+    [air_volume.definition, air_volume.handler],
+    [air_moisture_control.definition, air_moisture_control.handler],
+    [air_heat_flash.definition, air_heat_flash.handler],
+    [air_cool_flash.definition, air_cool_flash.handler],
+    [air_anti_direct_airflow.definition, air_anti_direct_airflow.handler],
+    [air_smart_cleaning.definition, air_smart_cleaning.handler],
+    [air_wind_free.definition, air_wind_free.handler],
+    [
+      air_electric_auxiliary_heating.definition,
+      air_electric_auxiliary_heating.handler,
+    ],
+    [
+      air_scheduled_power_on_or_off.definition,
+      air_scheduled_power_on_or_off.handler,
+    ],
+    [air_direction.definition, air_direction.handler],
+    [air_screen_display.definition, air_screen_display.handler],
+    [air_wind_speed_percentage.definition, air_wind_speed_percentage.handler],
+    [air_energy_saving.definition, air_energy_saving.handler],
   ];
 
   let merge_tools: [ToolDefinitionType, Function][] = profiles.currentProfile

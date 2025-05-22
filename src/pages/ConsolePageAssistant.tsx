@@ -39,13 +39,9 @@ import { Run } from 'openai/resources/beta/threads/runs/runs';
 import BuiltFunctionDisable from '../components/BuiltFunctionDisable';
 import { Profiles } from '../lib/Profiles';
 import SpeechTTS from '../components/SpeechTTS';
-import { llmState } from '../components/LlmState';
 
-import {
-  Message,
-  Text,
-  TextDelta,
-} from 'openai/resources/beta/threads/messages';
+import { Text, TextDelta } from 'openai/resources/beta/threads/messages';
+import { appendAirConditioningStateToInstructions } from './ConsolePageRealtime';
 
 export function ConsolePageAssistant() {
   const {
@@ -84,19 +80,10 @@ export function ConsolePageAssistant() {
       const currentTime = new Date().toLocaleString();
       let instructions = llmInstructions + `\n当前时间：${currentTime} `;
 
-      if (
-        profiles.currentProfile?.switchFunctions ===
-        SWITCH_FUNCTIONS_AIR_CONDITIONING_CONTROL
-      ) {
-        const airConditioningState = llmState.on ? '开' : '关';
-        const airConditioningTemperature = llmState.temperature;
-        instructions =
-          instructions +
-          `\n空调状态：${airConditioningState} 
-          \n空调温度：${airConditioningTemperature}
-          \n空调模式：${llmState.mode}
-          `;
-      }
+      instructions = appendAirConditioningStateToInstructions(
+        instructions,
+        profiles.currentProfile?.switchFunctions,
+      );
 
       console.log('updateInstructions');
       await getOpenAIClient().beta.assistants.update(
