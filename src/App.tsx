@@ -41,7 +41,12 @@ function App() {
   }, []);
 
   return (
-    <div data-component="App" key={appKey} style={{ opacity: opacity }}>
+    <div
+      data-component="App"
+      // className="main-container-color"
+      key={appKey}
+      style={{ opacity: opacity }}
+    >
       <GptImagesProvider>
         <TrafficDataProvider>
           <AppProvider

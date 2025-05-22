@@ -16,6 +16,10 @@ export const ASSISTANT_TYPES = [
   ASSISTANT_TYPE_AGENT_AI,
 ];
 
+export const SWITCH_FUNCTIONS_DISABLE = 'Disable';
+export const SWITCH_FUNCTIONS_AIR_CONDITIONING_CONTROL =
+  'Air Conditioning Control';
+
 export const SPEECH_LANGUAGE_ZH_CN = 'zh-CN';
 export const SPEECH_LANGUAGE_EN_US = 'en-US';
 export const SPEECH_LANGUAGE_VI_VN = 'vi-vn';
@@ -23,16 +27,26 @@ export const SPEECH_LANGUAGE_TH_TH = 'th-th';
 export const SPEECH_LANGUAGE_JA_JP = 'ja-jp';
 export const SPEECH_LANGUAGE_KO_KR = 'ko-kr';
 export const SPEECH_LANGUAGE_MS_MY = 'ms-my';
+export const SPEECH_LANGUAGE_DE_DE = 'de-DE';
 export const SPEECH_LANGUAGE_DEFAULT = SPEECH_LANGUAGE_ZH_CN;
+export const SPEECH_VOICE_WOMAN = 'Woman';
+export const SPEECH_VOICE_MAN = 'Man';
+export const SPEECH_VOICE_DEFAULT = SPEECH_VOICE_WOMAN;
+
 export const SPEECH_LANGUAGES = [
   SPEECH_LANGUAGE_ZH_CN,
   SPEECH_LANGUAGE_EN_US,
   SPEECH_LANGUAGE_VI_VN,
   SPEECH_LANGUAGE_TH_TH,
+  SPEECH_LANGUAGE_DE_DE,
   SPEECH_LANGUAGE_JA_JP,
   SPEECH_LANGUAGE_KO_KR,
   SPEECH_LANGUAGE_MS_MY,
 ];
+
+export const SPEECH_METHOD_STREAM = 'Stream';
+export const SPEECH_METHOD_COMPLETION = 'Completion';
+export const SPEECH_METHOD_DEFAULT = SPEECH_METHOD_STREAM;
 
 export const DEEPSEEK_FUNCTION_CALL_ENABLE = 'Enable';
 export const DEEPSEEK_FUNCTION_CALL_DISABLE = 'Disable';

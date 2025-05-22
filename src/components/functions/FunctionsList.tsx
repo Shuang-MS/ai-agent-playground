@@ -6,6 +6,7 @@ import { modalStyles } from '../../styles/modalStyles';
 import { enableFunctionCalling } from '../../lib/helper';
 import IconWithBadge from '../IconWithBadge';
 import { Profiles } from '../../lib/Profiles';
+import { SWITCH_FUNCTIONS_DISABLE } from '../../lib/const';
 
 const FunctionsList: React.FC = () => {
   const [isShow, setIsShow] = useState(false);
@@ -116,6 +117,46 @@ const FunctionsList: React.FC = () => {
     }
 
     const profiles = new Profiles();
+
+    if (profiles.currentProfile?.switchFunctions !== SWITCH_FUNCTIONS_DISABLE) {
+      return (
+        <div style={importModalStyles.backdrop}>
+          <div style={importModalStyles.modal} className={'modal'}>
+            <div style={importModalStyles.header}>
+              <h2>Functions ({functionsToolsRef.current.length})</h2>
+              <button
+                key="close"
+                onClick={() => setIsShow(false)}
+                style={importModalStyles.closeBtn}
+              >
+                <X />
+              </button>
+            </div>
+
+            <div style={styles.content}>
+              {functionsToolsRef.current.map((item) => (
+                <div style={styles.functionItem} key={item[0].name}>
+                  <div style={styles.functionItemName}>{item[0].name}</div>
+                  <div style={styles.functionItemDescription}>
+                    {item[0].description}
+                    <Code
+                      size={14}
+                      style={{
+                        cursor: 'pointer',
+                        marginLeft: '5px',
+                      }}
+                      onClick={() => {
+                        setShowFunctionDefinition(item[0]);
+                      }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    }
 
     return (
       <div style={importModalStyles.backdrop}>

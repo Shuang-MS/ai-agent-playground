@@ -39,13 +39,15 @@ import BuiltFunctionDisable from '../components/BuiltFunctionDisable';
 import { Profiles } from '../lib/Profiles';
 import SpeechTTS from '../components/SpeechTTS';
 
+import { Text, TextDelta } from 'openai/resources/beta/threads/messages';
+import { appendAirConditioningStateToInstructions } from './ConsolePageRealtime';
+
 export function ConsolePageAssistant() {
   const {
     assistantRef,
     connectMessage,
     connectStatus,
     isDebugModeRef,
-    loadFunctionsTools,
     recordTokenLatency,
     setAssistant,
     setConnectMessage,
@@ -60,6 +62,7 @@ export function ConsolePageAssistant() {
     setVectorStore,
     threadJobRef,
     threadRef,
+    setLastMessageTextArray,
   } = useContexts();
 
   const [messagesAssistant, setMessagesAssistant] = useState<any[]>([]);
@@ -71,31 +74,46 @@ export function ConsolePageAssistant() {
   const { functionsToolsRef, llmInstructions, llmInstructionsRef } =
     useContexts();
 
+  const updateInstructions = async () => {
+    if (assistantRef?.current?.id) {
+      const currentTime = new Date().toLocaleString();
+      let instructions = llmInstructions + `\n当前时间：${currentTime} `;
+
+      instructions = appendAirConditioningStateToInstructions(
+        instructions,
+        profiles.currentProfile?.switchFunctions,
+      );
+
+      console.log('updateInstructions', instructions);
+      await getOpenAIClient().beta.assistants.update(
+        assistantRef?.current?.id,
+        {
+          instructions: instructions,
+        },
+      );
+    } else {
+      console.log(
+        'assistantRef.current is not connected, skip update instructions',
+      );
+    }
+  };
+
   useEffect(() => {
     (async () => {
-      if (assistantRef?.current?.id) {
-        console.log('llmInstructions updated');
-        getOpenAIClient().beta.assistants.update(assistantRef?.current?.id, {
-          instructions: llmInstructions,
-        });
-      }
+      await updateInstructions();
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [llmInstructions, assistantRef]);
 
   useEffect(() => {
     const timer = setInterval(() => {
       (async () => {
-        if (assistantRef?.current?.id) {
-          const currentTime = new Date().toLocaleString();
-          getOpenAIClient().beta.assistants.update(assistantRef?.current?.id, {
-            instructions: llmInstructions + `\n\n当前时间：${currentTime}`,
-          });
-          console.log('llmInstructions updated', currentTime);
-        }
+        await updateInstructions();
       })();
     }, 10000);
 
     return () => clearInterval(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [assistantRef, llmInstructions]);
 
   const cleanupAssistants = async () => {
@@ -198,19 +216,16 @@ export function ConsolePageAssistant() {
 
     const args = JSON.parse(call.function.arguments);
 
-    for (const fc of loadFunctionsTools) {
-      if (fc[0].name === call.function.name) {
+    for (const [definition, handler] of functionsToolsRef.current) {
+      if (definition.name === call?.function?.name) {
+        const output = await handler({ ...args });
         const result = {
           name: call.function.name,
           arguments: args,
+          output: output,
         };
         setMessages((prevMessages) => [result, ...prevMessages]);
-      }
-    }
-
-    for (const [definition, handler] of functionsToolsRef.current) {
-      if (definition.name === call?.function?.name) {
-        return JSON.stringify(await handler({ ...args }));
+        return JSON.stringify(output);
       }
     }
 
@@ -251,7 +266,7 @@ export function ConsolePageAssistant() {
   };
 
   // textDelta - append text to last assistant message
-  const handleAssistantTextDelta = (delta: any) => {
+  const handleAssistantTextDelta = (delta: TextDelta) => {
     recordTokenLatency(delta);
 
     if (isDebugModeRef.current) {
@@ -312,6 +327,9 @@ export function ConsolePageAssistant() {
       );
       setAssistantRunning(true);
       await submitAssistantActionResult(runId, toolCallOutputs);
+
+      await updateInstructions();
+
       setLoading(false);
     } catch (error) {
       console.error('handleAssistantRequiresAction error', error);
@@ -391,6 +409,10 @@ export function ConsolePageAssistant() {
     // messages
     // stream.on('textCreated', handleAssistantTextCreated);
     stream.on('textDelta', handleAssistantTextDelta);
+
+    stream.on('textDone', (content: Text) => {
+      setLastMessageTextArray((prev) => [...prev, content.value]);
+    });
 
     // image
     stream.on('imageFileDone', handleAssistantImageFileDone);

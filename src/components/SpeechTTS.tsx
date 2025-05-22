@@ -1,23 +1,53 @@
 import React, { useEffect, useCallback } from 'react';
 import * as sdk from 'microsoft-cognitiveservices-speech-sdk';
 import { useContexts } from '../providers/AppProvider';
-import { AVATAR_READY, SPEECH_LANGUAGE_DEFAULT } from '../lib/const';
+import {
+  AVATAR_READY,
+  SPEECH_LANGUAGE_DE_DE,
+  SPEECH_LANGUAGE_DEFAULT,
+  SPEECH_LANGUAGE_EN_US,
+  SPEECH_LANGUAGE_JA_JP,
+  SPEECH_LANGUAGE_KO_KR,
+  SPEECH_LANGUAGE_MS_MY,
+  SPEECH_LANGUAGE_TH_TH,
+  SPEECH_LANGUAGE_VI_VN,
+  SPEECH_LANGUAGE_ZH_CN,
+  SPEECH_METHOD_COMPLETION,
+  SPEECH_VOICE_WOMAN,
+} from '../lib/const';
 import { Profiles } from '../lib/Profiles';
 import TaskQueue from './speech_queue';
 
-const speechLanguageMap: Record<string, string> = {
-  SPEECH_LANGUAGE_ZH_CN: 'zh-CN-Xiaoxiao:DragonHDFlashLatestNeural',
-  SPEECH_LANGUAGE_EN_US: 'en-US-AvaMultilingualNeural',
-  SPEECH_LANGUAGE_VI_VN: 'vi-VN-HoaiMyNeural',
-  SPEECH_LANGUAGE_TH_TH: 'th-TH-AcharaNeural',
-  SPEECH_LANGUAGE_JA_JP: 'ja-JP-NanamiNeural',
-  SPEECH_LANGUAGE_KO_KR: 'ko-KR-SunHiNeural',
-  SPEECH_LANGUAGE_MS_MY: 'ms-MY-YasminNeural',
+const speechLanguageMapWoman: Record<string, string> = {
+  [SPEECH_LANGUAGE_ZH_CN]: 'zh-CN-Xiaoxiao:DragonHDFlashLatestNeural',
+  [SPEECH_LANGUAGE_EN_US]: 'en-US-AvaMultilingualNeural',
+  [SPEECH_LANGUAGE_VI_VN]: 'vi-VN-HoaiMyNeural',
+  [SPEECH_LANGUAGE_TH_TH]: 'th-TH-AcharaNeural',
+  [SPEECH_LANGUAGE_JA_JP]: 'ja-JP-NanamiNeural',
+  [SPEECH_LANGUAGE_KO_KR]: 'ko-KR-SunHiNeural',
+  [SPEECH_LANGUAGE_MS_MY]: 'ms-MY-YasminNeural',
+  [SPEECH_LANGUAGE_DE_DE]: 'de-DE-SeraphinaMultilingualNeural',
+};
+
+const speechLanguageMapMan: Record<string, string> = {
+  [SPEECH_LANGUAGE_ZH_CN]: 'zh-CN-YunxiNeural',
+  [SPEECH_LANGUAGE_EN_US]: 'en-US-AndrewMultilingualNeural',
+  [SPEECH_LANGUAGE_VI_VN]: 'vi-VN-NamMinhNeural',
+  [SPEECH_LANGUAGE_TH_TH]: 'th-TH-NiwatNeural',
+  [SPEECH_LANGUAGE_JA_JP]: 'ja-JP-Masaru:DragonHDLatestNeural',
+  [SPEECH_LANGUAGE_KO_KR]: 'ko-KR-HyunsuNeural',
+  [SPEECH_LANGUAGE_MS_MY]: 'ms-MY-OsmanNeural',
+  [SPEECH_LANGUAGE_DE_DE]: 'de-DE-FlorianMultilingualNeural',
 };
 
 const SpeechTTS: React.FC = () => {
-  const { needSpeechQueueRef, avatarStatusRef, setNeedSpeechQueue } =
-    useContexts();
+  const {
+    needSpeechQueueRef,
+    avatarStatusRef,
+    setNeedSpeechQueue,
+    lastMessageTextArrayRef,
+    setLastMessageTextArray,
+  } = useContexts();
 
   const profiles = new Profiles();
   const profile = profiles.currentProfile;
@@ -30,8 +60,13 @@ const SpeechTTS: React.FC = () => {
     serviceRegion,
   );
 
-  speechConfig.speechSynthesisVoiceName =
-    speechLanguageMap[profile?.detectLanguage || SPEECH_LANGUAGE_DEFAULT];
+  const detectLanguage = profile?.detectLanguage || SPEECH_LANGUAGE_DEFAULT;
+  const speechSynthesisVoiceName =
+    profile?.speechVoice === SPEECH_VOICE_WOMAN
+      ? speechLanguageMapWoman[detectLanguage]
+      : speechLanguageMapMan[detectLanguage];
+
+  speechConfig.speechSynthesisVoiceName = speechSynthesisVoiceName;
 
   const synthesizer = new sdk.SpeechSynthesizer(speechConfig);
 
@@ -49,7 +84,7 @@ const SpeechTTS: React.FC = () => {
           text,
           (result) => {
             if (result.reason === sdk.ResultReason.SynthesizingAudioCompleted) {
-              console.log(`Speech synthesized for text [${text}]`);
+              console.log(`Speech synthesized: [${text}]`);
 
               resolve();
             } else if (result.reason === sdk.ResultReason.Canceled) {
@@ -92,19 +127,28 @@ const SpeechTTS: React.FC = () => {
         return;
       }
 
-      if (needSpeechQueueRef?.current?.length === 0) {
-        return;
+      if (profile?.speechMethod === SPEECH_METHOD_COMPLETION) {
+        if (lastMessageTextArrayRef.current.length === 0) {
+          return;
+        }
+        const current_text = lastMessageTextArrayRef.current[0];
+        addTask(current_text);
+        setLastMessageTextArray(lastMessageTextArrayRef.current.slice(1));
+      } else {
+        if (needSpeechQueueRef?.current?.length === 0) {
+          return;
+        }
+        const current_text = needSpeechQueueRef.current[0];
+        addTask(current_text);
+        setNeedSpeechQueue(needSpeechQueueRef.current.slice(1));
       }
-
-      const current_text = needSpeechQueueRef.current[0];
-      addTask(current_text);
-      setNeedSpeechQueue(needSpeechQueueRef.current.slice(1));
     }, 100);
 
     return () => {
       clearInterval(intervalId);
     };
-  }, [avatarStatusRef, needSpeechQueueRef, addTask, setNeedSpeechQueue]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [avatarStatusRef, needSpeechQueueRef, lastMessageTextArrayRef]);
 
   return null;
 };

@@ -27,6 +27,15 @@ import {
   SPEECH_LANGUAGE_MS_MY,
   SPEECH_LANGUAGE_KO_KR,
   SPEECH_LANGUAGE_JA_JP,
+  SWITCH_FUNCTIONS_DISABLE,
+  SWITCH_FUNCTIONS_AIR_CONDITIONING_CONTROL,
+  SPEECH_VOICE_WOMAN,
+  SPEECH_VOICE_MAN,
+  SPEECH_VOICE_DEFAULT,
+  SPEECH_METHOD_STREAM,
+  SPEECH_METHOD_COMPLETION,
+  SPEECH_METHOD_DEFAULT,
+  SPEECH_LANGUAGE_DE_DE,
 } from '../lib/const';
 import { useContexts } from '../providers/AppProvider';
 import { svgToBase64 } from '../lib/helper';
@@ -67,19 +76,38 @@ export const supportedAssistantTypes = [
   { value: ASSISTANT_TYPE_DEEPSEEK, label: 'STT -> DeepSeek -> TTS' },
 ];
 
+export const supportedSwitchFunctions = [
+  {
+    value: SWITCH_FUNCTIONS_AIR_CONDITIONING_CONTROL,
+    label: SWITCH_FUNCTIONS_AIR_CONDITIONING_CONTROL,
+  },
+  { value: SWITCH_FUNCTIONS_DISABLE, label: SWITCH_FUNCTIONS_DISABLE },
+];
+
 export const supportedSpeechLanguages = [
   { value: SPEECH_LANGUAGE_ZH_CN, label: 'zh-CN' },
   { value: SPEECH_LANGUAGE_EN_US, label: 'en-US' },
-  { value: SPEECH_LANGUAGE_VI_VN, label: 'vi-vn' },
   { value: SPEECH_LANGUAGE_TH_TH, label: 'th-th' },
+  { value: SPEECH_LANGUAGE_VI_VN, label: 'vi-vn' },
+  { value: SPEECH_LANGUAGE_DE_DE, label: 'de-DE' },
   { value: SPEECH_LANGUAGE_JA_JP, label: 'ja-jp' },
   { value: SPEECH_LANGUAGE_KO_KR, label: 'ko-kr' },
   { value: SPEECH_LANGUAGE_MS_MY, label: 'ms-my' },
 ];
 
+export const supportedSpeechVoices = [
+  { value: SPEECH_VOICE_WOMAN, label: SPEECH_VOICE_WOMAN },
+  { value: SPEECH_VOICE_MAN, label: SPEECH_VOICE_MAN },
+];
+
 const deepSeekFunctionCallingTypes = [
   { value: DEEPSEEK_FUNCTION_CALL_DISABLE, label: 'Disable' },
   { value: DEEPSEEK_FUNCTION_CALL_ENABLE, label: 'Enable' },
+];
+
+const speechMethodOptions = [
+  { value: SPEECH_METHOD_STREAM, label: 'Stream' },
+  { value: SPEECH_METHOD_COMPLETION, label: 'Completion' },
 ];
 
 const buildInFunctionsOptions = [
@@ -745,18 +773,55 @@ const SettingsComponent: React.FC<{
 
     return (
       <div>
-        <div style={styles.settingLabel}>Detect/Synthesize/LLM Language</div>
-        <Dropdown
-          options={supportedSpeechLanguages}
-          selectedValue={
-            profiles.currentProfile?.detectLanguage || SPEECH_LANGUAGE_DEFAULT
-          }
-          onChange={(e) => {
-            profiles.currentProfile!.detectLanguage = e;
-            profiles.save();
-            setProfiles(new Profiles());
-          }}
-        />
+        <div style={styles.settings_inline}>
+          <div style={styles.settings_inline_block}>
+            <div style={styles.settingLabel}>
+              Detect/Synthesize/LLM Language
+            </div>
+            <Dropdown
+              options={supportedSpeechLanguages}
+              selectedValue={
+                profiles.currentProfile?.detectLanguage ||
+                SPEECH_LANGUAGE_DEFAULT
+              }
+              onChange={(e) => {
+                profiles.currentProfile!.detectLanguage = e;
+                profiles.save();
+                setProfiles(new Profiles());
+              }}
+            />
+          </div>
+
+          <div style={styles.settings_inline_block}>
+            <div style={styles.settingLabel}>Voice</div>
+            <Dropdown
+              options={supportedSpeechVoices}
+              selectedValue={
+                profiles.currentProfile?.speechVoice || SPEECH_VOICE_DEFAULT
+              }
+              onChange={(e) => {
+                profiles.currentProfile!.speechVoice = e;
+                profiles.save();
+                setProfiles(new Profiles());
+              }}
+            />
+          </div>
+
+          <div style={styles.settings_inline_block}>
+            <div style={styles.settingLabel}>Speech Method</div>
+            <Dropdown
+              options={speechMethodOptions}
+              selectedValue={
+                profiles.currentProfile?.speechMethod || SPEECH_METHOD_DEFAULT
+              }
+              onChange={(e) => {
+                profiles.currentProfile!.speechMethod = e;
+                profiles.save();
+                setProfiles(new Profiles());
+              }}
+            />
+          </div>
+        </div>
 
         <div style={styles.settingLabel}>Speech Region</div>
         <input
@@ -1084,6 +1149,17 @@ const SettingsComponent: React.FC<{
 
     return (
       <div>
+        <div style={styles.settingLabel}>Switch Functions</div>
+        <Dropdown
+          options={supportedSwitchFunctions}
+          selectedValue={profiles.currentProfile?.switchFunctions || 'Disable'}
+          onChange={(e) => {
+            profiles.currentProfile!.switchFunctions = e;
+            profiles.save();
+            setProfiles(new Profiles());
+          }}
+        />
+
         <div style={styles.settingLabel}>Functions URL (Main)</div>
         <input
           type="text"
