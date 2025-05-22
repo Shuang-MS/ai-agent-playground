@@ -31,6 +31,7 @@ class Profile {
   public cogSvcRegion: string = 'southeastasia';
   public cogSvcSubKey: string = '';
   public detectLanguage: string = SPEECH_LANGUAGE_DEFAULT;
+  public speechVoice: string = 'Woman';
   public avatarRegion: string = 'southeastasia';
   public avatarSubKey: string = '';
   public completionApiKey: string = '';
@@ -63,6 +64,7 @@ class Profile {
   public ttsModel: string = '';
   public ttsVoice: string = '';
   public useAgentProxy: boolean = false;
+  public switchFunctions: string = 'Disable';
 
   public isAssistant: boolean = this.assistantType === ASSISTANT_TYPE_ASSISTANT;
   public isRealtime: boolean = this.assistantType === ASSISTANT_TYPE_REALTIME;

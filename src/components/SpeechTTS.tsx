@@ -1,18 +1,39 @@
 import React, { useEffect, useCallback } from 'react';
 import * as sdk from 'microsoft-cognitiveservices-speech-sdk';
 import { useContexts } from '../providers/AppProvider';
-import { AVATAR_READY, SPEECH_LANGUAGE_DEFAULT } from '../lib/const';
+import {
+  AVATAR_READY,
+  SPEECH_LANGUAGE_DEFAULT,
+  SPEECH_LANGUAGE_EN_US,
+  SPEECH_LANGUAGE_JA_JP,
+  SPEECH_LANGUAGE_KO_KR,
+  SPEECH_LANGUAGE_MS_MY,
+  SPEECH_LANGUAGE_TH_TH,
+  SPEECH_LANGUAGE_VI_VN,
+  SPEECH_LANGUAGE_ZH_CN,
+  SPEECH_VOICE_WOMAN,
+} from '../lib/const';
 import { Profiles } from '../lib/Profiles';
 import TaskQueue from './speech_queue';
 
-const speechLanguageMap: Record<string, string> = {
-  SPEECH_LANGUAGE_ZH_CN: 'zh-CN-Xiaoxiao:DragonHDFlashLatestNeural',
-  SPEECH_LANGUAGE_EN_US: 'en-US-AvaMultilingualNeural',
-  SPEECH_LANGUAGE_VI_VN: 'vi-VN-HoaiMyNeural',
-  SPEECH_LANGUAGE_TH_TH: 'th-TH-AcharaNeural',
-  SPEECH_LANGUAGE_JA_JP: 'ja-JP-NanamiNeural',
-  SPEECH_LANGUAGE_KO_KR: 'ko-KR-SunHiNeural',
-  SPEECH_LANGUAGE_MS_MY: 'ms-MY-YasminNeural',
+const speechLanguageMapWoman: Record<string, string> = {
+  [SPEECH_LANGUAGE_ZH_CN]: 'zh-CN-Xiaoxiao:DragonHDFlashLatestNeural',
+  [SPEECH_LANGUAGE_EN_US]: 'en-US-AvaMultilingualNeural',
+  [SPEECH_LANGUAGE_VI_VN]: 'vi-VN-HoaiMyNeural',
+  [SPEECH_LANGUAGE_TH_TH]: 'th-TH-AcharaNeural',
+  [SPEECH_LANGUAGE_JA_JP]: 'ja-JP-NanamiNeural',
+  [SPEECH_LANGUAGE_KO_KR]: 'ko-KR-SunHiNeural',
+  [SPEECH_LANGUAGE_MS_MY]: 'ms-MY-YasminNeural',
+};
+
+const speechLanguageMapMan: Record<string, string> = {
+  [SPEECH_LANGUAGE_ZH_CN]: 'zh-CN-YunxiNeural',
+  [SPEECH_LANGUAGE_EN_US]: 'en-US-AndrewMultilingualNeural',
+  [SPEECH_LANGUAGE_VI_VN]: 'vi-VN-NamMinhNeural',
+  [SPEECH_LANGUAGE_TH_TH]: 'th-TH-NiwatNeural',
+  [SPEECH_LANGUAGE_JA_JP]: 'ja-JP-Masaru:DragonHDLatestNeural',
+  [SPEECH_LANGUAGE_KO_KR]: 'ko-KR-HyunsuNeural',
+  [SPEECH_LANGUAGE_MS_MY]: 'ms-MY-OsmanNeural',
 };
 
 const SpeechTTS: React.FC = () => {
@@ -30,8 +51,13 @@ const SpeechTTS: React.FC = () => {
     serviceRegion,
   );
 
-  speechConfig.speechSynthesisVoiceName =
-    speechLanguageMap[profile?.detectLanguage || SPEECH_LANGUAGE_DEFAULT];
+  const detectLanguage = profile?.detectLanguage || SPEECH_LANGUAGE_DEFAULT;
+  const speechSynthesisVoiceName =
+    profile?.speechVoice === SPEECH_VOICE_WOMAN
+      ? speechLanguageMapWoman[detectLanguage]
+      : speechLanguageMapMan[detectLanguage];
+
+  speechConfig.speechSynthesisVoiceName = speechSynthesisVoiceName;
 
   const synthesizer = new sdk.SpeechSynthesizer(speechConfig);
 

@@ -6,6 +6,7 @@ import {
   CONNECT_CONNECTED,
   CONNECT_CONNECTING,
   CONNECT_DISCONNECTED,
+  SWITCH_FUNCTIONS_AIR_CONDITIONING_CONTROL,
 } from '../lib/const';
 
 import './ConsolePage.scss';
@@ -38,6 +39,13 @@ import { Run } from 'openai/resources/beta/threads/runs/runs';
 import BuiltFunctionDisable from '../components/BuiltFunctionDisable';
 import { Profiles } from '../lib/Profiles';
 import SpeechTTS from '../components/SpeechTTS';
+import { llmState } from '../components/LlmState';
+
+import {
+  Message,
+  Text,
+  TextDelta,
+} from 'openai/resources/beta/threads/messages';
 
 export function ConsolePageAssistant() {
   const {
@@ -59,6 +67,7 @@ export function ConsolePageAssistant() {
     setVectorStore,
     threadJobRef,
     threadRef,
+    setLastMessageTextArray,
   } = useContexts();
 
   const [messagesAssistant, setMessagesAssistant] = useState<any[]>([]);
@@ -70,27 +79,46 @@ export function ConsolePageAssistant() {
   const { functionsToolsRef, llmInstructions, llmInstructionsRef } =
     useContexts();
 
+  const updateInstructions = async () => {
+    if (assistantRef?.current?.id) {
+      const currentTime = new Date().toLocaleString();
+      let instructions = llmInstructions + `\n当前时间：${currentTime} `;
+
+      if (
+        profiles.currentProfile?.switchFunctions ===
+        SWITCH_FUNCTIONS_AIR_CONDITIONING_CONTROL
+      ) {
+        const airConditioningState = llmState.on ? '开' : '关';
+        const airConditioningTemperature = llmState.temperature;
+        instructions =
+          instructions +
+          `\n\n空调状态：${airConditioningState} 空调温度：${airConditioningTemperature}`;
+      }
+
+      console.log('updateInstructions');
+      await getOpenAIClient().beta.assistants.update(
+        assistantRef?.current?.id,
+        {
+          instructions: instructions,
+        },
+      );
+    } else {
+      console.log(
+        'assistantRef.current is not connected, skip update instructions',
+      );
+    }
+  };
+
   useEffect(() => {
     (async () => {
-      if (assistantRef?.current?.id) {
-        console.log('llmInstructions updated');
-        getOpenAIClient().beta.assistants.update(assistantRef?.current?.id, {
-          instructions: llmInstructions,
-        });
-      }
+      await updateInstructions();
     })();
   }, [llmInstructions, assistantRef]);
 
   useEffect(() => {
     const timer = setInterval(() => {
       (async () => {
-        if (assistantRef?.current?.id) {
-          const currentTime = new Date().toLocaleString();
-          getOpenAIClient().beta.assistants.update(assistantRef?.current?.id, {
-            instructions: llmInstructions + `\n\n当前时间：${currentTime}`,
-          });
-          console.log('llmInstructions updated', currentTime);
-        }
+        await updateInstructions();
       })();
     }, 10000);
 
@@ -245,7 +273,7 @@ export function ConsolePageAssistant() {
   };
 
   // textDelta - append text to last assistant message
-  const handleAssistantTextDelta = (delta: any) => {
+  const handleAssistantTextDelta = (delta: TextDelta) => {
     recordTokenLatency(delta);
 
     if (isDebugModeRef.current) {
@@ -306,6 +334,9 @@ export function ConsolePageAssistant() {
       );
       setAssistantRunning(true);
       await submitAssistantActionResult(runId, toolCallOutputs);
+
+      await updateInstructions();
+
       setLoading(false);
     } catch (error) {
       console.error('handleAssistantRequiresAction error', error);
@@ -385,6 +416,10 @@ export function ConsolePageAssistant() {
     // messages
     // stream.on('textCreated', handleAssistantTextCreated);
     stream.on('textDelta', handleAssistantTextDelta);
+
+    stream.on('textDone', (content: Text) => {
+      setLastMessageTextArray((prev) => [...prev, content.value]);
+    });
 
     // image
     stream.on('imageFileDone', handleAssistantImageFileDone);

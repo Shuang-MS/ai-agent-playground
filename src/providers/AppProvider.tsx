@@ -45,6 +45,11 @@ import * as exchange_rate_aim from '../tools/exchange_rate_aim';
 import * as exchange_rate_list from '../tools/exchange_rate_list';
 import * as exchange_rate_configs from '../tools/exchange_rate_configs';
 
+import * as air_conditioning_weather from '../tools/air_conditioning/fetch_weather';
+import * as air_conditioning_turn_on_off from '../tools/air_conditioning/turn_on_off';
+import * as air_conditioning_get_info from '../tools/air_conditioning/get_info';
+import * as air_conditioning_temperature from '../tools/air_conditioning/temperature';
+
 import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/client';
 import {
   AVATAR_OFF,
@@ -55,6 +60,7 @@ import {
   CAMERA_READY,
   CAMERA_STARTING,
   CONNECT_DISCONNECTED,
+  SWITCH_FUNCTIONS_AIR_CONDITIONING_CONTROL,
 } from '../lib/const';
 import {
   editImages,
@@ -230,6 +236,10 @@ interface AppContextType {
   setMessages: React.Dispatch<React.SetStateAction<any[]>>;
 
   camera_on_handler: Function;
+
+  lastMessageTextArray: string[];
+  lastMessageTextArrayRef: React.MutableRefObject<string[]>;
+  setLastMessageTextArray: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 const IS_DEBUG: boolean = window.location.href.includes('localhost');
@@ -258,6 +268,15 @@ export const AppProvider: React.FC<{
   const isOnline = useOnlineStatus();
 
   const [profiles, setProfiles] = useState<Profiles>(new Profiles());
+
+  // lastMessageTextArray string[]
+  const [lastMessageTextArray, setLastMessageTextArray] = useState<string[]>(
+    [],
+  );
+  const lastMessageTextArrayRef = useRef(lastMessageTextArray);
+  useEffect(() => {
+    lastMessageTextArrayRef.current = lastMessageTextArray;
+  }, [lastMessageTextArray]);
 
   // caption string
   const [caption, setCaption] = useState('');
@@ -945,10 +964,30 @@ export const AppProvider: React.FC<{
   ];
   builtinFunctionTools.sort((a, b) => a[0].name.localeCompare(b[0].name));
 
+  const air_conditioning_control_tools: [ToolDefinitionType, Function][] = [
+    [air_conditioning_weather.definition, air_conditioning_weather.handler],
+    [
+      air_conditioning_turn_on_off.definition,
+      air_conditioning_turn_on_off.handler,
+    ],
+    [air_conditioning_get_info.definition, air_conditioning_get_info.handler],
+    [
+      air_conditioning_temperature.definition,
+      air_conditioning_temperature.handler,
+    ],
+  ];
+
   let merge_tools: [ToolDefinitionType, Function][] = profiles.currentProfile
     ?.buildInFunctions
     ? [...loadFunctionsTools, ...builtinFunctionTools]
     : [...loadFunctionsTools];
+
+  if (
+    profiles.currentProfile?.switchFunctions ===
+    SWITCH_FUNCTIONS_AIR_CONDITIONING_CONTROL
+  ) {
+    merge_tools = air_conditioning_control_tools;
+  }
 
   // resort merge_tools by ToolDefinitionType name
   merge_tools.sort((a, b) => a[0].name.localeCompare(b[0].name));
@@ -1154,6 +1193,9 @@ export const AppProvider: React.FC<{
         setMessages,
         camera_on_handler,
         replaceInstructionsArray,
+        lastMessageTextArray,
+        lastMessageTextArrayRef,
+        setLastMessageTextArray,
       }}
     >
       {children}

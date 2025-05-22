@@ -10,6 +10,7 @@ import {
   CONNECT_CONNECTED,
   CONNECT_CONNECTING,
   CONNECT_DISCONNECTED,
+  SWITCH_FUNCTIONS_AIR_CONDITIONING_CONTROL,
 } from '../lib/const';
 
 import './ConsolePage.scss';
@@ -29,6 +30,7 @@ import { RealtimeClient } from '@theodoreniu/realtime-api-beta';
 import { RealtimeEvent, RealtimeTokenUsage } from '../types/RealtimeEvent';
 import BuiltFunctionDisable from '../components/BuiltFunctionDisable';
 import { Profiles } from '../lib/Profiles';
+import { llmState } from '../components/LlmState';
 
 export function ConsolePageRealtime() {
   const {
@@ -71,32 +73,41 @@ export function ConsolePageRealtime() {
     }),
   );
 
-  useEffect(() => {
+  const updateInstructions = async () => {
     if (realtimeClientRef?.current.isConnected()) {
-      const res = realtimeClientRef.current.updateSession({
-        instructions: llmInstructions,
+      const currentTime = new Date().toLocaleString();
+      let instructions = llmInstructions + `\n当前时间：${currentTime} `;
+
+      if (
+        profiles.currentProfile?.switchFunctions ===
+        SWITCH_FUNCTIONS_AIR_CONDITIONING_CONTROL
+      ) {
+        const airConditioningState = llmState.on ? '开' : '关';
+        const airConditioningTemperature = llmState.temperature;
+        instructions =
+          instructions +
+          `\n\n空调状态：${airConditioningState} 空调温度：${airConditioningTemperature}`;
+      }
+
+      console.log('updateInstructions');
+      realtimeClientRef.current.updateSession({
+        instructions: instructions,
       });
-      console.log('realtimeClientRef.current instructions updated', res);
     } else {
       console.log(
         'realtimeClientRef.current is not connected, skip update instructions',
       );
     }
+  };
+
+  useEffect(() => {
+    updateInstructions();
   }, [llmInstructions]);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      if (realtimeClientRef.current.isConnected()) {
-        const currentTime = new Date().toLocaleString();
-        realtimeClientRef.current.updateSession({
-          instructions: llmInstructions + `\n\n当前时间：${currentTime}`,
-        });
-        console.log(
-          'realtimeClient is connected, updated time in instructions ',
-          currentTime,
-        );
-      }
-    }, 10000);
+      updateInstructions();
+    }, 5000);
 
     return () => clearInterval(timer);
   }, [llmInstructions]);
@@ -204,16 +215,12 @@ export function ConsolePageRealtime() {
         const call = callStates[item.call_id];
         console.log('load function call', call);
 
-        for (const fc of loadFunctionsTools) {
-          if (fc[0].name === call.name) {
-            const result = {
-              name: call.name,
-              arguments: JSON.parse(call.arguments),
-              output: JSON.parse(item.output),
-            };
-            setMessages((prevMessages) => [result, ...prevMessages]);
-          }
-        }
+        const result = {
+          name: call.name,
+          arguments: JSON.parse(call.arguments),
+          output: JSON.parse(item.output),
+        };
+        setMessages((prevMessages) => [result, ...prevMessages]);
       }
     });
 
