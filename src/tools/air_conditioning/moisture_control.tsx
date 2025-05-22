@@ -3,7 +3,7 @@ import { llmState } from '../../components/LlmState';
 
 export const definition: ToolDefinitionType = {
   name: 'turn_on_or_off_moisture_control',
-  description: `Turns on or off the air conditioning moisture control. 湿度控制`,
+  description: `Turns on or off the air conditioning moisture control. 湿度控制/设置AI控湿功能/打开AI控湿功能/关闭AI控湿功能`,
   parameters: {
     type: 'object',
     properties: {

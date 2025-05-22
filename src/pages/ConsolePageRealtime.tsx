@@ -62,10 +62,10 @@ export const appendAirConditioningStateToInstructions = (
     \n新风级别：${llmState.fresh_air_level ? llmState.fresh_air_level : '关闭'}
     \n净化级别：${llmState.purification_level ? llmState.purification_level : '关闭'}
     \n风速：${llmState.gear_level ? llmState.gear_level : '关闭'}
-    \n音量：${llmState.volume ? llmState.volume : '静音'}
-    \n湿度控制：${llmState.moisture_control ? '开' : '关'}
-    \n热风闪烁：${llmState.heat_flash ? '开' : '关'}
-    \n冷风闪烁：${llmState.cool_flash ? '开' : '关'}
+    \n音量：${llmState.volume_percentage ? llmState.volume_percentage : '静音'}
+    \n湿度控制/控湿：${llmState.moisture_control ? '开' : '关'}
+    \n速热模式：${llmState.heat_flash ? '开' : '关'}
+    \n速冷模式：${llmState.cool_flash ? '开' : '关'}
     \n防直吹：${llmState.anti_direct_airflow ? '开' : '关'}
     \n智能清洁：${llmState.smart_cleaning ? '开' : '关'}
     \n无风感：${llmState.wind_free ? '开' : '关'}
@@ -76,6 +76,9 @@ export const appendAirConditioningStateToInstructions = (
     \n屏幕显示：${llmState.screen_display ? '开' : '关'}
     \n风速百分比：${llmState.wind_speed_percentage}
     \n节能模式：${llmState.energy_saving ? '开' : '关'}
+    \n室内温度：${llmState.indoor_temperature}
+    \n室外温度：${llmState.outdoor_temperature}
+    \n连续对话/自然对话：${llmState.continuous_dialogue ? '开' : '关'}
   `;
 
   return instructions;

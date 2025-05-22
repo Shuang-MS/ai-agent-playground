@@ -3,7 +3,7 @@ import { llmState } from '../../components/LlmState';
 
 export const definition: ToolDefinitionType = {
   name: 'turn_on_or_off_disinfection',
-  description: `Turns on or off the air conditioning disinfection. 除菌模式`,
+  description: `Turns on or off the air conditioning disinfection. 设置除菌功能/打开除菌功能/关闭除菌功能`,
   parameters: {
     type: 'object',
     properties: {

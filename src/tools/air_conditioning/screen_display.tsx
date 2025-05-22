@@ -3,7 +3,7 @@ import { llmState } from '../../components/LlmState';
 
 export const definition: ToolDefinitionType = {
   name: 'turn_on_or_off_screen_display',
-  description: `Turns on or off the air conditioning screen display. 屏幕显示`,
+  description: `Turns on or off the air conditioning screen display. 设置屏幕亮灭/打开屏显/关闭屏显`,
   parameters: {
     type: 'object',
     properties: {

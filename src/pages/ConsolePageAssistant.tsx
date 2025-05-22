@@ -6,7 +6,6 @@ import {
   CONNECT_CONNECTED,
   CONNECT_CONNECTING,
   CONNECT_DISCONNECTED,
-  SWITCH_FUNCTIONS_AIR_CONDITIONING_CONTROL,
 } from '../lib/const';
 
 import './ConsolePage.scss';
@@ -219,12 +218,14 @@ export function ConsolePageAssistant() {
 
     for (const [definition, handler] of functionsToolsRef.current) {
       if (definition.name === call?.function?.name) {
+        const output = await handler({ ...args });
         const result = {
           name: call.function.name,
           arguments: args,
+          output: output,
         };
         setMessages((prevMessages) => [result, ...prevMessages]);
-        return JSON.stringify(await handler({ ...args }));
+        return JSON.stringify(output);
       }
     }
 

@@ -3,7 +3,7 @@ import { llmState } from '../../components/LlmState';
 
 export const definition: ToolDefinitionType = {
   name: 'turn_on_or_off_heat_flash',
-  description: `Turns on or off the air conditioning heat flash. 热风闪烁`,
+  description: `Turns on or off the air conditioning heat flash. 设置速热模式/打开或关闭速热模式`,
   parameters: {
     type: 'object',
     properties: {

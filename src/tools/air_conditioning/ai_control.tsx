@@ -3,7 +3,7 @@ import { llmState } from '../../components/LlmState';
 
 export const definition: ToolDefinitionType = {
   name: 'turn_on_or_off_ai_control',
-  description: `Turns on or off the air conditioning ai control. AI控制`,
+  description: `Turns on or off the air conditioning ai control. 设置AI功能/打开AI控制功能/关闭AI控制功能`,
   parameters: {
     type: 'object',
     properties: {

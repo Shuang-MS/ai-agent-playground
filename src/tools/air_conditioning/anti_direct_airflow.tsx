@@ -3,7 +3,7 @@ import { llmState } from '../../components/LlmState';
 
 export const definition: ToolDefinitionType = {
   name: 'turn_on_or_off_anti_direct_airflow',
-  description: `Turns on or off the air conditioning anti direct airflow. 防直吹`,
+  description: `Turns on or off the air conditioning anti direct airflow. 设置防直吹/打开或关闭防直吹、打开或者关闭面对着人直接吹`,
   parameters: {
     type: 'object',
     properties: {

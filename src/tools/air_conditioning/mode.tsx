@@ -3,7 +3,7 @@ import { llmState } from '../../components/LlmState';
 
 export const definition: ToolDefinitionType = {
   name: 'set_mode',
-  description: `Sets the mode of the air conditioning. 制冷模式/制热模式/自动模式/送风模式/抽湿模式/睡眠模式`,
+  description: `Sets the mode of the air conditioning. `,
   parameters: {
     type: 'object',
     properties: {

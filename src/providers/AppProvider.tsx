@@ -68,6 +68,7 @@ import * as air_direction from '../tools/air_conditioning/air_direction';
 import * as air_screen_display from '../tools/air_conditioning/screen_display';
 import * as air_wind_speed_percentage from '../tools/air_conditioning/wind_speed_percentage';
 import * as air_energy_saving from '../tools/air_conditioning/energy_saving';
+import * as air_continuous_dialogue from '../tools/air_conditioning/continuous_dialogue';
 
 import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/client';
 import {
@@ -1026,6 +1027,7 @@ export const AppProvider: React.FC<{
     [air_screen_display.definition, air_screen_display.handler],
     [air_wind_speed_percentage.definition, air_wind_speed_percentage.handler],
     [air_energy_saving.definition, air_energy_saving.handler],
+    [air_continuous_dialogue.definition, air_continuous_dialogue.handler],
   ];
 
   let merge_tools: [ToolDefinitionType, Function][] = profiles.currentProfile
