@@ -45,10 +45,11 @@ import * as exchange_rate_aim from '../tools/exchange_rate_aim';
 import * as exchange_rate_list from '../tools/exchange_rate_list';
 import * as exchange_rate_configs from '../tools/exchange_rate_configs';
 
-import * as air_conditioning_weather from '../tools/air_conditioning/fetch_weather';
-import * as air_conditioning_turn_on_off from '../tools/air_conditioning/turn_on_off';
-import * as air_conditioning_get_info from '../tools/air_conditioning/get_info';
-import * as air_conditioning_temperature from '../tools/air_conditioning/temperature';
+import * as air_weather from '../tools/air_conditioning/fetch_weather';
+import * as air_turn_on_off from '../tools/air_conditioning/turn_on_off';
+import * as air_get_info from '../tools/air_conditioning/get_info';
+import * as air_temperature from '../tools/air_conditioning/temperature';
+import * as air_mode from '../tools/air_conditioning/mode';
 
 import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/client';
 import {
@@ -978,16 +979,11 @@ export const AppProvider: React.FC<{
   builtinFunctionTools.sort((a, b) => a[0].name.localeCompare(b[0].name));
 
   const air_conditioning_control_tools: [ToolDefinitionType, Function][] = [
-    [air_conditioning_weather.definition, air_conditioning_weather.handler],
-    [
-      air_conditioning_turn_on_off.definition,
-      air_conditioning_turn_on_off.handler,
-    ],
-    [air_conditioning_get_info.definition, air_conditioning_get_info.handler],
-    [
-      air_conditioning_temperature.definition,
-      air_conditioning_temperature.handler,
-    ],
+    [air_weather.definition, air_weather.handler],
+    [air_turn_on_off.definition, air_turn_on_off.handler],
+    [air_get_info.definition, air_get_info.handler],
+    [air_temperature.definition, air_temperature.handler],
+    [air_mode.definition, air_mode.handler],
   ];
 
   let merge_tools: [ToolDefinitionType, Function][] = profiles.currentProfile

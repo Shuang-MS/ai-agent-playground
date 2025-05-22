@@ -92,7 +92,10 @@ export function ConsolePageAssistant() {
         const airConditioningTemperature = llmState.temperature;
         instructions =
           instructions +
-          `\n\n空调状态：${airConditioningState} 空调温度：${airConditioningTemperature}`;
+          `\n空调状态：${airConditioningState} 
+          \n空调温度：${airConditioningTemperature}
+          \n空调模式：${llmState.mode}
+          `;
       }
 
       console.log('updateInstructions');
