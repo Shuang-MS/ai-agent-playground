@@ -81,7 +81,7 @@ export function ConsolePageAssistant() {
 
       instructions = appendAirConditioningStateToInstructions(
         instructions,
-        profiles.currentProfile?.switchFunctions,
+        profiles.currentProfile?.scene,
       );
 
       console.log('updateInstructions', instructions);
