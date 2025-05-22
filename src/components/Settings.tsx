@@ -35,6 +35,7 @@ import {
   SPEECH_METHOD_STREAM,
   SPEECH_METHOD_COMPLETION,
   SPEECH_METHOD_DEFAULT,
+  SPEECH_LANGUAGE_DE_DE,
 } from '../lib/const';
 import { useContexts } from '../providers/AppProvider';
 import { svgToBase64 } from '../lib/helper';
@@ -88,6 +89,7 @@ export const supportedSpeechLanguages = [
   { value: SPEECH_LANGUAGE_EN_US, label: 'en-US' },
   { value: SPEECH_LANGUAGE_TH_TH, label: 'th-th' },
   { value: SPEECH_LANGUAGE_VI_VN, label: 'vi-vn' },
+  { value: SPEECH_LANGUAGE_DE_DE, label: 'de-DE' },
   { value: SPEECH_LANGUAGE_JA_JP, label: 'ja-jp' },
   { value: SPEECH_LANGUAGE_KO_KR, label: 'ko-kr' },
   { value: SPEECH_LANGUAGE_MS_MY, label: 'ms-my' },

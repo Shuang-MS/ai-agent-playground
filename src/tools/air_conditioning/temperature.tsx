@@ -3,7 +3,7 @@ import { llmState } from '../../components/LlmState';
 
 export const definition: ToolDefinitionType = {
   name: 'set_temperature',
-  description: `Sets the temperature of the air conditioning. 有点冷：+1度 / 有点热：-1度 / 太冷了：+3度 / 太热了：-3度。最高是30度，最低是16度`,
+  description: `Sets the temperature of the air conditioning. 有点冷：+1度 / 有点热：-1度 / 太冷了：+3度 / 太热了：-3度。最高是30度，最低是16度。如果是送风模式，则不允许调整温度。`,
   parameters: {
     type: 'object',
     properties: {
@@ -26,6 +26,13 @@ export const handler: Function = async ({
   [key: string]: any;
 }) => {
   llmState.temperature = temperature;
+
+  if (llmState.mode === '送风模式') {
+    return {
+      error: '送风模式不能调整温度',
+    };
+  }
+
   return {
     temperature: temperature,
   };

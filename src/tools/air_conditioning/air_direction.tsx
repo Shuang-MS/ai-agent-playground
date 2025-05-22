@@ -22,7 +22,15 @@ export const handler: Function = async ({
   [key: string]: any;
 }) => {
   llmState.air_direction = air_direction;
+
+  let message = '';
+  if (llmState.air_direction !== '关闭') {
+    llmState.mode = '制热模式';
+    message = '已经顺便把空调模式设置为制热模式';
+  }
+
   return {
     air_direction: air_direction,
+    message: message,
   };
 };

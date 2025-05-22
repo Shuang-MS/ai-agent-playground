@@ -84,7 +84,7 @@ export function ConsolePageAssistant() {
         profiles.currentProfile?.switchFunctions,
       );
 
-      console.log('updateInstructions');
+      console.log('updateInstructions', instructions);
       await getOpenAIClient().beta.assistants.update(
         assistantRef?.current?.id,
         {

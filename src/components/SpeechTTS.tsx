@@ -3,6 +3,7 @@ import * as sdk from 'microsoft-cognitiveservices-speech-sdk';
 import { useContexts } from '../providers/AppProvider';
 import {
   AVATAR_READY,
+  SPEECH_LANGUAGE_DE_DE,
   SPEECH_LANGUAGE_DEFAULT,
   SPEECH_LANGUAGE_EN_US,
   SPEECH_LANGUAGE_JA_JP,
@@ -25,6 +26,7 @@ const speechLanguageMapWoman: Record<string, string> = {
   [SPEECH_LANGUAGE_JA_JP]: 'ja-JP-NanamiNeural',
   [SPEECH_LANGUAGE_KO_KR]: 'ko-KR-SunHiNeural',
   [SPEECH_LANGUAGE_MS_MY]: 'ms-MY-YasminNeural',
+  [SPEECH_LANGUAGE_DE_DE]: 'de-DE-SeraphinaMultilingualNeural',
 };
 
 const speechLanguageMapMan: Record<string, string> = {
@@ -35,6 +37,7 @@ const speechLanguageMapMan: Record<string, string> = {
   [SPEECH_LANGUAGE_JA_JP]: 'ja-JP-Masaru:DragonHDLatestNeural',
   [SPEECH_LANGUAGE_KO_KR]: 'ko-KR-HyunsuNeural',
   [SPEECH_LANGUAGE_MS_MY]: 'ms-MY-OsmanNeural',
+  [SPEECH_LANGUAGE_DE_DE]: 'de-DE-FlorianMultilingualNeural',
 };
 
 const SpeechTTS: React.FC = () => {
