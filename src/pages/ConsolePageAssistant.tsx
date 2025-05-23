@@ -267,7 +267,7 @@ export function ConsolePageAssistant() {
 
   // textDelta - append text to last assistant message
   const handleAssistantTextDelta = (delta: TextDelta) => {
-    recordTokenLatency(delta);
+    recordTokenLatency();
 
     if (isDebugModeRef.current) {
       console.log('delta', delta);

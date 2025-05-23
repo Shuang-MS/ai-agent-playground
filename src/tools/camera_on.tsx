@@ -10,9 +10,9 @@ export const definition: ToolDefinitionType = {
       on: {
         type: 'boolean',
         description: 'turn on or off camera',
-        default: true,
       },
     },
     required: ['on'],
+    additionalProperties: false,
   },
 };

@@ -82,7 +82,7 @@ import {
   CONNECT_DISCONNECTED,
   SPEECH_METHOD_COMPLETION,
   SPEECH_METHOD_STREAM,
-  SCENE_AIR_CONDITIONING_CONTROL,
+  SCENE_AIR_CONDITIONING,
 } from '../lib/const';
 import {
   editImages,
@@ -238,7 +238,7 @@ interface AppContextType {
   setTokenLatencyArray: React.Dispatch<React.SetStateAction<number[]>>;
 
   resetTokenLatency: () => void;
-  recordTokenLatency: (delta: any) => void;
+  recordTokenLatency: () => void;
 
   connectMessage: string;
   setConnectMessage: React.Dispatch<React.SetStateAction<string>>;
@@ -537,7 +537,7 @@ export const AppProvider: React.FC<{
     lastTokenTimeRef.current = 0;
   };
 
-  const recordTokenLatency = (delta: any) => {
+  const recordTokenLatency = () => {
     if (isFirstTokenRef.current) {
       isFirstTokenRef.current = false;
       lastTokenTimeRef.current = Date.now();
@@ -1035,7 +1035,7 @@ export const AppProvider: React.FC<{
     ? [...loadFunctionsTools, ...builtinFunctionTools]
     : [...loadFunctionsTools];
 
-  if (profiles.currentProfile?.scene === SCENE_AIR_CONDITIONING_CONTROL) {
+  if (profiles.currentProfile?.scene === SCENE_AIR_CONDITIONING) {
     merge_tools = air_conditioning_control_tools;
   }
 

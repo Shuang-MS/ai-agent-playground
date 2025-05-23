@@ -14,14 +14,13 @@ export const definition: ToolDefinitionType = {
       count: {
         type: 'number',
         description: 'The number of results to return',
-        default: 10,
       },
       page: {
         type: 'number',
         description: 'The page number to return',
-        default: 1,
       },
     },
-    required: ['query'],
+    required: ['query', 'count', 'page'],
+    additionalProperties: false,
   },
 };

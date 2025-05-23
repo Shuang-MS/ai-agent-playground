@@ -9,9 +9,9 @@ export const definition: ToolDefinitionType = {
       opacity: {
         type: 'number',
         description: 'the opacity of the webpage.',
-        default: 1,
       },
     },
     required: ['opacity'],
+    additionalProperties: false,
   },
 };

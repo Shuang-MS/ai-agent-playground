@@ -10,6 +10,8 @@ export const definition: ToolDefinitionType = {
   parameters: {
     type: 'object',
     properties: {},
+    required: [],
+    additionalProperties: false,
   },
 };
 
@@ -18,10 +20,6 @@ export const handler: Function = async () => {
   if (!newsKey) {
     throw new Error('News key is not set, please set it in the settings.');
   }
-
-  // loadingInternetAudio.volume = 1;
-  // loadingInternetAudio.play();
-  // await delayFunction(loadingInternetAudioTime);
 
   const url = `https://route.showapi.com/109-35?appKey=${newsKey}`;
   console.log('fetch news url', url);

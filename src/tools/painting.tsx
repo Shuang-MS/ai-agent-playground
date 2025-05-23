@@ -14,10 +14,9 @@ export const definition: ToolDefinitionType = {
       n: {
         type: 'number',
         description: 'number of images to generate',
-        default: 1,
       },
     },
     required: ['prompt', 'n'],
-    strict: true,
+    additionalProperties: false,
   },
 };

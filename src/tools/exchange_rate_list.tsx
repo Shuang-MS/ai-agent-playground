@@ -11,6 +11,8 @@ export const definition: ToolDefinitionType = {
   parameters: {
     type: 'object',
     properties: {},
+    required: [],
+    additionalProperties: false,
   },
 };
 

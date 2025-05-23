@@ -10,7 +10,7 @@ import {
   CONNECT_CONNECTED,
   CONNECT_CONNECTING,
   CONNECT_DISCONNECTED,
-  SCENE_AIR_CONDITIONING_CONTROL,
+  SCENE_AIR_CONDITIONING,
 } from '../lib/const';
 
 import './ConsolePage.scss';
@@ -36,7 +36,7 @@ export const appendAirConditioningStateToInstructions = (
   instructions: string,
   scene: string,
 ) => {
-  if (scene !== SCENE_AIR_CONDITIONING_CONTROL) {
+  if (scene !== SCENE_AIR_CONDITIONING) {
     return instructions;
   }
 
@@ -455,11 +455,11 @@ export function ConsolePageRealtime() {
     }
 
     if (source === 'server' && type === 'response.output_item.added') {
-      recordTokenLatency('');
+      recordTokenLatency();
     }
 
     if (source === 'server' && type === 'response.audio.delta') {
-      recordTokenLatency('');
+      recordTokenLatency();
     }
   };
 

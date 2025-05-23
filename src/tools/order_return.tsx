@@ -13,6 +13,7 @@ export const definition: ToolDefinitionType = {
       },
     },
     required: ['order_id'],
+    additionalProperties: false,
   },
 };
 

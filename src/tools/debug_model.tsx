@@ -10,9 +10,9 @@ export const definition: ToolDefinitionType = {
       debug_mode: {
         type: 'boolean',
         description: 'the debug mode of the app.',
-        default: false,
       },
     },
     required: ['debug_mode'],
+    additionalProperties: false,
   },
 };

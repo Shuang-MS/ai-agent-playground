@@ -103,24 +103,26 @@ export const definition: ToolDefinitionType = {
       brightness_percent: {
         type: 'number',
         description: `the brightness percent`,
-        default: 100,
       },
       group_name: {
         type: 'string',
         description: `the group name`,
-        // default: '',
         enum: [...devices.map((device) => device.group_name).flat()],
       },
       device_name: {
         type: 'string',
         description: `the device name`,
-        // default: '',
         enum: [...devices.map((device) => device.name)],
       },
     },
-    required: ['action_name'],
+    required: [
+      'action_name',
+      'home_name',
+      'brightness_percent',
+      'group_name',
+      'device_name',
+    ],
     additionalProperties: false,
-    // strict: true,
   },
 };
 

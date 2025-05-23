@@ -13,6 +13,8 @@ export const definition: ToolDefinitionType = {
         description: 'requirements of demo',
       },
     },
+    required: ['requirements'],
+    additionalProperties: false,
   },
 };
 

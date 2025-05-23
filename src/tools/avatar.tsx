@@ -13,5 +13,6 @@ export const definition: ToolDefinitionType = {
       },
     },
     required: ['on'],
+    additionalProperties: false,
   },
 };

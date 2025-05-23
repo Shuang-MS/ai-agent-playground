@@ -14,6 +14,8 @@ export const definition: ToolDefinitionType = {
         description: 'requirements of food',
       },
     },
+    required: ['requirements'],
+    additionalProperties: false,
   },
 };
 

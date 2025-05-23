@@ -21,6 +21,7 @@ export const definition: ToolDefinitionType = {
       },
     },
     required: ['lat', 'lng', 'location'],
+    additionalProperties: false,
   },
 };
 

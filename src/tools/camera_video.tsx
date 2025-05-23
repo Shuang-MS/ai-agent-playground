@@ -1,5 +1,4 @@
 import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/client';
-import { CAMERA_PHOTO_LIMIT } from '../lib/const';
 
 export const definition: ToolDefinitionType = {
   name: 'camera_video_record',
@@ -11,13 +10,13 @@ export const definition: ToolDefinitionType = {
       prompt: {
         type: 'string',
         description: 'prompt of the camera',
-        default: '',
       },
       seconds: {
         type: 'number',
         description: 'how many seconds to record past',
-        default: CAMERA_PHOTO_LIMIT,
       },
     },
+    required: ['prompt', 'seconds'],
+    additionalProperties: false,
   },
 };

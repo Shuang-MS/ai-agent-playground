@@ -17,5 +17,6 @@ export const definition: ToolDefinitionType = {
       },
     },
     required: ['key', 'value'],
+    additionalProperties: false,
   },
 };

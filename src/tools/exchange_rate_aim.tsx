@@ -21,6 +21,7 @@ export const definition: ToolDefinitionType = {
       },
     },
     required: ['from', 'to'],
+    additionalProperties: false,
   },
 };
 

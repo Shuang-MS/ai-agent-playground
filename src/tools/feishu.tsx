@@ -15,6 +15,8 @@ export const definition: ToolDefinitionType = {
         description: 'message to feishu',
       },
     },
+    required: ['message'],
+    additionalProperties: false,
   },
 };
 

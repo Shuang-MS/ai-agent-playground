@@ -16,6 +16,7 @@ export const definition: ToolDefinitionType = {
       },
     },
     required: ['symbol'],
+    additionalProperties: false,
   },
 };
 
@@ -24,10 +25,6 @@ export const handler: Function = async ({ symbol }: { [key: string]: any }) => {
   if (!quoteToken) {
     throw new Error('Quote token is not set, please set it in the settings.');
   }
-
-  // loadingInternetAudio.volume = 1;
-  // loadingInternetAudio.play();
-  // await delayFunction(loadingInternetAudioTime);
 
   const url = `https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${quoteToken}`;
 

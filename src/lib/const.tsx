@@ -4,12 +4,14 @@ export const APP_AGENT_VECTOR_STORE =
 
 export const DEFAULT_AGENT_API_URL = 'https://agent-api.azuretsp.com';
 
+export const ASSISTANT_TYPE_RESPONSES = 'Responses';
 export const ASSISTANT_TYPE_ASSISTANT = 'Assistant';
 export const ASSISTANT_TYPE_REALTIME = 'Realtime';
 export const ASSISTANT_TYPE_DEEPSEEK = 'DeepSeek';
 export const ASSISTANT_TYPE_AGENT_AI = 'Agent API';
 export const ASSISTANT_TYPE_DEFAULT = ASSISTANT_TYPE_REALTIME;
 export const ASSISTANT_TYPES = [
+  ASSISTANT_TYPE_RESPONSES,
   ASSISTANT_TYPE_ASSISTANT,
   ASSISTANT_TYPE_REALTIME,
   ASSISTANT_TYPE_DEEPSEEK,
@@ -17,7 +19,10 @@ export const ASSISTANT_TYPES = [
 ];
 
 export const SCENE_DEFAULT = 'Default';
-export const SCENE_AIR_CONDITIONING_CONTROL = 'Air Conditioning Control';
+export const SCENE_AIR_CONDITIONING = 'Air Conditioning Control';
+export const SCENE_RANGE_HOOD = 'Range Hood Control';
+export const SCENE_DISHWASHER = 'Dishwasher Control';
+export const SCENE_STEAM_OVEN = 'Steam Oven Control';
 
 export const SHORTCUTS = {
   [SCENE_DEFAULT]: [
@@ -25,11 +30,14 @@ export const SHORTCUTS = {
     'what is the weather in tokyo?',
     'open avatar',
   ],
-  [SCENE_AIR_CONDITIONING_CONTROL]: [
+  [SCENE_AIR_CONDITIONING]: [
     'turn on the air conditioning',
     'turn off the air conditioning',
     'set the air conditioning to 25 degrees',
   ],
+  [SCENE_RANGE_HOOD]: [],
+  [SCENE_DISHWASHER]: [],
+  [SCENE_STEAM_OVEN]: [],
 };
 
 export const SPEECH_LANGUAGE_ZH_CN = 'zh-CN';

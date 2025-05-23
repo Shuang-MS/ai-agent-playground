@@ -24,7 +24,7 @@ import {
   SPEECH_LANGUAGE_KO_KR,
   SPEECH_LANGUAGE_JA_JP,
   SCENE_DEFAULT,
-  SCENE_AIR_CONDITIONING_CONTROL,
+  SCENE_AIR_CONDITIONING,
   SPEECH_VOICE_WOMAN,
   SPEECH_VOICE_MAN,
   SPEECH_VOICE_DEFAULT,
@@ -32,6 +32,10 @@ import {
   SPEECH_METHOD_COMPLETION,
   SPEECH_METHOD_DEFAULT,
   SPEECH_LANGUAGE_DE_DE,
+  SCENE_DISHWASHER,
+  SCENE_RANGE_HOOD,
+  SCENE_STEAM_OVEN,
+  ASSISTANT_TYPE_RESPONSES,
 } from '../lib/const';
 import { useContexts } from '../providers/AppProvider';
 import { svgToBase64 } from '../lib/helper';
@@ -70,13 +74,26 @@ export const supportedAssistantTypes = [
   { value: ASSISTANT_TYPE_AGENT_AI, label: 'Agent API' },
   { value: ASSISTANT_TYPE_ASSISTANT, label: 'STT -> Assistant -> TTS' },
   { value: ASSISTANT_TYPE_DEEPSEEK, label: 'STT -> DeepSeek -> TTS' },
+  { value: ASSISTANT_TYPE_RESPONSES, label: 'STT -> Responses -> TTS' },
 ];
 
 export const supportedScenes = [
   { value: SCENE_DEFAULT, label: SCENE_DEFAULT },
   {
-    value: SCENE_AIR_CONDITIONING_CONTROL,
-    label: SCENE_AIR_CONDITIONING_CONTROL,
+    value: SCENE_AIR_CONDITIONING,
+    label: SCENE_AIR_CONDITIONING,
+  },
+  {
+    value: SCENE_RANGE_HOOD,
+    label: SCENE_RANGE_HOOD,
+  },
+  {
+    value: SCENE_DISHWASHER,
+    label: SCENE_DISHWASHER,
+  },
+  {
+    value: SCENE_STEAM_OVEN,
+    label: SCENE_STEAM_OVEN,
   },
 ];
 

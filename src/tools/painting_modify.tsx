@@ -14,10 +14,9 @@ export const definition: ToolDefinitionType = {
       original_image_number: {
         type: 'number',
         description: 'number of original images to modify',
-        default: 1,
       },
     },
     required: ['edit_requirements', 'original_image_number'],
-    strict: true,
+    additionalProperties: false,
   },
 };

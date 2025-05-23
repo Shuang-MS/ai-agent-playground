@@ -9,8 +9,9 @@ export const definition: ToolDefinitionType = {
       on: {
         type: 'boolean',
         description: 'bool of turn on or off dark mode.',
-        default: true,
       },
     },
+    required: ['on'],
+    additionalProperties: false,
   },
 };

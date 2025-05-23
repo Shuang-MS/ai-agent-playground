@@ -8,6 +8,7 @@ import TrafficMonitor from '../components/functions/TrafficMonitor';
 import FunctionsList from '../components/functions/FunctionsList';
 import { ConsolePageRealtime } from './ConsolePageRealtime';
 import { ConsolePageAssistant } from './ConsolePageAssistant';
+import { ConsolePageResponses } from './ConsolePageResponses';
 import { AlertTriangle } from 'react-feather';
 import AboutApp from '../components/AboutApp';
 import { ConsolePageDeepSeek } from './ConsolePageDeepSeek';
@@ -121,6 +122,7 @@ export function ConsolePage() {
         {profiles.currentProfile?.isAssistant && <ConsolePageAssistant />}
         {profiles.currentProfile?.isDeepSeek && <ConsolePageDeepSeek />}
         {profiles.currentProfile?.isAgentAI && <ConsolePageAgent />}
+        {profiles.currentProfile?.isResponses && <ConsolePageResponses />}
       </div>
     </div>
   );

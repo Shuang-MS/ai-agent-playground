@@ -8,6 +8,7 @@ export const definition: ToolDefinitionType = {
   description: `Retrieve information from {rag}. respond wait message to the user before calling the tool. Do not use cache. You have to call this tool every time.`,
   parameters: {
     type: 'object',
+    additionalProperties: false,
     properties: {
       query: {
         type: 'string',
@@ -15,6 +16,7 @@ export const definition: ToolDefinitionType = {
           "query to retrieve information from Azure docs. Try to use the user's original input, including language.",
       },
     },
+    required: ['query'],
   },
 };
 
