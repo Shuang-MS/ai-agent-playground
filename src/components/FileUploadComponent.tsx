@@ -130,7 +130,7 @@ const FileUploadComponent: React.FC<{
     }
   };
 
-  return profiles.currentProfile?.buildInFunctions ? (
+  return profiles.currentProfile?.isDefaultScene ? (
     <div className="content-actions">
       <Button
         label={fileName}

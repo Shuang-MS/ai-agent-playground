@@ -178,7 +178,7 @@ const Camera: React.FC = () => {
     ) : null;
   };
 
-  return profiles.currentProfile?.buildInFunctions ? (
+  return profiles.currentProfile?.isDefaultScene ? (
     <div className="content-block camera container_bg">
       <div>
         <SwitchCameraIcon />

@@ -11,10 +11,6 @@ import {
   ASSISTANT_TYPE_ASSISTANT,
   ASSISTANT_TYPE_DEEPSEEK,
   ASSISTANT_TYPE_REALTIME,
-  BUILD_IN_FUNCTIONS_DISABLE,
-  BUILD_IN_FUNCTIONS_ENABLE,
-  BUILD_IN_PROMPT_DISABLE,
-  BUILD_IN_PROMPT_ENABLE,
   DEEPSEEK_FUNCTION_CALL_DISABLE,
   DEEPSEEK_FUNCTION_CALL_ENABLE,
   DEFAULT_AGENT_API_URL,
@@ -27,8 +23,8 @@ import {
   SPEECH_LANGUAGE_MS_MY,
   SPEECH_LANGUAGE_KO_KR,
   SPEECH_LANGUAGE_JA_JP,
-  SWITCH_FUNCTIONS_DISABLE,
-  SWITCH_FUNCTIONS_AIR_CONDITIONING_CONTROL,
+  SCENE_DEFAULT,
+  SCENE_AIR_CONDITIONING_CONTROL,
   SPEECH_VOICE_WOMAN,
   SPEECH_VOICE_MAN,
   SPEECH_VOICE_DEFAULT,
@@ -76,12 +72,12 @@ export const supportedAssistantTypes = [
   { value: ASSISTANT_TYPE_DEEPSEEK, label: 'STT -> DeepSeek -> TTS' },
 ];
 
-export const supportedSwitchFunctions = [
+export const supportedScenes = [
+  { value: SCENE_DEFAULT, label: SCENE_DEFAULT },
   {
-    value: SWITCH_FUNCTIONS_AIR_CONDITIONING_CONTROL,
-    label: SWITCH_FUNCTIONS_AIR_CONDITIONING_CONTROL,
+    value: SCENE_AIR_CONDITIONING_CONTROL,
+    label: SCENE_AIR_CONDITIONING_CONTROL,
   },
-  { value: SWITCH_FUNCTIONS_DISABLE, label: SWITCH_FUNCTIONS_DISABLE },
 ];
 
 export const supportedSpeechLanguages = [
@@ -110,19 +106,9 @@ const speechMethodOptions = [
   { value: SPEECH_METHOD_COMPLETION, label: 'Completion' },
 ];
 
-const buildInFunctionsOptions = [
-  { value: BUILD_IN_FUNCTIONS_ENABLE, label: 'Enable' },
-  { value: BUILD_IN_FUNCTIONS_DISABLE, label: 'Disable' },
-];
-
 const useAgentProxyOptions = [
   { value: 'Enable', label: 'Enable' },
   { value: 'Disable', label: 'Disable' },
-];
-
-const buildInPromptOptions = [
-  { value: BUILD_IN_PROMPT_ENABLE, label: 'Enable' },
-  { value: BUILD_IN_PROMPT_DISABLE, label: 'Disable' },
 ];
 
 const SettingsComponent: React.FC<{
@@ -428,6 +414,18 @@ const SettingsComponent: React.FC<{
               }}
             />
           </div>
+          <div style={styles.settings_inline_block}>
+            <div style={styles.settingLabel}>Scene</div>
+            <Dropdown
+              options={supportedScenes}
+              selectedValue={profiles.currentProfile?.scene || SCENE_DEFAULT}
+              onChange={(e) => {
+                profiles.currentProfile!.scene = e;
+                profiles.save();
+                setProfiles(new Profiles());
+              }}
+            />
+          </div>
 
           <div style={styles.settings_inline_block}>
             <div style={styles.settingLabel}>Temperature</div>
@@ -438,38 +436,6 @@ const SettingsComponent: React.FC<{
               }
               onChange={(e) => {
                 profiles.currentProfile!.temperature = parseFloat(e);
-                profiles.save();
-                setProfiles(new Profiles());
-              }}
-            />
-          </div>
-        </div>
-
-        <div style={styles.settings_inline}>
-          <div style={styles.settings_inline_block}>
-            <div style={styles.settingLabel}>Built-in Prompt</div>
-            <Dropdown
-              options={buildInPromptOptions}
-              selectedValue={
-                profiles.currentProfile?.buildInPrompt ? 'Enable' : 'Disable'
-              }
-              onChange={(e) => {
-                profiles.currentProfile!.buildInPrompt = e === 'Enable';
-                profiles.save();
-                setProfiles(new Profiles());
-              }}
-            />
-          </div>
-
-          <div style={styles.settings_inline_block}>
-            <div style={styles.settingLabel}>Built-in Functions</div>
-            <Dropdown
-              options={buildInFunctionsOptions}
-              selectedValue={
-                profiles.currentProfile?.buildInFunctions ? 'Enable' : 'Disable'
-              }
-              onChange={(e) => {
-                profiles.currentProfile!.buildInFunctions = e === 'Enable';
                 profiles.save();
                 setProfiles(new Profiles());
               }}
@@ -1149,17 +1115,6 @@ const SettingsComponent: React.FC<{
 
     return (
       <div>
-        <div style={styles.settingLabel}>Switch Functions</div>
-        <Dropdown
-          options={supportedSwitchFunctions}
-          selectedValue={profiles.currentProfile?.switchFunctions || 'Disable'}
-          onChange={(e) => {
-            profiles.currentProfile!.switchFunctions = e;
-            profiles.save();
-            setProfiles(new Profiles());
-          }}
-        />
-
         <div style={styles.settingLabel}>Functions URL (Main)</div>
         <input
           type="text"

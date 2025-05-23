@@ -10,7 +10,7 @@ import {
   CONNECT_CONNECTED,
   CONNECT_CONNECTING,
   CONNECT_DISCONNECTED,
-  SWITCH_FUNCTIONS_AIR_CONDITIONING_CONTROL,
+  SCENE_AIR_CONDITIONING_CONTROL,
 } from '../lib/const';
 
 import './ConsolePage.scss';
@@ -34,9 +34,9 @@ import { llmState } from '../components/LlmState';
 
 export const appendAirConditioningStateToInstructions = (
   instructions: string,
-  switchFunctions: string,
+  scene: string,
 ) => {
-  if (switchFunctions !== SWITCH_FUNCTIONS_AIR_CONDITIONING_CONTROL) {
+  if (scene !== SCENE_AIR_CONDITIONING_CONTROL) {
     return instructions;
   }
 
@@ -131,7 +131,7 @@ export function ConsolePageRealtime() {
 
       instructions = appendAirConditioningStateToInstructions(
         instructions,
-        profiles.currentProfile?.switchFunctions,
+        profiles.currentProfile?.scene,
       );
 
       console.log('updateInstructions');

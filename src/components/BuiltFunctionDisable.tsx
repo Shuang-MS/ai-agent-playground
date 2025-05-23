@@ -9,7 +9,7 @@ const BuiltFunctionDisable: React.FC = () => {
   const componentLoading = componentLoadingStyles({ isNightMode });
   const profiles = new Profiles();
 
-  return profiles.currentProfile?.buildInFunctions ? null : (
+  return profiles.currentProfile?.isDefaultScene ? null : (
     <div className="content-block functionsDisabled container_bg">
       <div
         style={{
@@ -22,9 +22,9 @@ const BuiltFunctionDisable: React.FC = () => {
           whiteSpace: 'nowrap',
         }}
       >
-        Avatar and Camera are disabled.
+        Avatar and Camera are disabled
         <br />
-        Because built-in functions are disabled.
+        Because scene is not default
       </div>
     </div>
   );

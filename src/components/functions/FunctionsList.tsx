@@ -6,7 +6,7 @@ import { modalStyles } from '../../styles/modalStyles';
 import { enableFunctionCalling } from '../../lib/helper';
 import IconWithBadge from '../IconWithBadge';
 import { Profiles } from '../../lib/Profiles';
-import { SWITCH_FUNCTIONS_DISABLE } from '../../lib/const';
+import { SCENE_DEFAULT } from '../../lib/const';
 
 const FunctionsList: React.FC = () => {
   const [isShow, setIsShow] = useState(false);
@@ -118,7 +118,7 @@ const FunctionsList: React.FC = () => {
 
     const profiles = new Profiles();
 
-    if (profiles.currentProfile?.switchFunctions !== SWITCH_FUNCTIONS_DISABLE) {
+    if (profiles.currentProfile?.scene !== SCENE_DEFAULT) {
       return (
         <div style={importModalStyles.backdrop}>
           <div style={importModalStyles.modal} className={'modal'}>
@@ -192,7 +192,7 @@ const FunctionsList: React.FC = () => {
               </div>
             ))}
 
-            {profiles.currentProfile?.buildInFunctions &&
+            {profiles.currentProfile?.isDefaultScene &&
               builtinFunctionTools.map((item) => (
                 <div style={styles.functionItem} key={item[0].name}>
                   <div style={styles.functionItemName}>
