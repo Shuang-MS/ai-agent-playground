@@ -9,6 +9,7 @@ import {
   ASSISTANT_TYPES,
   DEEPSEEK_FUNCTION_CALL_DISABLE,
   DEFAULT_AGENT_API_URL,
+  SCENE_DEFAULT,
   SPEECH_LANGUAGE_DEFAULT,
   SPEECH_METHOD_DEFAULT,
 } from './const';
@@ -27,8 +28,6 @@ class Profile {
   public bingApiKey: string = '';
   public bingEndpoint: string = '';
   public bingLocation: string = '';
-  public buildInFunctions: boolean = false;
-  public buildInPrompt: boolean = false;
   public cogSvcRegion: string = 'southeastasia';
   public cogSvcSubKey: string = '';
   public detectLanguage: string = SPEECH_LANGUAGE_DEFAULT;
@@ -66,12 +65,13 @@ class Profile {
   public ttsModel: string = '';
   public ttsVoice: string = '';
   public useAgentProxy: boolean = false;
-  public switchFunctions: string = 'Disable';
+  public scene: string = SCENE_DEFAULT;
 
   public isAssistant: boolean = this.assistantType === ASSISTANT_TYPE_ASSISTANT;
   public isRealtime: boolean = this.assistantType === ASSISTANT_TYPE_REALTIME;
   public isDeepSeek: boolean = this.assistantType === ASSISTANT_TYPE_DEEPSEEK;
   public isAgentAI: boolean = this.assistantType === ASSISTANT_TYPE_AGENT_AI;
+  public isDefaultScene: boolean = this.scene === SCENE_DEFAULT;
 
   setProperty<K extends keyof Profile>(key: K, value: Profile[K]) {
     Object.assign(this, { [key]: value });
@@ -225,9 +225,7 @@ export class Profiles {
       p.isRealtime = p.assistantType === ASSISTANT_TYPE_REALTIME;
       p.isDeepSeek = p.assistantType === ASSISTANT_TYPE_DEEPSEEK;
       p.isAgentAI = p.assistantType === ASSISTANT_TYPE_AGENT_AI;
-
-      p.buildInPrompt = true;
-      p.buildInFunctions = true;
+      p.isDefaultScene = p.scene === SCENE_DEFAULT;
 
       p.supportedAssistantType =
         supportedAssistantTypes.find((type) => type.value === p.assistantType)
@@ -289,9 +287,6 @@ export class Profiles {
     p.functions = localStorage.getItem('functions') || '';
     p.functionsUrl = localStorage.getItem('functionsUrl') || '';
 
-    p.buildInPrompt = localStorage.getItem('buildInPrompt') === 'Enable';
-    p.buildInFunctions = localStorage.getItem('buildInFunctions') === 'Enable';
-
     this.profiles.push(p);
     this.save();
 
@@ -326,8 +321,6 @@ export class Profiles {
     localStorage.removeItem('bingApiKey');
     localStorage.removeItem('functions');
     localStorage.removeItem('functionsUrl');
-    localStorage.removeItem('buildInPrompt');
-    localStorage.removeItem('buildInFunctions');
     localStorage.removeItem('assistantType');
     localStorage.removeItem('temperature');
     localStorage.removeItem('appIconDark');

@@ -16,9 +16,21 @@ export const ASSISTANT_TYPES = [
   ASSISTANT_TYPE_AGENT_AI,
 ];
 
-export const SWITCH_FUNCTIONS_DISABLE = 'Disable';
-export const SWITCH_FUNCTIONS_AIR_CONDITIONING_CONTROL =
-  'Air Conditioning Control';
+export const SCENE_DEFAULT = 'Default';
+export const SCENE_AIR_CONDITIONING_CONTROL = 'Air Conditioning Control';
+
+export const SHORTCUTS = {
+  [SCENE_DEFAULT]: [
+    'open camera',
+    'what is the weather in tokyo?',
+    'open avatar',
+  ],
+  [SCENE_AIR_CONDITIONING_CONTROL]: [
+    'turn on the air conditioning',
+    'turn off the air conditioning',
+    'set the air conditioning to 25 degrees',
+  ],
+};
 
 export const SPEECH_LANGUAGE_ZH_CN = 'zh-CN';
 export const SPEECH_LANGUAGE_EN_US = 'en-US';
@@ -50,12 +62,6 @@ export const SPEECH_METHOD_DEFAULT = SPEECH_METHOD_STREAM;
 
 export const DEEPSEEK_FUNCTION_CALL_ENABLE = 'Enable';
 export const DEEPSEEK_FUNCTION_CALL_DISABLE = 'Disable';
-
-export const BUILD_IN_FUNCTIONS_ENABLE = 'Enable';
-export const BUILD_IN_FUNCTIONS_DISABLE = 'Disable';
-
-export const BUILD_IN_PROMPT_ENABLE = 'Enable';
-export const BUILD_IN_PROMPT_DISABLE = 'Disable';
 
 export const ALLOW_PROMPT_CHARACTERS = 15000;
 export const ALLOW_FUNCTIONS_CHARACTERS = 100000;

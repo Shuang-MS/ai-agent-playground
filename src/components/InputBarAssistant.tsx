@@ -7,6 +7,8 @@ import './InputBar.scss';
 import {
   clientHiEnglish,
   CONNECT_CONNECTED,
+  SCENE_DEFAULT,
+  SHORTCUTS,
   SPEECH_LANGUAGE_DEFAULT,
 } from '../lib/const';
 import { Profiles } from '../lib/Profiles';
@@ -194,11 +196,7 @@ export function InputBarAssistant({
         <div>
           <RecommendText
             handleInputButtonClick={sendText}
-            messages={[
-              'open camera',
-              'what is the weather in tokyo?',
-              'open avatar',
-            ]}
+            messages={SHORTCUTS[profile?.scene as keyof typeof SHORTCUTS]}
           />
           <div className="text-input">
             <input

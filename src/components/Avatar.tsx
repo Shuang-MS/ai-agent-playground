@@ -278,7 +278,7 @@ const Avatar: React.FC = () => {
     }
   };
 
-  return profile?.buildInFunctions ? (
+  return profile?.isDefaultScene ? (
     <div className="content-actions container_bg remoteVideo">
       {avatarStatus === AVATAR_STARTING && (
         <div style={componentLoading.camLoading}>

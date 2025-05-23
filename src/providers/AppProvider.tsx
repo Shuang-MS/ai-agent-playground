@@ -82,7 +82,7 @@ import {
   CONNECT_DISCONNECTED,
   SPEECH_METHOD_COMPLETION,
   SPEECH_METHOD_STREAM,
-  SWITCH_FUNCTIONS_AIR_CONDITIONING_CONTROL,
+  SCENE_AIR_CONDITIONING_CONTROL,
 } from '../lib/const';
 import {
   editImages,
@@ -1031,14 +1031,11 @@ export const AppProvider: React.FC<{
   ];
 
   let merge_tools: [ToolDefinitionType, Function][] = profiles.currentProfile
-    ?.buildInFunctions
+    ?.isDefaultScene
     ? [...loadFunctionsTools, ...builtinFunctionTools]
     : [...loadFunctionsTools];
 
-  if (
-    profiles.currentProfile?.switchFunctions ===
-    SWITCH_FUNCTIONS_AIR_CONDITIONING_CONTROL
-  ) {
+  if (profiles.currentProfile?.scene === SCENE_AIR_CONDITIONING_CONTROL) {
     merge_tools = air_conditioning_control_tools;
   }
 
@@ -1051,16 +1048,9 @@ export const AppProvider: React.FC<{
   const functionsToolsRef =
     useRef<[ToolDefinitionType, Function][]>(functions_tool);
 
-  let updateInstructions = profiles.currentProfile?.buildInPrompt
+  let updateInstructions = profiles.currentProfile?.isDefaultScene
     ? SYSTEM_INSTRUCTIONS
     : profiles.currentProfile?.prompt || '';
-
-  // if (enableFunctionCalling() && functionsToolsRef.current.length > 0) {
-  //   updateInstructions += `\n\nYou have the following tools and abilities:`;
-  //   for (const tool of functionsToolsRef.current) {
-  //     updateInstructions += `\n${tool[0].name}: ${tool[0].description}`;
-  //   }
-  // }
 
   const [messages, setMessages] = useState<any[]>([]);
 

@@ -2,11 +2,12 @@ import { Send } from 'react-feather';
 
 import { useContexts } from '../providers/AppProvider';
 import './InputBar.scss';
-import { CONNECT_CONNECTED } from '../lib/const';
+import { CONNECT_CONNECTED, SHORTCUTS } from '../lib/const';
 import { RealtimeClient } from '@theodoreniu/realtime-api-beta';
 import { WavStreamPlayer } from '../lib/wavtools';
 import { RecommendText } from './RecommendText';
 import { UploadImage } from './UploadImage';
+import { Profiles } from '../lib/Profiles';
 
 export function InputBarRealtime({
   wavStreamPlayer,
@@ -45,6 +46,7 @@ export function InputBarRealtime({
     console.log('send text', inputValue);
     return;
   };
+  const profiles = new Profiles();
 
   return (
     <>
@@ -52,11 +54,11 @@ export function InputBarRealtime({
         <div>
           <RecommendText
             handleInputButtonClick={sendText}
-            messages={[
-              'open camera',
-              'what is the weather in tokyo?',
-              'open avatar',
-            ]}
+            messages={
+              SHORTCUTS[
+                profiles.currentProfile?.scene as keyof typeof SHORTCUTS
+              ]
+            }
           />
           <div className="text-input">
             <input
