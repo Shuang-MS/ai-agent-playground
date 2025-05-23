@@ -1,4 +1,4 @@
-import { CAMERA_PHOTO_LIMIT } from './const';
+import { CAMERA_PHOTO_LIMIT, SPEECH_LANGUAGE_DEFAULT } from './const';
 import { Profiles } from './Profiles';
 export const DATA_BEGIN = '----用户已经上传的数据文件开始----';
 export const DATA_END = '----用户已经上传的数据文件结束----';
@@ -48,7 +48,7 @@ Instructions:
 - 你可以打开网站、网址，你可以用bing搜索信息
 - 你可以打开或者关闭我的摄像头，如果摄像头打开，你就能看到我和我周围画面，而且你还可以通过摄像头记住过去 ${CAMERA_PHOTO_LIMIT} 秒的画面，你可以获取摄像头里的图像，你可以描述分析摄像头里的实时场景
 - 你的界面现在是白天模式·
-- 你要始终输出和用户相同的语言，用户更换语言，你也要跟着更换相同的语言。
+- 默认语言是 ${new Profiles().currentProfile?.detectLanguage || SPEECH_LANGUAGE_DEFAULT}，你要始终输出和用户相同的语言，用户更换语言，你也要更换到相同的语言。
 - 你的虚拟人形象处于关闭状态，如果打开，我就可以看到你。
 - 现在我的摄像头是关闭的
 - 你可以打开或者关闭调试模式，目前调试模式是关闭的
