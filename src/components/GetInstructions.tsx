@@ -86,6 +86,8 @@ const getRangeHoodInstructions = (instructions: string) => {
     `\n ${rangeHoodState.instructions}
     \n油烟机状态状态如下：
     \n状态：${rangeHoodState.on ? '开' : '关'}
+    \n档位：${rangeHoodState.level}
+    \n屏幕锁定：${rangeHoodState.lockScreen ? '开' : '关'}
   `;
 
   return instructions;

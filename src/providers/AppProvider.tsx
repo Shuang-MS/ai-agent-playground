@@ -72,6 +72,10 @@ import * as air_energy_saving from '../tools/air_conditioning/energy_saving';
 import * as air_continuous_dialogue from '../tools/air_conditioning/continuous_dialogue';
 
 import * as range_hood_turn_on_off from '../tools/range_hood/turn_on_off';
+import * as range_hood_set_level from '../tools/range_hood/set_level';
+import * as range_hood_fetch_weather from '../tools/range_hood/fetch_weather';
+import * as range_hood_get_current_time from '../tools/range_hood/get_current_time';
+import * as range_hood_lock_screen from '../tools/range_hood/lock_screen';
 
 import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/client';
 import {
@@ -1036,6 +1040,13 @@ export const AppProvider: React.FC<{
 
   const range_hood_control_tools: [ToolDefinitionType, Function][] = [
     [range_hood_turn_on_off.definition, range_hood_turn_on_off.handler],
+    [range_hood_set_level.definition, range_hood_set_level.handler],
+    [range_hood_fetch_weather.definition, range_hood_fetch_weather.handler],
+    [
+      range_hood_get_current_time.definition,
+      range_hood_get_current_time.handler,
+    ],
+    [range_hood_lock_screen.definition, range_hood_lock_screen.handler],
   ];
 
   let merge_tools: [ToolDefinitionType, Function][] = profiles.currentProfile
