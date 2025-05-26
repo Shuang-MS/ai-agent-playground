@@ -40,8 +40,9 @@ const getAirInstructions = (instructions: string) => {
 
   instructions =
     instructions +
-    `\n ${base_instructions}
+    `\n${base_instructions}
     \n空调状态状态如下：
+    \n名称：${airState.name}
     \n状态：${airState.on ? '开' : '关'}
     \n温度：${airState.temperature}
     \n模式：${airState.mode}
@@ -79,9 +80,9 @@ const getRangeHoodInstructions = (instructions: string) => {
   if (!rangeHoodState.on) {
     instructions =
       instructions +
-      `\n ${base_instructions}
-       \n 油烟机是关闭状态，不能进行任何操作。
-       \n 如果用户的操作包含打开油烟机，那么不用提示，你先打油烟机，再按照顺序执行其他操作。
+      `\n${base_instructions}
+       \n油烟机是关闭状态，不能进行任何操作。
+       \n如果用户的操作包含打开油烟机，那么不用提示，你先打油烟机，再按照顺序执行其他操作。
   `;
 
     return instructions;
@@ -89,9 +90,21 @@ const getRangeHoodInstructions = (instructions: string) => {
 
   instructions =
     instructions +
-    `\n ${base_instructions}
+    `\n${base_instructions}
     \n油烟机状态状态如下：
-    \n${JSON.stringify(rangeHoodState)}
+    \n名称：${rangeHoodState.name}
+    \n开关机状态：${rangeHoodState.on ? '开' : '关'}
+    \n定时开机(分钟)：${rangeHoodState.scheduled_power_on_minutes}
+    \n定时关机(分钟)：${rangeHoodState.scheduled_power_off_minutes}
+    \n灯光/照明灯：${rangeHoodState.light ? '开' : '关'}
+    \n风量/风速/档位：${rangeHoodState.level}
+    \n左侧快速吸力：${rangeHoodState.rapid_suction_left}
+    \n右侧快速吸力：${rangeHoodState.rapid_suction_right}
+    \nCO值：${rangeHoodState.co_status}
+    \nCH4值：${rangeHoodState.ch4_value}
+    \nCH4值状态：${rangeHoodState.ch4_value > 1000 ? '超标' : '正常'}
+    \n锁屏：${rangeHoodState.lockScreen ? '开' : '关'}
+    \n定时任务：${rangeHoodState.cron.map((c) => `${c.cron} ${c.cron_action} ${c.cron_value}`).join('\n')}
   `;
 
   return instructions;

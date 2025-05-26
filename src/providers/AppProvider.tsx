@@ -76,6 +76,10 @@ import * as range_hood_set_level from '../tools/range_hood/set_level';
 import * as range_hood_fetch_weather from '../tools/range_hood/fetch_weather';
 import * as range_hood_get_current_time from '../tools/range_hood/get_current_time';
 import * as range_hood_lock_screen from '../tools/range_hood/lock_screen';
+import * as range_hood_rapid_suction from '../tools/range_hood/rapid_suction';
+import * as range_hood_turn_on_off_light from '../tools/range_hood/turn_on_off_light';
+import * as range_hood_scheduled_power_on_or_off from '../tools/range_hood/scheduled_power_on_or_off';
+import * as range_hood_schedule_cron from '../tools/range_hood/schedule_cron';
 
 import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/client';
 import {
@@ -1047,6 +1051,16 @@ export const AppProvider: React.FC<{
       range_hood_get_current_time.handler,
     ],
     [range_hood_lock_screen.definition, range_hood_lock_screen.handler],
+    [range_hood_rapid_suction.definition, range_hood_rapid_suction.handler],
+    [
+      range_hood_turn_on_off_light.definition,
+      range_hood_turn_on_off_light.handler,
+    ],
+    [
+      range_hood_scheduled_power_on_or_off.definition,
+      range_hood_scheduled_power_on_or_off.handler,
+    ],
+    [range_hood_schedule_cron.definition, range_hood_schedule_cron.handler],
   ];
 
   let merge_tools: [ToolDefinitionType, Function][] = profiles.currentProfile
