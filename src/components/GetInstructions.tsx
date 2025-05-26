@@ -1,7 +1,7 @@
 import { SCENE_AIR_CONDITIONING } from '../lib/const';
 import { Profiles } from '../lib/Profiles';
 
-import { llmState } from './LlmState';
+import { llmState } from './AirState';
 
 export const getInstructions = (instructions: string) => {
   const profiles = new Profiles();

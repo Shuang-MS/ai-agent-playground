@@ -1,5 +1,5 @@
 import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/client';
-import { llmState } from '../../components/LlmState';
+import { llmState } from '../../components/AirState';
 
 export const definition: ToolDefinitionType = {
   name: 'set_wind_speed_percentage',
