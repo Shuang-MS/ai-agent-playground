@@ -3,7 +3,7 @@ import {
   ToolDefinitionType,
 } from '@theodoreniu/realtime-api-beta/dist/lib/client';
 import { DEEPSEEK_FUNCTION_CALL_ENABLE } from './const';
-import * as load_functions from '../tools/load_functions';
+import * as load_functions from '../tools/default/load_functions';
 import { Profiles } from './Profiles';
 import { AgentMessageType } from '../types/AgentMessageType';
 

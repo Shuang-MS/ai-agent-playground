@@ -23,7 +23,6 @@ import BuiltFunctionDisable from '../components/BuiltFunctionDisable';
 import { Profiles } from '../lib/Profiles';
 import SpeechTTS from '../components/SpeechTTS';
 
-import { appendAirConditioningStateToInstructions } from './ConsolePageRealtime';
 import {
   ResponseCreateParamsStreaming,
   Tool,
@@ -32,6 +31,7 @@ import {
   ResponseInputItem,
 } from 'openai/resources/responses/responses';
 import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/client';
+import { getInstructions } from '../components/GetInstructions';
 
 export function ConsolePageResponses() {
   const {
@@ -56,16 +56,6 @@ export function ConsolePageResponses() {
   const [profiles] = useState<Profiles>(new Profiles());
 
   const { functionsToolsRef, llmInstructions } = useContexts();
-
-  const getInstructions = () => {
-    const currentTime = new Date().toLocaleString();
-    let instructions = llmInstructions + `\n当前时间：${currentTime} `;
-
-    return appendAirConditioningStateToInstructions(
-      instructions,
-      profiles.currentProfile?.scene,
-    );
-  };
 
   const functionCallHandler = async (
     call: ResponseFunctionToolCall,
@@ -169,11 +159,11 @@ export function ConsolePageResponses() {
       );
 
       const params: ResponseCreateParamsStreaming = {
-        instructions: getInstructions(),
+        instructions: getInstructions(llmInstructions),
         temperature: profiles.currentProfile?.temperature || 0.5,
         top_p: 1,
         model: modelName,
-        store: true,
+        // store: true,
         input: inputMessage,
         stream: true,
         tools: tools,
@@ -200,6 +190,10 @@ export function ConsolePageResponses() {
             setInputTokens((prev) => prev + input_tokens);
             setOutputTokens((prev) => prev + output_tokens);
           }
+
+          if (functionCallOutput.length > 0) {
+            await sendAssistantMessage(functionCallOutput);
+          }
         } else if (event.type === 'response.output_item.done') {
           if (event.item.type === 'function_call') {
             functionCallOutput.push(await functionCallHandler(event.item));
@@ -207,10 +201,6 @@ export function ConsolePageResponses() {
         } else if (event.type === 'response.created') {
           setLastResponse(event.response);
         }
-      }
-
-      if (functionCallOutput.length > 0) {
-        await sendAssistantMessage(functionCallOutput);
       }
     } catch (error) {
       setConnectStatus(CONNECT_DISCONNECTED);

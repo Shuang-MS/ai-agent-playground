@@ -3,7 +3,7 @@ import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
 import { Download, Plus, Settings, Upload, X, Trash } from 'react-feather';
 import { Button } from './button/Button';
 import Dropdown from './Dropdown';
-import { GRAPHRAG_ABOUT } from '../tools/azure_docs';
+import { GRAPHRAG_ABOUT } from '../tools/default/azure_docs';
 import {
   ALLOW_FUNCTIONS_CHARACTERS,
   ALLOW_PROMPT_CHARACTERS,

@@ -40,7 +40,7 @@ import { Profiles } from '../lib/Profiles';
 import SpeechTTS from '../components/SpeechTTS';
 
 import { Text, TextDelta } from 'openai/resources/beta/threads/messages';
-import { appendAirConditioningStateToInstructions } from './ConsolePageRealtime';
+import { getInstructions } from '../components/GetInstructions';
 
 export function ConsolePageAssistant() {
   const {
@@ -76,13 +76,7 @@ export function ConsolePageAssistant() {
 
   const updateInstructions = async () => {
     if (assistantRef?.current?.id) {
-      const currentTime = new Date().toLocaleString();
-      let instructions = llmInstructions + `\n当前时间：${currentTime} `;
-
-      instructions = appendAirConditioningStateToInstructions(
-        instructions,
-        profiles.currentProfile?.scene,
-      );
+      const instructions = getInstructions(llmInstructions);
 
       console.log('updateInstructions', instructions);
       await getOpenAIClient().beta.assistants.update(

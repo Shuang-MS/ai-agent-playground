@@ -25,8 +25,10 @@ export interface LlmState {
   volume_percentage: number;
   wind_free: boolean;
   wind_speed_percentage: number;
+  instructions: string;
 }
 export const llmState: LlmState = {
+  instructions: '你是空调智能助手，你可以帮助用户控制空调。回复请务必简短。',
   ai_control: false,
   air_direction: '关闭',
   anti_direct_airflow: false,

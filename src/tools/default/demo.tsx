@@ -1,6 +1,6 @@
 import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/client';
-import { demos } from '../lib/const';
-import { getCompletion } from '../lib/openai';
+import { demos } from '../../lib/const';
+import { getCompletion } from '../../lib/openai';
 
 export const definition: ToolDefinitionType = {
   name: 'demo',

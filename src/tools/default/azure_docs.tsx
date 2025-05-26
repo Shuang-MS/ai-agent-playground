@@ -1,5 +1,5 @@
 import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/client';
-import { Profiles } from '../lib/Profiles';
+import { Profiles } from '../../lib/Profiles';
 
 export const GRAPHRAG_ABOUT = 'Azure(微软云) docs';
 

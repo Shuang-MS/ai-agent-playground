@@ -14,36 +14,37 @@ import {
   SYSTEM_INSTRUCTIONS,
 } from '../lib/instructions';
 import { v4 as uuidv4 } from 'uuid';
-import * as memory from '../tools/memory';
-import * as weather from '../tools/weather';
-import * as avatar from '../tools/avatar';
-import * as order_get from '../tools/order_get';
-import * as order_return from '../tools/order_return';
-import * as bing from '../tools/bing';
-import * as dark from '../tools/dark';
-import * as news from '../tools/news';
-import * as location from '../tools/location';
-import * as stock_recommend from '../tools/stock_recommend';
-import * as products_recommend from '../tools/products_recommend';
-import * as demo from '../tools/demo';
-import * as feishu from '../tools/feishu';
-import * as background from '../tools/background';
-import * as open_url from '../tools/open_url';
-import * as debug_model from '../tools/debug_model';
-import * as set_disconnection from '../tools/set_disconnection';
-import * as camera_current from '../tools/camera_current';
-import * as camera_on from '../tools/camera_on';
-import * as camera_take_photo from '../tools/camera_take_photo';
-import * as opacity from '../tools/opacity';
-import * as devices_action from '../tools/devices_action';
-import * as camera_video from '../tools/camera_video';
-import * as painting from '../tools/painting';
-import * as image_modify from '../tools/painting_modify';
-import * as azure_docs from '../tools/azure_docs';
-import * as quote from '../tools/quote';
-import * as exchange_rate_aim from '../tools/exchange_rate_aim';
-import * as exchange_rate_list from '../tools/exchange_rate_list';
-import * as exchange_rate_configs from '../tools/exchange_rate_configs';
+
+import * as memory from '../tools/default/memory';
+import * as weather from '../tools/default/weather';
+import * as avatar from '../tools/default/avatar';
+import * as order_get from '../tools/default/order_get';
+import * as order_return from '../tools/default/order_return';
+import * as bing from '../tools/default/bing';
+import * as dark from '../tools/default/dark';
+import * as news from '../tools/default/news';
+import * as location from '../tools/default/location';
+import * as stock_recommend from '../tools/default/stock_recommend';
+import * as products_recommend from '../tools/default/products_recommend';
+import * as demo from '../tools/default/demo';
+import * as feishu from '../tools/default/feishu';
+import * as background from '../tools/default/background';
+import * as open_url from '../tools/default/open_url';
+import * as debug_model from '../tools/default/debug_model';
+import * as set_disconnection from '../tools/default/set_disconnection';
+import * as camera_current from '../tools/default/camera_current';
+import * as camera_on from '../tools/default/camera_on';
+import * as camera_take_photo from '../tools/default/camera_take_photo';
+import * as opacity from '../tools/default/opacity';
+import * as devices_action from '../tools/default/devices_action';
+import * as camera_video from '../tools/default/camera_video';
+import * as painting from '../tools/default/painting';
+import * as image_modify from '../tools/default/painting_modify';
+import * as azure_docs from '../tools/default/azure_docs';
+import * as quote from '../tools/default/quote';
+import * as exchange_rate_aim from '../tools/default/exchange_rate_aim';
+import * as exchange_rate_list from '../tools/default/exchange_rate_list';
+import * as exchange_rate_configs from '../tools/default/exchange_rate_configs';
 
 import * as air_weather from '../tools/air_conditioning/fetch_weather';
 import * as air_turn_on_off from '../tools/air_conditioning/turn_on_off';
@@ -103,7 +104,7 @@ import {
 } from '../contexts/GptImagesContext';
 import { VectorStore } from 'openai/resources/vector-stores/vector-stores';
 import { Profiles } from '../lib/Profiles';
-import { GRAPHRAG_ABOUT } from '../tools/azure_docs';
+import { GRAPHRAG_ABOUT } from '../tools/default/azure_docs';
 
 export type ReplaceInstructionsArray = {
   source: string | RegExp;
