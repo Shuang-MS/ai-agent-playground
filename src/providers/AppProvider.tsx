@@ -71,6 +71,8 @@ import * as air_wind_speed_percentage from '../tools/air_conditioning/wind_speed
 import * as air_energy_saving from '../tools/air_conditioning/energy_saving';
 import * as air_continuous_dialogue from '../tools/air_conditioning/continuous_dialogue';
 
+import * as range_hood_turn_on_off from '../tools/range_hood/turn_on_off';
+
 import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/client';
 import {
   AVATAR_OFF,
@@ -84,6 +86,7 @@ import {
   SPEECH_METHOD_COMPLETION,
   SPEECH_METHOD_STREAM,
   SCENE_AIR_CONDITIONING,
+  SCENE_RANGE_HOOD,
 } from '../lib/const';
 import {
   editImages,
@@ -1031,6 +1034,10 @@ export const AppProvider: React.FC<{
     [air_continuous_dialogue.definition, air_continuous_dialogue.handler],
   ];
 
+  const range_hood_control_tools: [ToolDefinitionType, Function][] = [
+    [range_hood_turn_on_off.definition, range_hood_turn_on_off.handler],
+  ];
+
   let merge_tools: [ToolDefinitionType, Function][] = profiles.currentProfile
     ?.isDefaultScene
     ? [...loadFunctionsTools, ...builtinFunctionTools]
@@ -1038,6 +1045,10 @@ export const AppProvider: React.FC<{
 
   if (profiles.currentProfile?.scene === SCENE_AIR_CONDITIONING) {
     merge_tools = air_conditioning_control_tools;
+  }
+
+  if (profiles.currentProfile?.scene === SCENE_RANGE_HOOD) {
+    merge_tools = range_hood_control_tools;
   }
 
   // resort merge_tools by ToolDefinitionType name

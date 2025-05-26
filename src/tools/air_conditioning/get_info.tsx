@@ -1,5 +1,5 @@
 import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/client';
-import { llmState } from '../../components/AirState';
+import { airState } from '../../components/AirState';
 
 export const definition: ToolDefinitionType = {
   name: 'get_air_conditioning_info',
@@ -12,6 +12,6 @@ export const definition: ToolDefinitionType = {
 
 export const handler: Function = async () => {
   return {
-    state: llmState,
+    state: airState,
   };
 };

@@ -1,5 +1,5 @@
 import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/client';
-import { llmState } from '../../components/AirState';
+import { airState } from '../../components/AirState';
 
 export const definition: ToolDefinitionType = {
   name: 'set_temperature',
@@ -25,9 +25,9 @@ export const handler: Function = async ({
 }: {
   [key: string]: any;
 }) => {
-  llmState.temperature = temperature;
+  airState.temperature = temperature;
 
-  if (llmState.mode === '送风模式') {
+  if (airState.mode === '送风模式') {
     return {
       error: '送风模式不能调整温度',
     };

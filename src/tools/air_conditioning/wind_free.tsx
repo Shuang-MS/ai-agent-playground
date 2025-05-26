@@ -1,5 +1,5 @@
 import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/client';
-import { llmState } from '../../components/AirState';
+import { airState } from '../../components/AirState';
 
 export const definition: ToolDefinitionType = {
   name: 'turn_on_or_off_wind_free',
@@ -17,7 +17,7 @@ export const definition: ToolDefinitionType = {
 };
 
 export const handler: Function = async ({ on }: { [key: string]: any }) => {
-  llmState.wind_free = on;
+  airState.wind_free = on;
   return {
     on: on,
   };

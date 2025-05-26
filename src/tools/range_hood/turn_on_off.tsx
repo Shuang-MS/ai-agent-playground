@@ -1,23 +1,22 @@
 import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/client';
-import { airState } from '../../components/AirState';
+import { rangeHoodState } from '../../components/RangeHood';
 
 export const definition: ToolDefinitionType = {
-  name: 'turn_on_or_off_cool_flash',
-  description: `Turns on or off the air conditioning cool flash. 设置速冷模式/打开或关闭速冷模式`,
+  name: 'turn_on_or_off_power',
+  description: `Turns on or off the range hood.`,
   parameters: {
     type: 'object',
     properties: {
       on: {
         type: 'boolean',
-        description:
-          'Whether to turn on or off the air conditioning cool flash.',
+        description: 'Whether to turn on or off the range hood.',
       },
     },
   },
 };
 
 export const handler: Function = async ({ on }: { [key: string]: any }) => {
-  airState.cool_flash = on;
+  rangeHoodState.on = on;
   return {
     on: on,
   };

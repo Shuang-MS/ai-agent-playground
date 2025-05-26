@@ -1,4 +1,4 @@
-export interface LlmState {
+export interface AirState {
   ai_control: boolean;
   air_direction: string;
   anti_direct_airflow: boolean;
@@ -27,7 +27,8 @@ export interface LlmState {
   wind_speed_percentage: number;
   instructions: string;
 }
-export const llmState: LlmState = {
+
+export const airState: AirState = {
   instructions: '你是空调智能助手，你可以帮助用户控制空调。回复请务必简短。',
   ai_control: false,
   air_direction: '关闭',

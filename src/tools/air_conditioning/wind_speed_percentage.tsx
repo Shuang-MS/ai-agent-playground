@@ -1,5 +1,5 @@
 import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/client';
-import { llmState } from '../../components/AirState';
+import { airState } from '../../components/AirState';
 
 export const definition: ToolDefinitionType = {
   name: 'set_wind_speed_percentage',
@@ -22,7 +22,7 @@ export const handler: Function = async ({
 }: {
   [key: string]: any;
 }) => {
-  llmState.wind_speed_percentage = wind_speed_percentage;
+  airState.wind_speed_percentage = wind_speed_percentage;
   return {
     wind_speed_percentage: wind_speed_percentage,
   };

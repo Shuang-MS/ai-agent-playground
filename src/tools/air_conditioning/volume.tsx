@@ -1,5 +1,5 @@
 import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/client';
-import { llmState } from '../../components/AirState';
+import { airState } from '../../components/AirState';
 
 export const definition: ToolDefinitionType = {
   name: 'set_volume_percentage',
@@ -26,7 +26,7 @@ export const handler: Function = async ({
 }: {
   [key: string]: any;
 }) => {
-  llmState.volume_percentage = volume_percentage;
+  airState.volume_percentage = volume_percentage;
   return {
     volume_percentage: volume_percentage,
   };

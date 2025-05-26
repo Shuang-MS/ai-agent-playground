@@ -1,5 +1,5 @@
 import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/client';
-import { llmState } from '../../components/AirState';
+import { airState } from '../../components/AirState';
 
 export const definition: ToolDefinitionType = {
   name: 'turn_on_or_off_screen_display',
@@ -17,7 +17,7 @@ export const definition: ToolDefinitionType = {
 };
 
 export const handler: Function = async ({ on }: { [key: string]: any }) => {
-  llmState.screen_display = on;
+  airState.screen_display = on;
   return {
     on: on,
   };
