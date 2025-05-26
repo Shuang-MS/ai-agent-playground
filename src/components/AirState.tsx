@@ -1,4 +1,5 @@
 export interface AirState {
+  name: string;
   ai_control: boolean;
   air_direction: string;
   anti_direct_airflow: boolean;
@@ -25,11 +26,10 @@ export interface AirState {
   volume_percentage: number;
   wind_free: boolean;
   wind_speed_percentage: number;
-  instructions: string;
 }
 
 export const airState: AirState = {
-  instructions: '你是空调智能助手，你可以帮助用户控制空调。回复请务必简短。',
+  name: '客厅空调',
   ai_control: false,
   air_direction: '关闭',
   anti_direct_airflow: false,

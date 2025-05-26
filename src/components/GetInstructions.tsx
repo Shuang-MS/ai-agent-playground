@@ -23,10 +23,13 @@ export const getInstructions = (instructions: string) => {
 };
 
 const getAirInstructions = (instructions: string) => {
+  const base_instructions =
+    '你是空调智能助手，你可以帮助用户控制空调。回复请务必简短。';
+
   if (!airState.on) {
     instructions =
       instructions +
-      `\n ${airState.instructions}
+      `\n ${base_instructions}
        \n 空调是关闭状态，不能进行任何操作。
        \n 如果用户的操作包含打开空调，那么不用提示，你先打空调，再按照顺序执行其他操作。
        \n 如果用户的操作不包含打开空调，则只能进行定时开机操作，其他操作需要提示空调是关闭状态，只能打开空调，不能进行其他任何操作，并且询问用户是否打开空调。
@@ -37,7 +40,7 @@ const getAirInstructions = (instructions: string) => {
 
   instructions =
     instructions +
-    `\n ${airState.instructions}
+    `\n ${base_instructions}
     \n空调状态状态如下：
     \n状态：${airState.on ? '开' : '关'}
     \n温度：${airState.temperature}
@@ -70,10 +73,13 @@ const getAirInstructions = (instructions: string) => {
 };
 
 const getRangeHoodInstructions = (instructions: string) => {
+  const base_instructions =
+    '你是油烟机智能助手，你可以帮助用户控制油烟机。回复请务必简短。';
+
   if (!rangeHoodState.on) {
     instructions =
       instructions +
-      `\n ${rangeHoodState.instructions}
+      `\n ${base_instructions}
        \n 油烟机是关闭状态，不能进行任何操作。
        \n 如果用户的操作包含打开油烟机，那么不用提示，你先打油烟机，再按照顺序执行其他操作。
   `;
@@ -83,11 +89,9 @@ const getRangeHoodInstructions = (instructions: string) => {
 
   instructions =
     instructions +
-    `\n ${rangeHoodState.instructions}
+    `\n ${base_instructions}
     \n油烟机状态状态如下：
-    \n状态：${rangeHoodState.on ? '开' : '关'}
-    \n档位：${rangeHoodState.level}
-    \n屏幕锁定：${rangeHoodState.lockScreen ? '开' : '关'}
+    \n${JSON.stringify(rangeHoodState)}
   `;
 
   return instructions;
