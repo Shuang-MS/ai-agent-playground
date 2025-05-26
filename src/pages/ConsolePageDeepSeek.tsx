@@ -59,7 +59,7 @@ export function ConsolePageDeepSeek() {
   };
 
   const handleAssistantTextDelta = (delta: any) => {
-    recordTokenLatency(delta);
+    recordTokenLatency();
 
     if (isDebugModeRef.current) {
       console.log('delta', delta);

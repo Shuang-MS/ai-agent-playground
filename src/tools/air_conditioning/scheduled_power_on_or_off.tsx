@@ -1,5 +1,5 @@
 import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/client';
-import { llmState } from '../../components/LlmState';
+import { airState } from '../../components/AirState';
 
 export const definition: ToolDefinitionType = {
   name: 'set_scheduled_power_on_or_off',
@@ -28,9 +28,9 @@ export const handler: Function = async ({
   [key: string]: any;
 }) => {
   if (on) {
-    llmState.scheduled_power_on_hours = after_hours;
+    airState.scheduled_power_on_hours = after_hours;
   } else {
-    llmState.scheduled_power_off_hours = after_hours;
+    airState.scheduled_power_off_hours = after_hours;
   }
   return {
     on,

@@ -1,5 +1,5 @@
 import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/client';
-import { llmState } from '../../components/LlmState';
+import { airState } from '../../components/AirState';
 
 export const definition: ToolDefinitionType = {
   name: 'set_air_direction',
@@ -21,11 +21,11 @@ export const handler: Function = async ({
 }: {
   [key: string]: any;
 }) => {
-  llmState.air_direction = air_direction;
+  airState.air_direction = air_direction;
 
   let message = '';
-  if (llmState.air_direction !== '关闭') {
-    llmState.mode = '制热模式';
+  if (airState.air_direction !== '关闭') {
+    airState.mode = '制热模式';
     message = '已经顺便把空调模式设置为制热模式';
   }
 

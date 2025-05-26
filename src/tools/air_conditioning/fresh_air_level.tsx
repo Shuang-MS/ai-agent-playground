@@ -1,5 +1,5 @@
 import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/client';
-import { llmState } from '../../components/LlmState';
+import { airState } from '../../components/AirState';
 
 export const definition: ToolDefinitionType = {
   name: 'set_fresh_air_level',
@@ -21,7 +21,7 @@ export const handler: Function = async ({
 }: {
   [key: string]: any;
 }) => {
-  llmState.fresh_air_level = fresh_air_level;
+  airState.fresh_air_level = fresh_air_level;
   return {
     fresh_air_level: fresh_air_level,
   };

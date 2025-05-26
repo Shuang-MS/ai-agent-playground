@@ -5,10 +5,9 @@ import { useEffect, useRef, useState } from 'react';
 import * as SpeechSDK from 'microsoft-cognitiveservices-speech-sdk';
 import './InputBar.scss';
 import {
-  clientHiEnglish,
   CONNECT_CONNECTED,
-  SCENE_DEFAULT,
   SHORTCUTS,
+  SPEECH_DEFAULT_Hi,
   SPEECH_LANGUAGE_DEFAULT,
 } from '../lib/const';
 import { Profiles } from '../lib/Profiles';
@@ -184,8 +183,11 @@ export function InputBarAssistant({
 
   useEffect(() => {
     if (connectStatus === CONNECT_CONNECTED) {
-      const hi = clientHiEnglish;
-      sendText(hi);
+      sendText(
+        SPEECH_DEFAULT_Hi[
+          profile?.detectLanguage as keyof typeof SPEECH_DEFAULT_Hi
+        ],
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [connectStatus]);

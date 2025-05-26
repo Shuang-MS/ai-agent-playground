@@ -1,5 +1,5 @@
 import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/client';
-import { llmState } from '../../components/LlmState';
+import { airState } from '../../components/AirState';
 
 export const definition: ToolDefinitionType = {
   name: 'turn_on_or_off_continuous_dialogue',
@@ -17,7 +17,7 @@ export const definition: ToolDefinitionType = {
 };
 
 export const handler: Function = async ({ on }: { [key: string]: any }) => {
-  llmState.continuous_dialogue = on;
+  airState.continuous_dialogue = on;
   return {
     on: on,
   };

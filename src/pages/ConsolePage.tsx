@@ -8,6 +8,7 @@ import TrafficMonitor from '../components/functions/TrafficMonitor';
 import FunctionsList from '../components/functions/FunctionsList';
 import { ConsolePageRealtime } from './ConsolePageRealtime';
 import { ConsolePageAssistant } from './ConsolePageAssistant';
+import { ConsolePageResponses } from './ConsolePageResponses';
 import { AlertTriangle } from 'react-feather';
 import AboutApp from '../components/AboutApp';
 import { ConsolePageDeepSeek } from './ConsolePageDeepSeek';
@@ -18,6 +19,7 @@ import AppMessage from '../components/AppMessage';
 import { Profiles } from '../lib/Profiles';
 import defaultIcon from '../static/logomark.svg';
 import { ConsolePageAgent } from './ConsolePageAgent';
+import { SCENE_DEFAULT } from '../lib/const';
 
 export function ConsolePage() {
   const { isDebugMode, setIsDebugMode, isNightMode } = useContexts();
@@ -58,6 +60,15 @@ export function ConsolePage() {
       marginLeft: '0',
       marginTop: '-5px',
     },
+    scene: {
+      fontSize: '10px',
+      color: 'white',
+      backgroundColor: '#dd580b',
+      borderRadius: '5px',
+      padding: '2px 5px',
+      marginLeft: '0',
+      marginTop: '-5px',
+    },
     title: {
       fontSize: '30px',
       fontWeight: '500',
@@ -91,6 +102,10 @@ export function ConsolePage() {
             {profiles.currentProfile?.supportedAssistantType}
           </span>
 
+          {profiles.currentProfile?.scene !== SCENE_DEFAULT && (
+            <span style={styles.scene}>{profiles.currentProfile?.scene}</span>
+          )}
+
           <a
             href="https://github.com/theodoreniu/ai-agent-playground"
             target="_blank"
@@ -121,6 +136,7 @@ export function ConsolePage() {
         {profiles.currentProfile?.isAssistant && <ConsolePageAssistant />}
         {profiles.currentProfile?.isDeepSeek && <ConsolePageDeepSeek />}
         {profiles.currentProfile?.isAgentAI && <ConsolePageAgent />}
+        {profiles.currentProfile?.isResponses && <ConsolePageResponses />}
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/client';
-import { llmState } from '../../components/LlmState';
+import { airState } from '../../components/AirState';
 
 export const definition: ToolDefinitionType = {
   name: 'set_purification_level',
@@ -21,7 +21,7 @@ export const handler: Function = async ({
 }: {
   [key: string]: any;
 }) => {
-  llmState.purification_level = purification_level;
+  airState.purification_level = purification_level;
   return {
     purification_level: purification_level,
   };

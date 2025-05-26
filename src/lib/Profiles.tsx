@@ -6,6 +6,7 @@ import {
   ASSISTANT_TYPE_DEEPSEEK,
   ASSISTANT_TYPE_DEFAULT,
   ASSISTANT_TYPE_REALTIME,
+  ASSISTANT_TYPE_RESPONSES,
   ASSISTANT_TYPES,
   DEEPSEEK_FUNCTION_CALL_DISABLE,
   DEFAULT_AGENT_API_URL,
@@ -71,6 +72,7 @@ class Profile {
   public isRealtime: boolean = this.assistantType === ASSISTANT_TYPE_REALTIME;
   public isDeepSeek: boolean = this.assistantType === ASSISTANT_TYPE_DEEPSEEK;
   public isAgentAI: boolean = this.assistantType === ASSISTANT_TYPE_AGENT_AI;
+  public isResponses: boolean = this.assistantType === ASSISTANT_TYPE_RESPONSES;
   public isDefaultScene: boolean = this.scene === SCENE_DEFAULT;
 
   setProperty<K extends keyof Profile>(key: K, value: Profile[K]) {
@@ -225,6 +227,7 @@ export class Profiles {
       p.isRealtime = p.assistantType === ASSISTANT_TYPE_REALTIME;
       p.isDeepSeek = p.assistantType === ASSISTANT_TYPE_DEEPSEEK;
       p.isAgentAI = p.assistantType === ASSISTANT_TYPE_AGENT_AI;
+      p.isResponses = p.assistantType === ASSISTANT_TYPE_RESPONSES;
       p.isDefaultScene = p.scene === SCENE_DEFAULT;
 
       p.supportedAssistantType =

@@ -1,5 +1,5 @@
 import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/client';
-import { llmState } from '../../components/LlmState';
+import { airState } from '../../components/AirState';
 
 export const definition: ToolDefinitionType = {
   name: 'set_gear_level',
@@ -21,7 +21,7 @@ export const handler: Function = async ({
 }: {
   [key: string]: any;
 }) => {
-  llmState.gear_level = gear_level;
+  airState.gear_level = gear_level;
   return {
     gear_level: gear_level,
   };

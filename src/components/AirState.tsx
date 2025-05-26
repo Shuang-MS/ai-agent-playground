@@ -1,0 +1,59 @@
+export interface AirState {
+  name: string;
+  ai_control: boolean;
+  air_direction: string;
+  anti_direct_airflow: boolean;
+  continuous_dialogue: boolean;
+  cool_flash: boolean;
+  count: number;
+  disinfection: boolean;
+  electric_auxiliary_heating: boolean;
+  energy_saving: boolean;
+  fresh_air_level: number;
+  gear_level: number;
+  heat_flash: boolean;
+  indoor_temperature: number;
+  mode: string;
+  moisture_control: boolean;
+  on: boolean;
+  outdoor_temperature: number;
+  purification_level: number;
+  scheduled_power_off_hours: number;
+  scheduled_power_on_hours: number;
+  screen_display: boolean;
+  smart_cleaning: boolean;
+  temperature: number;
+  volume_percentage: number;
+  wind_free: boolean;
+  wind_speed_percentage: number;
+}
+
+export const airState: AirState = {
+  name: '客厅空调',
+  ai_control: false,
+  air_direction: '关闭',
+  anti_direct_airflow: false,
+  continuous_dialogue: true,
+  cool_flash: false,
+  count: 0,
+  disinfection: false,
+  electric_auxiliary_heating: false,
+  energy_saving: false,
+  fresh_air_level: 1,
+  gear_level: 1,
+  heat_flash: false,
+  indoor_temperature: 24,
+  mode: '制冷模式',
+  moisture_control: false,
+  on: false,
+  outdoor_temperature: 30,
+  purification_level: 1,
+  scheduled_power_off_hours: 0,
+  scheduled_power_on_hours: 0,
+  screen_display: false,
+  smart_cleaning: false,
+  temperature: 25,
+  volume_percentage: 50,
+  wind_free: false,
+  wind_speed_percentage: 50,
+};
