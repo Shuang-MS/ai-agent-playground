@@ -94,17 +94,19 @@ const getRangeHoodInstructions = (instructions: string) => {
     \n油烟机状态状态如下：
     \n名称：${rangeHoodState.name}
     \n开关机状态：${rangeHoodState.on ? '开' : '关'}
-    \n定时开机(分钟)：${rangeHoodState.scheduled_power_on_minutes}
-    \n定时关机(分钟)：${rangeHoodState.scheduled_power_off_minutes}
+    \n定时开机(分钟)：${rangeHoodState.scheduled_power_on_minutes ?? '未设置'}
+    \n定时关机(分钟)：${rangeHoodState.scheduled_power_off_minutes ?? '未设置'}
     \n灯光/照明灯：${rangeHoodState.light ? '开' : '关'}
     \n风量/风速/档位：${rangeHoodState.level}
     \n左侧快速吸力：${rangeHoodState.rapid_suction_left}
     \n右侧快速吸力：${rangeHoodState.rapid_suction_right}
+    \n两侧快速吸力：${rangeHoodState.rapid_suction_both}
     \nCO值：${rangeHoodState.co_status}
     \nCH4值：${rangeHoodState.ch4_value}
     \nCH4值状态：${rangeHoodState.ch4_value > 1000 ? '超标' : '正常'}
     \n锁屏：${rangeHoodState.lockScreen ? '开' : '关'}
     \n定时任务：${rangeHoodState.cron.map((c) => `${c.cron} ${c.cron_action} ${c.cron_value}`).join('\n')}
+    \nQ5awi：${rangeHoodState.q5awi_on ? '开' : '关'}
   `;
 
   return instructions;

@@ -10,7 +10,7 @@ export const definition: ToolDefinitionType = {
       position: {
         type: 'string',
         description: 'The position to set the rapid suction to.',
-        enum: ['left', 'right', 'center'],
+        enum: ['left', 'right', 'both'],
       },
       level: {
         type: 'number',
@@ -33,10 +33,13 @@ export const handler: Function = async ({
     rangeHoodState.rapid_suction_left = level;
   } else if (position === 'right') {
     rangeHoodState.rapid_suction_right = level;
+  } else if (position === 'both') {
+    rangeHoodState.rapid_suction_both = level;
   }
 
   return {
     rapid_suction_left: rangeHoodState.rapid_suction_left,
     rapid_suction_right: rangeHoodState.rapid_suction_right,
+    rapid_suction_both: rangeHoodState.rapid_suction_both,
   };
 };
