@@ -59,7 +59,7 @@ import {
   SPEECH_METHOD_COMPLETION,
   SPEECH_METHOD_STREAM,
   SCENE_AIR_CONDITIONING,
-  SCENE_RANGE_HOOD,
+  SCENE_KITCHEN,
 } from '../lib/const';
 import {
   editImages,
@@ -986,7 +986,7 @@ export const AppProvider: React.FC<{
     merge_tools = air_conditioning_control_tools;
   }
 
-  if (profiles.currentProfile?.scene === SCENE_RANGE_HOOD) {
+  if (profiles.currentProfile?.scene === SCENE_KITCHEN) {
     merge_tools = range_hood_control_tools;
   }
 

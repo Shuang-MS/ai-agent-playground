@@ -1,4 +1,4 @@
-import { SCENE_AIR_CONDITIONING, SCENE_RANGE_HOOD } from '../lib/const';
+import { SCENE_AIR_CONDITIONING, SCENE_KITCHEN } from '../lib/const';
 import { Profiles } from '../lib/Profiles';
 
 import { airState } from './AirState';
@@ -9,13 +9,19 @@ export const getInstructions = (instructions: string) => {
   const profile = profiles.currentProfile;
 
   const currentTime = new Date().toLocaleString();
-  instructions = instructions + `\n当前时间：${currentTime} `;
+
+  instructions = instructions + `\n特别注意：`;
+  instructions =
+    instructions +
+    `\n- 默认语言是 ${profile.detectLanguage}，你要始终输出和用户相同的语言，用户更换语言，你也要更换到相同的语言。`;
+  instructions = instructions + `\n- 当前时间：${currentTime} `;
+  instructions = instructions + `\n`;
 
   if (profile.scene === SCENE_AIR_CONDITIONING) {
     return getAirInstructions(instructions);
   }
 
-  if (profile.scene === SCENE_RANGE_HOOD) {
+  if (profile.scene === SCENE_KITCHEN) {
     return getRangeHoodInstructions(instructions);
   }
 
@@ -29,10 +35,10 @@ const getAirInstructions = (instructions: string) => {
   if (!airState.on) {
     instructions =
       instructions +
-      `\n ${base_instructions}
-       \n 空调是关闭状态，不能进行任何操作。
-       \n 如果用户的操作包含打开空调，那么不用提示，你先打空调，再按照顺序执行其他操作。
-       \n 如果用户的操作不包含打开空调，则只能进行定时开机操作，其他操作需要提示空调是关闭状态，只能打开空调，不能进行其他任何操作，并且询问用户是否打开空调。
+      `\n- ${base_instructions}
+       \n- 空调是关闭状态，不能进行任何操作。
+       \n- 如果用户的操作包含打开空调，那么不用提示，你先打空调，再按照顺序执行其他操作。
+       \n- 如果用户的操作不包含打开空调，则只能进行定时开机操作，其他操作需要提示空调是关闭状态，只能打开空调，不能进行其他任何操作，并且询问用户是否打开空调。
   `;
 
     return instructions;
@@ -75,14 +81,14 @@ const getAirInstructions = (instructions: string) => {
 
 const getRangeHoodInstructions = (instructions: string) => {
   const base_instructions =
-    '你是油烟机智能助手，你可以帮助用户控制油烟机。回复请务必简短。';
+    '你是厨房智能助手，你可以帮助用户控制油烟机、洗碗机、蒸烤箱。回复请务必简短。';
 
   if (!rangeHoodState.on) {
     instructions =
       instructions +
-      `\n${base_instructions}
-       \n油烟机是关闭状态，不能进行任何操作。
-       \n如果用户的操作包含打开油烟机，那么不用提示，你先打油烟机，再按照顺序执行其他操作。
+      `\n- ${base_instructions}
+       \n- 如果是关闭状态，不能进行任何操作。
+       \n- 如果用户的操作包含打开设备，那么不用提示，你先打设备，再按照顺序执行其他操作。
   `;
 
     return instructions;

@@ -19,5 +19,6 @@ export const handler: Function = async ({ on }: { [key: string]: any }) => {
   rangeHoodState.on = on;
   return {
     on: on,
+    device_name: rangeHoodState.name,
   };
 };

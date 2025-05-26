@@ -6,10 +6,10 @@ import {
 } from '@theodoreniu/realtime-api-beta/dist/lib/client.js';
 import {
   AVATAR_READY,
-  clientHiEnglish,
   CONNECT_CONNECTED,
   CONNECT_CONNECTING,
   CONNECT_DISCONNECTED,
+  SPEECH_DEFAULT_Hi,
 } from '../lib/const';
 
 import './ConsolePage.scss';
@@ -365,7 +365,9 @@ export function ConsolePageRealtime() {
     realtimeClientRef.current.sendUserMessageContent([
       {
         type: `input_text`,
-        text: clientHiEnglish,
+        text: SPEECH_DEFAULT_Hi[
+          profile?.detectLanguage as keyof typeof SPEECH_DEFAULT_Hi
+        ],
       },
     ]);
 

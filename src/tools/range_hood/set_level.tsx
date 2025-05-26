@@ -24,5 +24,6 @@ export const handler: Function = async ({ level }: { [key: string]: any }) => {
   rangeHoodState.level = level;
   return {
     level: level,
+    name: '家电控制',
   };
 };

@@ -32,9 +32,7 @@ import {
   SPEECH_METHOD_COMPLETION,
   SPEECH_METHOD_DEFAULT,
   SPEECH_LANGUAGE_DE_DE,
-  SCENE_DISHWASHER,
-  SCENE_RANGE_HOOD,
-  SCENE_STEAM_OVEN,
+  SCENE_KITCHEN,
   ASSISTANT_TYPE_RESPONSES,
 } from '../lib/const';
 import { useContexts } from '../providers/AppProvider';
@@ -84,16 +82,8 @@ export const supportedScenes = [
     label: SCENE_AIR_CONDITIONING,
   },
   {
-    value: SCENE_RANGE_HOOD,
-    label: SCENE_RANGE_HOOD,
-  },
-  {
-    value: SCENE_DISHWASHER,
-    label: SCENE_DISHWASHER,
-  },
-  {
-    value: SCENE_STEAM_OVEN,
-    label: SCENE_STEAM_OVEN,
+    value: SCENE_KITCHEN,
+    label: SCENE_KITCHEN,
   },
 ];
 

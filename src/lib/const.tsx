@@ -20,9 +20,7 @@ export const ASSISTANT_TYPES = [
 
 export const SCENE_DEFAULT = 'Default';
 export const SCENE_AIR_CONDITIONING = 'Air Conditioning Control';
-export const SCENE_RANGE_HOOD = 'Range Hood Control';
-export const SCENE_DISHWASHER = 'Dishwasher Control';
-export const SCENE_STEAM_OVEN = 'Steam Oven Control';
+export const SCENE_KITCHEN = 'Kitchen Control';
 
 export const SHORTCUTS = {
   [SCENE_DEFAULT]: [
@@ -35,9 +33,7 @@ export const SHORTCUTS = {
     'turn off the air conditioning',
     'set the air conditioning to 25 degrees',
   ],
-  [SCENE_RANGE_HOOD]: [],
-  [SCENE_DISHWASHER]: [],
-  [SCENE_STEAM_OVEN]: [],
+  [SCENE_KITCHEN]: ['turn on the range hood'],
 };
 
 export const SPEECH_LANGUAGE_ZH_CN = 'zh-CN';
@@ -52,6 +48,17 @@ export const SPEECH_LANGUAGE_DEFAULT = SPEECH_LANGUAGE_ZH_CN;
 export const SPEECH_VOICE_WOMAN = 'Woman';
 export const SPEECH_VOICE_MAN = 'Man';
 export const SPEECH_VOICE_DEFAULT = SPEECH_VOICE_WOMAN;
+
+export const SPEECH_DEFAULT_Hi = {
+  [SPEECH_LANGUAGE_ZH_CN]: '你好！',
+  [SPEECH_LANGUAGE_EN_US]: 'Hi!',
+  [SPEECH_LANGUAGE_VI_VN]: 'Chào!',
+  [SPEECH_LANGUAGE_TH_TH]: 'สวัสดี!',
+  [SPEECH_LANGUAGE_JA_JP]: 'こんにちは！',
+  [SPEECH_LANGUAGE_KO_KR]: '안녕하세요!',
+  [SPEECH_LANGUAGE_MS_MY]: 'Halo!',
+  [SPEECH_LANGUAGE_DE_DE]: 'Hallo!',
+};
 
 export const SPEECH_LANGUAGES = [
   SPEECH_LANGUAGE_ZH_CN,
@@ -90,9 +97,6 @@ export const NOT_SETTINGS_STATUS = [CONNECT_CONNECTING, CONNECT_CONNECTED];
 export const AVATAR_OFF = 'avatar_off';
 export const AVATAR_STARTING = 'avatar_starting';
 export const AVATAR_READY = 'avatar_ready';
-
-export const clientHiEnglish = `Hi!`;
-export const clientHiChinese = `你好！`;
 
 export const fileUploadInstructions = `我已经上传了数据文件，请告诉我你收到了什么内容的文件，只需要简单解释你收到了什么。不要超过30个字。内容在 ----用户已经上传的数据文件开始---- 下面`;
 export const fileUploadTooBig = `请告诉用户，你只是一个 Demo，不处理内容过多的文件，请重新上传一个内容少的文件。`;
