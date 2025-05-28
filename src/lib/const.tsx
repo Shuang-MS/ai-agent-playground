@@ -19,8 +19,8 @@ export const ASSISTANT_TYPES = [
 ];
 
 export const SCENE_DEFAULT = 'Default';
-export const SCENE_AIR_CONDITIONING = 'Air Conditioning Control';
-export const SCENE_KITCHEN = 'Kitchen Control';
+export const SCENE_AIR_CONDITIONING = 'Air Conditioning';
+export const SCENE_KITCHEN = 'Kitchen';
 
 export const SHORTCUTS = {
   [SCENE_DEFAULT]: [
@@ -29,11 +29,18 @@ export const SHORTCUTS = {
     'open avatar',
   ],
   [SCENE_AIR_CONDITIONING]: [
-    'turn on the air conditioning',
-    'turn off the air conditioning',
-    'set the air conditioning to 25 degrees',
+    'turn on air conditioning',
+    'turn off air conditioning',
+    'set air conditioning to 25 degrees',
   ],
-  [SCENE_KITCHEN]: ['turn on the range hood'],
+  [SCENE_KITCHEN]: [
+    'turn on range hood',
+    'turn off range hood',
+    'turn on dishwasher',
+    'turn off dishwasher',
+    'turn on steaming oven',
+    'turn off steaming oven',
+  ],
 };
 
 export const SPEECH_LANGUAGE_ZH_CN = 'zh-CN';

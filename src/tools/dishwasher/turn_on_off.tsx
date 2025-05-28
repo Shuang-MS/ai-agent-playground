@@ -17,6 +17,11 @@ export const definition: ToolDefinitionType = {
 
 export const handler: Function = async ({ on }: { [key: string]: any }) => {
   dishwasherState.on = on;
+  if (on) {
+    dishwasherState.finish_at = new Date().getTime() + 60 * 60;
+  } else {
+    dishwasherState.finish_at = 0;
+  }
   return {
     on: on,
     device_name: dishwasherState.name,
