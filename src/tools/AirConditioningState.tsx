@@ -1,4 +1,4 @@
-export interface AirState {
+export interface AirConditioningState {
   name: string;
   ai_control: boolean;
   air_direction: string;
@@ -28,7 +28,7 @@ export interface AirState {
   wind_speed_percentage: number;
 }
 
-export const airState: AirState = {
+export const airState: AirConditioningState = {
   name: '客厅空调',
   ai_control: false,
   air_direction: '关闭',

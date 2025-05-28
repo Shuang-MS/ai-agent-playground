@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import AssistantMessage from './AssistantMessage';
-import { CONNECT_CONNECTED } from '../lib/const';
+import { CONNECT_CONNECTED } from '../../lib/const';
 
 export default function AssistantMessages({
   connectStatus,

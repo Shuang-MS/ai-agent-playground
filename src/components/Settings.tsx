@@ -34,6 +34,9 @@ import {
   SPEECH_LANGUAGE_DE_DE,
   SCENE_KITCHEN,
   ASSISTANT_TYPE_RESPONSES,
+  SPEECH_LANGUAGE_EN_GB,
+  SPEECH_LANGUAGE_FR_FR,
+  SPEECH_LANGUAGE_ES_ES,
 } from '../lib/const';
 import { useContexts } from '../providers/AppProvider';
 import { svgToBase64 } from '../lib/helper';
@@ -88,14 +91,17 @@ export const supportedScenes = [
 ];
 
 export const supportedSpeechLanguages = [
-  { value: SPEECH_LANGUAGE_ZH_CN, label: 'zh-CN' },
-  { value: SPEECH_LANGUAGE_EN_US, label: 'en-US' },
-  { value: SPEECH_LANGUAGE_TH_TH, label: 'th-th' },
-  { value: SPEECH_LANGUAGE_VI_VN, label: 'vi-vn' },
-  { value: SPEECH_LANGUAGE_DE_DE, label: 'de-DE' },
-  { value: SPEECH_LANGUAGE_JA_JP, label: 'ja-jp' },
-  { value: SPEECH_LANGUAGE_KO_KR, label: 'ko-kr' },
-  { value: SPEECH_LANGUAGE_MS_MY, label: 'ms-my' },
+  { value: SPEECH_LANGUAGE_ZH_CN, label: SPEECH_LANGUAGE_ZH_CN },
+  { value: SPEECH_LANGUAGE_EN_US, label: SPEECH_LANGUAGE_EN_US },
+  { value: SPEECH_LANGUAGE_EN_GB, label: SPEECH_LANGUAGE_EN_GB },
+  { value: SPEECH_LANGUAGE_TH_TH, label: SPEECH_LANGUAGE_TH_TH },
+  { value: SPEECH_LANGUAGE_VI_VN, label: SPEECH_LANGUAGE_VI_VN },
+  { value: SPEECH_LANGUAGE_DE_DE, label: SPEECH_LANGUAGE_DE_DE },
+  { value: SPEECH_LANGUAGE_JA_JP, label: SPEECH_LANGUAGE_JA_JP },
+  { value: SPEECH_LANGUAGE_KO_KR, label: SPEECH_LANGUAGE_KO_KR },
+  { value: SPEECH_LANGUAGE_MS_MY, label: SPEECH_LANGUAGE_MS_MY },
+  { value: SPEECH_LANGUAGE_FR_FR, label: SPEECH_LANGUAGE_FR_FR },
+  { value: SPEECH_LANGUAGE_ES_ES, label: SPEECH_LANGUAGE_ES_ES },
 ];
 
 export const supportedSpeechVoices = [

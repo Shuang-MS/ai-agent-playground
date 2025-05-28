@@ -1,9 +1,9 @@
 import Markdown from 'react-markdown';
-import MessageLoading from './MessageLoading';
+import MessageLoading from '../MessageLoading';
 
-import { useContexts } from '../providers/AppProvider';
-import ClickToJson from './ClickToJson';
-import { AgentMessageType } from '../types/AgentMessageType';
+import { useContexts } from '../../providers/AppProvider';
+import ClickToJson from '../ClickToJson';
+import { AgentMessageType } from '../../types/AgentMessageType';
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
 import { useState } from 'react';

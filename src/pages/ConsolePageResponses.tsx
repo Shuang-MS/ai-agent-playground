@@ -13,7 +13,7 @@ import FileViewer from '../components/FileViewer';
 import Avatar from '../components/Avatar';
 import ConnectButton from '../components/ConnectButton';
 import ConnectMessage from '../components/ConnectMessage';
-import AssistantMessages from '../components/AssistantMessages';
+import AssistantMessages from '../components/messages/AssistantMessages';
 
 import { getOpenAIClient, parseOpenaiSetting } from '../lib/openai';
 import { useContexts } from '../providers/AppProvider';

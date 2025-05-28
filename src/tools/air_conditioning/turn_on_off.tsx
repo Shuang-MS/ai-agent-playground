@@ -1,5 +1,5 @@
 import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/client';
-import { airState } from '../../components/AirState';
+import { airState } from '../AirConditioningState';
 
 export const definition: ToolDefinitionType = {
   name: 'turn_on_or_off_power',

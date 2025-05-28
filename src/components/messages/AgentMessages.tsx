@@ -3,12 +3,12 @@ import AgentMessage, {
   AgentLoadingMessage,
   AgentWaitClientMessage,
 } from './AgentMessage';
-import { CONNECT_CONNECTED } from '../lib/const';
+import { CONNECT_CONNECTED } from '../../lib/const';
 import {
   agentMessageNeedLoading,
   agentMessageNeedWaitClient,
-} from '../lib/helper';
-import { AgentMessageType } from '../types/AgentMessageType';
+} from '../../lib/helper';
+import { AgentMessageType } from '../../types/AgentMessageType';
 
 export default function AgentMessages({
   connectStatus,

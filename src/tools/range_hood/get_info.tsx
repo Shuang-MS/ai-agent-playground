@@ -1,5 +1,5 @@
 import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/client';
-import { rangeHoodState } from '../../components/RangeHood';
+import { rangeHoodState } from '../RangeHoodState';
 
 export const definition: ToolDefinitionType = {
   name: 'get_range_hood_info',

@@ -1,8 +1,8 @@
 import { SCENE_AIR_CONDITIONING, SCENE_KITCHEN } from '../lib/const';
 import { Profiles } from '../lib/Profiles';
 
-import { airState } from './AirState';
-import { rangeHoodState } from './RangeHood';
+import { airState } from '../tools/AirConditioningState';
+import { rangeHoodState } from '../tools/RangeHoodState';
 
 export const getInstructions = (instructions: string) => {
   const profiles = new Profiles();

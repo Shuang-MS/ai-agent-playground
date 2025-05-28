@@ -1,5 +1,5 @@
 import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/client';
-import { airState } from '../../components/AirState';
+import { airState } from '../AirConditioningState';
 
 export const definition: ToolDefinitionType = {
   name: 'set_fresh_air_level',

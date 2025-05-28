@@ -4,7 +4,7 @@ interface Cron {
   cron_value: string;
 }
 
-export interface RangeHood {
+export interface RangeHoodState {
   name: string;
   on: boolean;
   level: number;
@@ -21,7 +21,7 @@ export interface RangeHood {
   q5awi_on: boolean;
 }
 
-export const rangeHoodState: RangeHood = {
+export const rangeHoodState: RangeHoodState = {
   name: '厨房油烟机',
   on: false,
   level: 2,
