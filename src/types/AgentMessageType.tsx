@@ -1,4 +1,4 @@
-import { LlmMessage } from '../components/AgentMessage';
+import { LlmMessage } from '../components/messages/AgentMessage';
 
 export type AgentMessageType = {
   block_session?: boolean;
