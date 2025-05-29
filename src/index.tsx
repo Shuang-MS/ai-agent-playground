@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { onCLS, onINP, onLCP } from 'web-vitals';
 import ErrorBoundary from './components/ErrorBoundary';
 
 const root = ReactDOM.createRoot(
@@ -17,4 +17,6 @@ root.render(
   </React.StrictMode>,
 );
 
-reportWebVitals();
+onCLS(console.log);
+onINP(console.log);
+onLCP(console.log);
