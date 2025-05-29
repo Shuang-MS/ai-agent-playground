@@ -21,6 +21,7 @@ import { supportedAssistantTypes } from '../components/Settings';
 class Profile {
   public id: string = '';
   public name: string = '';
+  public title: string = '';
   public agentApiKey: string = '';
   public agentApiUrl: string = '';
   public appIconDark: string = '';
@@ -229,6 +230,10 @@ export class Profiles {
       p.isAgentAI = p.assistantType === ASSISTANT_TYPE_AGENT_AI;
       p.isResponses = p.assistantType === ASSISTANT_TYPE_RESPONSES;
       p.isDefaultScene = p.scene === SCENE_DEFAULT;
+
+      if (!p.title) {
+        p.title = p.name;
+      }
 
       p.supportedAssistantType =
         supportedAssistantTypes.find((type) => type.value === p.assistantType)

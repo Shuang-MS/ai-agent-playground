@@ -84,7 +84,7 @@ export function InputBarRealtime({
               <Send />
             </button>
 
-            <UploadImage />
+            <UploadImage sendAssistantMessage={sendText} />
           </div>
         </div>
       )}

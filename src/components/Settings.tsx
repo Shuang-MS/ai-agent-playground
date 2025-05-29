@@ -319,13 +319,27 @@ const SettingsComponent: React.FC<{
           </div>
 
           <div style={styles.settings_inline_block}>
-            <div style={styles.settingLabel}>App Name</div>
+            <div style={styles.settingLabel}>Profile Name</div>
             <input
               type={'text'}
               style={styles.settingInput}
               value={profiles.currentProfile?.name || ''}
               onChange={(e) => {
                 profiles.currentProfile!.name = e.target.value;
+                profiles.save();
+                setProfiles(new Profiles());
+              }}
+            />
+          </div>
+
+          <div style={styles.settings_inline_block}>
+            <div style={styles.settingLabel}>Title</div>
+            <input
+              type={'text'}
+              style={styles.settingInput}
+              value={profiles.currentProfile?.title || ''}
+              onChange={(e) => {
+                profiles.currentProfile!.title = e.target.value;
                 profiles.save();
                 setProfiles(new Profiles());
               }}

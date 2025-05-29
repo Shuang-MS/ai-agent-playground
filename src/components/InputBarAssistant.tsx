@@ -229,7 +229,7 @@ export function InputBarAssistant({
               <Send />
             </button>
 
-            <UploadImage />
+            <UploadImage sendAssistantMessage={sendAssistantMessage} />
 
             <button
               onClick={() => {
