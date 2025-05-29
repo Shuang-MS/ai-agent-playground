@@ -3,7 +3,7 @@ import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
 import { Download, Plus, Settings, Upload, X, Trash } from 'react-feather';
 import { Button } from './button/Button';
 import Dropdown from './Dropdown';
-import { GRAPHRAG_ABOUT } from '../tools/azure_docs';
+import { GRAPHRAG_ABOUT } from '../tools/default/azure_docs';
 import {
   ALLOW_FUNCTIONS_CHARACTERS,
   ALLOW_PROMPT_CHARACTERS,
@@ -24,7 +24,7 @@ import {
   SPEECH_LANGUAGE_KO_KR,
   SPEECH_LANGUAGE_JA_JP,
   SCENE_DEFAULT,
-  SCENE_AIR_CONDITIONING_CONTROL,
+  SCENE_AIR_CONDITIONING,
   SPEECH_VOICE_WOMAN,
   SPEECH_VOICE_MAN,
   SPEECH_VOICE_DEFAULT,
@@ -32,6 +32,11 @@ import {
   SPEECH_METHOD_COMPLETION,
   SPEECH_METHOD_DEFAULT,
   SPEECH_LANGUAGE_DE_DE,
+  SCENE_KITCHEN,
+  ASSISTANT_TYPE_RESPONSES,
+  SPEECH_LANGUAGE_EN_GB,
+  SPEECH_LANGUAGE_FR_FR,
+  SPEECH_LANGUAGE_ES_ES,
 } from '../lib/const';
 import { useContexts } from '../providers/AppProvider';
 import { svgToBase64 } from '../lib/helper';
@@ -70,25 +75,33 @@ export const supportedAssistantTypes = [
   { value: ASSISTANT_TYPE_AGENT_AI, label: 'Agent API' },
   { value: ASSISTANT_TYPE_ASSISTANT, label: 'STT -> Assistant -> TTS' },
   { value: ASSISTANT_TYPE_DEEPSEEK, label: 'STT -> DeepSeek -> TTS' },
+  { value: ASSISTANT_TYPE_RESPONSES, label: 'STT -> Responses -> TTS' },
 ];
 
 export const supportedScenes = [
   { value: SCENE_DEFAULT, label: SCENE_DEFAULT },
   {
-    value: SCENE_AIR_CONDITIONING_CONTROL,
-    label: SCENE_AIR_CONDITIONING_CONTROL,
+    value: SCENE_AIR_CONDITIONING,
+    label: SCENE_AIR_CONDITIONING,
+  },
+  {
+    value: SCENE_KITCHEN,
+    label: SCENE_KITCHEN,
   },
 ];
 
 export const supportedSpeechLanguages = [
-  { value: SPEECH_LANGUAGE_ZH_CN, label: 'zh-CN' },
-  { value: SPEECH_LANGUAGE_EN_US, label: 'en-US' },
-  { value: SPEECH_LANGUAGE_TH_TH, label: 'th-th' },
-  { value: SPEECH_LANGUAGE_VI_VN, label: 'vi-vn' },
-  { value: SPEECH_LANGUAGE_DE_DE, label: 'de-DE' },
-  { value: SPEECH_LANGUAGE_JA_JP, label: 'ja-jp' },
-  { value: SPEECH_LANGUAGE_KO_KR, label: 'ko-kr' },
-  { value: SPEECH_LANGUAGE_MS_MY, label: 'ms-my' },
+  { value: SPEECH_LANGUAGE_ZH_CN, label: SPEECH_LANGUAGE_ZH_CN },
+  { value: SPEECH_LANGUAGE_EN_US, label: SPEECH_LANGUAGE_EN_US },
+  { value: SPEECH_LANGUAGE_EN_GB, label: SPEECH_LANGUAGE_EN_GB },
+  { value: SPEECH_LANGUAGE_TH_TH, label: SPEECH_LANGUAGE_TH_TH },
+  { value: SPEECH_LANGUAGE_VI_VN, label: SPEECH_LANGUAGE_VI_VN },
+  { value: SPEECH_LANGUAGE_DE_DE, label: SPEECH_LANGUAGE_DE_DE },
+  { value: SPEECH_LANGUAGE_JA_JP, label: SPEECH_LANGUAGE_JA_JP },
+  { value: SPEECH_LANGUAGE_KO_KR, label: SPEECH_LANGUAGE_KO_KR },
+  { value: SPEECH_LANGUAGE_MS_MY, label: SPEECH_LANGUAGE_MS_MY },
+  { value: SPEECH_LANGUAGE_FR_FR, label: SPEECH_LANGUAGE_FR_FR },
+  { value: SPEECH_LANGUAGE_ES_ES, label: SPEECH_LANGUAGE_ES_ES },
 ];
 
 export const supportedSpeechVoices = [

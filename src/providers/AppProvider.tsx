@@ -14,61 +14,37 @@ import {
   SYSTEM_INSTRUCTIONS,
 } from '../lib/instructions';
 import { v4 as uuidv4 } from 'uuid';
-import * as memory from '../tools/memory';
-import * as weather from '../tools/weather';
-import * as avatar from '../tools/avatar';
-import * as order_get from '../tools/order_get';
-import * as order_return from '../tools/order_return';
-import * as bing from '../tools/bing';
-import * as dark from '../tools/dark';
-import * as news from '../tools/news';
-import * as location from '../tools/location';
-import * as stock_recommend from '../tools/stock_recommend';
-import * as products_recommend from '../tools/products_recommend';
-import * as demo from '../tools/demo';
-import * as feishu from '../tools/feishu';
-import * as background from '../tools/background';
-import * as open_url from '../tools/open_url';
-import * as debug_model from '../tools/debug_model';
-import * as set_disconnection from '../tools/set_disconnection';
-import * as camera_current from '../tools/camera_current';
-import * as camera_on from '../tools/camera_on';
-import * as camera_take_photo from '../tools/camera_take_photo';
-import * as opacity from '../tools/opacity';
-import * as devices_action from '../tools/devices_action';
-import * as camera_video from '../tools/camera_video';
-import * as painting from '../tools/painting';
-import * as image_modify from '../tools/painting_modify';
-import * as azure_docs from '../tools/azure_docs';
-import * as quote from '../tools/quote';
-import * as exchange_rate_aim from '../tools/exchange_rate_aim';
-import * as exchange_rate_list from '../tools/exchange_rate_list';
-import * as exchange_rate_configs from '../tools/exchange_rate_configs';
 
-import * as air_weather from '../tools/air_conditioning/fetch_weather';
-import * as air_turn_on_off from '../tools/air_conditioning/turn_on_off';
-import * as air_get_info from '../tools/air_conditioning/get_info';
-import * as air_temperature from '../tools/air_conditioning/temperature';
-import * as air_mode from '../tools/air_conditioning/mode';
-import * as air_disinfection from '../tools/air_conditioning/disinfection';
-import * as air_ai_control from '../tools/air_conditioning/ai_control';
-import * as air_fresh_air_level from '../tools/air_conditioning/fresh_air_level';
-import * as air_purification_level from '../tools/air_conditioning/purification_level';
-import * as air_gear_level from '../tools/air_conditioning/gear_level';
-import * as air_volume from '../tools/air_conditioning/volume';
-import * as air_moisture_control from '../tools/air_conditioning/moisture_control';
-import * as air_heat_flash from '../tools/air_conditioning/heat_flash';
-import * as air_cool_flash from '../tools/air_conditioning/cool_flash';
-import * as air_anti_direct_airflow from '../tools/air_conditioning/anti_direct_airflow';
-import * as air_smart_cleaning from '../tools/air_conditioning/smart_cleaning';
-import * as air_wind_free from '../tools/air_conditioning/wind_free';
-import * as air_electric_auxiliary_heating from '../tools/air_conditioning/electric_auxiliary_heating';
-import * as air_scheduled_power_on_or_off from '../tools/air_conditioning/scheduled_power_on_or_off';
-import * as air_direction from '../tools/air_conditioning/air_direction';
-import * as air_screen_display from '../tools/air_conditioning/screen_display';
-import * as air_wind_speed_percentage from '../tools/air_conditioning/wind_speed_percentage';
-import * as air_energy_saving from '../tools/air_conditioning/energy_saving';
-import * as air_continuous_dialogue from '../tools/air_conditioning/continuous_dialogue';
+import * as memory from '../tools/default/memory';
+import * as weather from '../tools/default/weather';
+import * as avatar from '../tools/default/avatar';
+import * as order_get from '../tools/default/order_get';
+import * as order_return from '../tools/default/order_return';
+import * as bing from '../tools/default/bing';
+import * as dark from '../tools/default/dark';
+import * as news from '../tools/default/news';
+import * as location from '../tools/default/location';
+import * as stock_recommend from '../tools/default/stock_recommend';
+import * as products_recommend from '../tools/default/products_recommend';
+import * as demo from '../tools/default/demo';
+import * as feishu from '../tools/default/feishu';
+import * as background from '../tools/default/background';
+import * as open_url from '../tools/default/open_url';
+import * as debug_model from '../tools/default/debug_model';
+import * as set_disconnection from '../tools/default/set_disconnection';
+import * as camera_current from '../tools/default/camera_current';
+import * as camera_on from '../tools/default/camera_on';
+import * as camera_take_photo from '../tools/default/camera_take_photo';
+import * as opacity from '../tools/default/opacity';
+import * as devices_action from '../tools/default/devices_action';
+import * as camera_video from '../tools/default/camera_video';
+import * as painting from '../tools/default/painting';
+import * as image_modify from '../tools/default/painting_modify';
+import * as azure_docs from '../tools/default/azure_docs';
+import * as quote from '../tools/default/quote';
+import * as exchange_rate_aim from '../tools/default/exchange_rate_aim';
+import * as exchange_rate_list from '../tools/default/exchange_rate_list';
+import * as exchange_rate_configs from '../tools/default/exchange_rate_configs';
 
 import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/client';
 import {
@@ -82,7 +58,8 @@ import {
   CONNECT_DISCONNECTED,
   SPEECH_METHOD_COMPLETION,
   SPEECH_METHOD_STREAM,
-  SCENE_AIR_CONDITIONING_CONTROL,
+  SCENE_AIR_CONDITIONING,
+  SCENE_KITCHEN,
 } from '../lib/const';
 import {
   editImages,
@@ -103,12 +80,15 @@ import {
 } from '../contexts/GptImagesContext';
 import { VectorStore } from 'openai/resources/vector-stores/vector-stores';
 import { Profiles } from '../lib/Profiles';
-import { GRAPHRAG_ABOUT } from '../tools/azure_docs';
+import { GRAPHRAG_ABOUT } from '../tools/default/azure_docs';
+import { air_conditioning_control_tools } from '../tools/AirConditioningTools';
+import { kitchen_control_tools } from '../tools/KitchenTools';
 
 export type ReplaceInstructionsArray = {
   source: string | RegExp;
   target: string;
 };
+
 interface AppContextType {
   photos: string[];
   photosRef: React.MutableRefObject<string[]>;
@@ -238,7 +218,7 @@ interface AppContextType {
   setTokenLatencyArray: React.Dispatch<React.SetStateAction<number[]>>;
 
   resetTokenLatency: () => void;
-  recordTokenLatency: (delta: any) => void;
+  recordTokenLatency: () => void;
 
   connectMessage: string;
   setConnectMessage: React.Dispatch<React.SetStateAction<string>>;
@@ -537,7 +517,7 @@ export const AppProvider: React.FC<{
     lastTokenTimeRef.current = 0;
   };
 
-  const recordTokenLatency = (delta: any) => {
+  const recordTokenLatency = () => {
     if (isFirstTokenRef.current) {
       isFirstTokenRef.current = false;
       lastTokenTimeRef.current = Date.now();
@@ -997,46 +977,17 @@ export const AppProvider: React.FC<{
   ];
   builtinFunctionTools.sort((a, b) => a[0].name.localeCompare(b[0].name));
 
-  const air_conditioning_control_tools: [ToolDefinitionType, Function][] = [
-    [air_weather.definition, air_weather.handler],
-    [air_turn_on_off.definition, air_turn_on_off.handler],
-    [air_get_info.definition, air_get_info.handler],
-    [air_temperature.definition, air_temperature.handler],
-    [air_mode.definition, air_mode.handler],
-    [air_disinfection.definition, air_disinfection.handler],
-    [air_ai_control.definition, air_ai_control.handler],
-    [air_fresh_air_level.definition, air_fresh_air_level.handler],
-    [air_purification_level.definition, air_purification_level.handler],
-    [air_gear_level.definition, air_gear_level.handler],
-    [air_volume.definition, air_volume.handler],
-    [air_moisture_control.definition, air_moisture_control.handler],
-    [air_heat_flash.definition, air_heat_flash.handler],
-    [air_cool_flash.definition, air_cool_flash.handler],
-    [air_anti_direct_airflow.definition, air_anti_direct_airflow.handler],
-    [air_smart_cleaning.definition, air_smart_cleaning.handler],
-    [air_wind_free.definition, air_wind_free.handler],
-    [
-      air_electric_auxiliary_heating.definition,
-      air_electric_auxiliary_heating.handler,
-    ],
-    [
-      air_scheduled_power_on_or_off.definition,
-      air_scheduled_power_on_or_off.handler,
-    ],
-    [air_direction.definition, air_direction.handler],
-    [air_screen_display.definition, air_screen_display.handler],
-    [air_wind_speed_percentage.definition, air_wind_speed_percentage.handler],
-    [air_energy_saving.definition, air_energy_saving.handler],
-    [air_continuous_dialogue.definition, air_continuous_dialogue.handler],
-  ];
-
   let merge_tools: [ToolDefinitionType, Function][] = profiles.currentProfile
     ?.isDefaultScene
     ? [...loadFunctionsTools, ...builtinFunctionTools]
     : [...loadFunctionsTools];
 
-  if (profiles.currentProfile?.scene === SCENE_AIR_CONDITIONING_CONTROL) {
+  if (profiles.currentProfile?.scene === SCENE_AIR_CONDITIONING) {
     merge_tools = air_conditioning_control_tools;
+  }
+
+  if (profiles.currentProfile?.scene === SCENE_KITCHEN) {
+    merge_tools = kitchen_control_tools;
   }
 
   // resort merge_tools by ToolDefinitionType name

@@ -12,7 +12,7 @@ import SettingsComponent from '../components/Settings';
 import Avatar from '../components/Avatar';
 import ConnectButton from '../components/ConnectButton';
 import ConnectMessage from '../components/ConnectMessage';
-import AgentMessages from '../components/AgentMessages';
+import AgentMessages from '../components/messages/AgentMessages';
 
 import { getOpenAIClient } from '../lib/openai';
 
@@ -28,7 +28,7 @@ import {
   getSessionStates,
 } from '../lib/agentApi';
 import { AgentMessageType } from '../types/AgentMessageType';
-import { LlmMessage } from '../components/AgentMessage';
+import { LlmMessage } from '../components/messages/AgentMessage';
 import axios from 'axios';
 
 export function ConsolePageAgent() {

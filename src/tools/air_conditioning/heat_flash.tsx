@@ -1,5 +1,5 @@
 import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/client';
-import { llmState } from '../../components/LlmState';
+import { airState } from '../AirConditioningState';
 
 export const definition: ToolDefinitionType = {
   name: 'turn_on_or_off_heat_flash',
@@ -17,7 +17,7 @@ export const definition: ToolDefinitionType = {
 };
 
 export const handler: Function = async ({ on }: { [key: string]: any }) => {
-  llmState.heat_flash = on;
+  airState.heat_flash = on;
   return {
     on: on,
   };

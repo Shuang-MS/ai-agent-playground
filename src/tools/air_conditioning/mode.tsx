@@ -1,5 +1,5 @@
 import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/client';
-import { llmState } from '../../components/LlmState';
+import { airState } from '../AirConditioningState';
 
 export const definition: ToolDefinitionType = {
   name: 'set_mode',
@@ -24,7 +24,7 @@ export const definition: ToolDefinitionType = {
 };
 
 export const handler: Function = async ({ mode }: { [key: string]: any }) => {
-  llmState.mode = mode;
+  airState.mode = mode;
   return {
     mode: mode,
   };

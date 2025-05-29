@@ -3,42 +3,14 @@ import * as sdk from 'microsoft-cognitiveservices-speech-sdk';
 import { useContexts } from '../providers/AppProvider';
 import {
   AVATAR_READY,
-  SPEECH_LANGUAGE_DE_DE,
   SPEECH_LANGUAGE_DEFAULT,
-  SPEECH_LANGUAGE_EN_US,
-  SPEECH_LANGUAGE_JA_JP,
-  SPEECH_LANGUAGE_KO_KR,
-  SPEECH_LANGUAGE_MS_MY,
-  SPEECH_LANGUAGE_TH_TH,
-  SPEECH_LANGUAGE_VI_VN,
-  SPEECH_LANGUAGE_ZH_CN,
   SPEECH_METHOD_COMPLETION,
   SPEECH_VOICE_WOMAN,
+  speechLanguageMapMan,
+  speechLanguageMapWoman,
 } from '../lib/const';
 import { Profiles } from '../lib/Profiles';
 import TaskQueue from './speech_queue';
-
-const speechLanguageMapWoman: Record<string, string> = {
-  [SPEECH_LANGUAGE_ZH_CN]: 'zh-CN-Xiaoxiao:DragonHDFlashLatestNeural',
-  [SPEECH_LANGUAGE_EN_US]: 'en-US-AvaMultilingualNeural',
-  [SPEECH_LANGUAGE_VI_VN]: 'vi-VN-HoaiMyNeural',
-  [SPEECH_LANGUAGE_TH_TH]: 'th-TH-AcharaNeural',
-  [SPEECH_LANGUAGE_JA_JP]: 'ja-JP-NanamiNeural',
-  [SPEECH_LANGUAGE_KO_KR]: 'ko-KR-SunHiNeural',
-  [SPEECH_LANGUAGE_MS_MY]: 'ms-MY-YasminNeural',
-  [SPEECH_LANGUAGE_DE_DE]: 'de-DE-SeraphinaMultilingualNeural',
-};
-
-const speechLanguageMapMan: Record<string, string> = {
-  [SPEECH_LANGUAGE_ZH_CN]: 'zh-CN-YunxiNeural',
-  [SPEECH_LANGUAGE_EN_US]: 'en-US-AndrewMultilingualNeural',
-  [SPEECH_LANGUAGE_VI_VN]: 'vi-VN-NamMinhNeural',
-  [SPEECH_LANGUAGE_TH_TH]: 'th-TH-NiwatNeural',
-  [SPEECH_LANGUAGE_JA_JP]: 'ja-JP-Masaru:DragonHDLatestNeural',
-  [SPEECH_LANGUAGE_KO_KR]: 'ko-KR-HyunsuNeural',
-  [SPEECH_LANGUAGE_MS_MY]: 'ms-MY-OsmanNeural',
-  [SPEECH_LANGUAGE_DE_DE]: 'de-DE-FlorianMultilingualNeural',
-};
 
 const SpeechTTS: React.FC = () => {
   const {

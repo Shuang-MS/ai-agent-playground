@@ -4,12 +4,14 @@ export const APP_AGENT_VECTOR_STORE =
 
 export const DEFAULT_AGENT_API_URL = 'https://agent-api.azuretsp.com';
 
+export const ASSISTANT_TYPE_RESPONSES = 'Responses';
 export const ASSISTANT_TYPE_ASSISTANT = 'Assistant';
 export const ASSISTANT_TYPE_REALTIME = 'Realtime';
 export const ASSISTANT_TYPE_DEEPSEEK = 'DeepSeek';
 export const ASSISTANT_TYPE_AGENT_AI = 'Agent API';
 export const ASSISTANT_TYPE_DEFAULT = ASSISTANT_TYPE_REALTIME;
 export const ASSISTANT_TYPES = [
+  ASSISTANT_TYPE_RESPONSES,
   ASSISTANT_TYPE_ASSISTANT,
   ASSISTANT_TYPE_REALTIME,
   ASSISTANT_TYPE_DEEPSEEK,
@@ -17,7 +19,8 @@ export const ASSISTANT_TYPES = [
 ];
 
 export const SCENE_DEFAULT = 'Default';
-export const SCENE_AIR_CONDITIONING_CONTROL = 'Air Conditioning Control';
+export const SCENE_AIR_CONDITIONING = 'Air Conditioning';
+export const SCENE_KITCHEN = 'Kitchen';
 
 export const SHORTCUTS = {
   [SCENE_DEFAULT]: [
@@ -25,21 +28,32 @@ export const SHORTCUTS = {
     'what is the weather in tokyo?',
     'open avatar',
   ],
-  [SCENE_AIR_CONDITIONING_CONTROL]: [
-    'turn on the air conditioning',
-    'turn off the air conditioning',
-    'set the air conditioning to 25 degrees',
+  [SCENE_AIR_CONDITIONING]: [
+    'turn on air conditioning',
+    'turn off air conditioning',
+    'set air conditioning to 25 degrees',
+  ],
+  [SCENE_KITCHEN]: [
+    'turn on range hood',
+    'turn off range hood',
+    'turn on dishwasher',
+    'turn off dishwasher',
+    'turn on steaming oven',
+    'turn off steaming oven',
   ],
 };
 
 export const SPEECH_LANGUAGE_ZH_CN = 'zh-CN';
 export const SPEECH_LANGUAGE_EN_US = 'en-US';
+export const SPEECH_LANGUAGE_EN_GB = 'en-GB';
 export const SPEECH_LANGUAGE_VI_VN = 'vi-vn';
 export const SPEECH_LANGUAGE_TH_TH = 'th-th';
 export const SPEECH_LANGUAGE_JA_JP = 'ja-jp';
 export const SPEECH_LANGUAGE_KO_KR = 'ko-kr';
 export const SPEECH_LANGUAGE_MS_MY = 'ms-my';
 export const SPEECH_LANGUAGE_DE_DE = 'de-DE';
+export const SPEECH_LANGUAGE_FR_FR = 'fr-FR';
+export const SPEECH_LANGUAGE_ES_ES = 'es-ES';
 export const SPEECH_LANGUAGE_DEFAULT = SPEECH_LANGUAGE_ZH_CN;
 export const SPEECH_VOICE_WOMAN = 'Woman';
 export const SPEECH_VOICE_MAN = 'Man';
@@ -48,13 +62,58 @@ export const SPEECH_VOICE_DEFAULT = SPEECH_VOICE_WOMAN;
 export const SPEECH_LANGUAGES = [
   SPEECH_LANGUAGE_ZH_CN,
   SPEECH_LANGUAGE_EN_US,
+  SPEECH_LANGUAGE_EN_GB,
   SPEECH_LANGUAGE_VI_VN,
   SPEECH_LANGUAGE_TH_TH,
   SPEECH_LANGUAGE_DE_DE,
   SPEECH_LANGUAGE_JA_JP,
   SPEECH_LANGUAGE_KO_KR,
   SPEECH_LANGUAGE_MS_MY,
+  SPEECH_LANGUAGE_FR_FR,
+  SPEECH_LANGUAGE_ES_ES,
 ];
+
+export const SPEECH_DEFAULT_Hi: Record<string, string> = {
+  [SPEECH_LANGUAGE_ZH_CN]: '你好！',
+  [SPEECH_LANGUAGE_EN_US]: 'Hi!',
+  [SPEECH_LANGUAGE_EN_GB]: 'Hi!',
+  [SPEECH_LANGUAGE_VI_VN]: 'Chào!',
+  [SPEECH_LANGUAGE_TH_TH]: 'สวัสดี!',
+  [SPEECH_LANGUAGE_JA_JP]: 'こんにちは！',
+  [SPEECH_LANGUAGE_KO_KR]: '안녕하세요!',
+  [SPEECH_LANGUAGE_MS_MY]: 'Halo!',
+  [SPEECH_LANGUAGE_DE_DE]: 'Hallo!',
+  [SPEECH_LANGUAGE_FR_FR]: 'Bonjour!',
+  [SPEECH_LANGUAGE_ES_ES]: '¡Hola!',
+};
+
+export const speechLanguageMapWoman: Record<string, string> = {
+  [SPEECH_LANGUAGE_ZH_CN]: 'zh-CN-Xiaoxiao:DragonHDFlashLatestNeural',
+  [SPEECH_LANGUAGE_EN_US]: 'en-US-AvaMultilingualNeural',
+  [SPEECH_LANGUAGE_EN_GB]: 'en-GB-AdaMultilingualNeural',
+  [SPEECH_LANGUAGE_VI_VN]: 'vi-VN-HoaiMyNeural',
+  [SPEECH_LANGUAGE_TH_TH]: 'th-TH-AcharaNeural',
+  [SPEECH_LANGUAGE_JA_JP]: 'ja-JP-NanamiNeural',
+  [SPEECH_LANGUAGE_KO_KR]: 'ko-KR-SunHiNeural',
+  [SPEECH_LANGUAGE_MS_MY]: 'ms-MY-YasminNeural',
+  [SPEECH_LANGUAGE_DE_DE]: 'de-DE-SeraphinaMultilingualNeural',
+  [SPEECH_LANGUAGE_FR_FR]: 'fr-FR-VivienneMultilingualNeural',
+  [SPEECH_LANGUAGE_ES_ES]: 'es-ES-ArabellaMultilingualNeural',
+};
+
+export const speechLanguageMapMan: Record<string, string> = {
+  [SPEECH_LANGUAGE_ZH_CN]: 'zh-CN-YunxiNeural',
+  [SPEECH_LANGUAGE_EN_US]: 'en-US-AndrewMultilingualNeural',
+  [SPEECH_LANGUAGE_EN_GB]: 'en-GB-OllieMultilingualNeural',
+  [SPEECH_LANGUAGE_VI_VN]: 'vi-VN-NamMinhNeural',
+  [SPEECH_LANGUAGE_TH_TH]: 'th-TH-NiwatNeural',
+  [SPEECH_LANGUAGE_JA_JP]: 'ja-JP-Masaru:DragonHDLatestNeural',
+  [SPEECH_LANGUAGE_KO_KR]: 'ko-KR-HyunsuNeural',
+  [SPEECH_LANGUAGE_MS_MY]: 'ms-MY-OsmanNeural',
+  [SPEECH_LANGUAGE_DE_DE]: 'de-DE-FlorianMultilingualNeural',
+  [SPEECH_LANGUAGE_FR_FR]: 'fr-FR-RemyMultilingualNeural',
+  [SPEECH_LANGUAGE_ES_ES]: 'es-ES-TristanMultilingualNeural',
+};
 
 export const SPEECH_METHOD_STREAM = 'Stream';
 export const SPEECH_METHOD_COMPLETION = 'Completion';
@@ -82,9 +141,6 @@ export const NOT_SETTINGS_STATUS = [CONNECT_CONNECTING, CONNECT_CONNECTED];
 export const AVATAR_OFF = 'avatar_off';
 export const AVATAR_STARTING = 'avatar_starting';
 export const AVATAR_READY = 'avatar_ready';
-
-export const clientHiEnglish = `Hi!`;
-export const clientHiChinese = `你好！`;
 
 export const fileUploadInstructions = `我已经上传了数据文件，请告诉我你收到了什么内容的文件，只需要简单解释你收到了什么。不要超过30个字。内容在 ----用户已经上传的数据文件开始---- 下面`;
 export const fileUploadTooBig = `请告诉用户，你只是一个 Demo，不处理内容过多的文件，请重新上传一个内容少的文件。`;

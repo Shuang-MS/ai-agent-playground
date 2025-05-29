@@ -3,6 +3,7 @@ import { X } from 'react-feather';
 import { useContexts } from '../providers/AppProvider';
 import styles from './LocalStorageViewer.module.css';
 import { CAMERA_PHOTO_LIMIT } from '../lib/const';
+import { getInstructions } from '../components/GetInstructions';
 
 interface LocalStorageItem {
   key: string;
@@ -33,7 +34,6 @@ const LocalStorageViewer: React.FC = () => {
     needSpeechQueue,
     captionQueue,
     vectorStore,
-    functionsToolsRef,
   } = useContexts();
 
   const fetchLocalStorageData = useCallback(() => {
@@ -208,7 +208,9 @@ const LocalStorageViewer: React.FC = () => {
 
                 <tr key="llmInstructions">
                   <td className={styles.tdKey}>llmInstructions</td>
-                  <td className={styles.tdValue}>{llmInstructions}</td>
+                  <td className={styles.tdValue}>
+                    {getInstructions(llmInstructions)}
+                  </td>
                 </tr>
               </tbody>
             </table>

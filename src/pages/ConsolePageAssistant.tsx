@@ -6,6 +6,7 @@ import {
   CONNECT_CONNECTED,
   CONNECT_CONNECTING,
   CONNECT_DISCONNECTED,
+  SCENE_DEFAULT,
 } from '../lib/const';
 
 import './ConsolePage.scss';
@@ -15,7 +16,7 @@ import FileViewer from '../components/FileViewer';
 import Avatar from '../components/Avatar';
 import ConnectButton from '../components/ConnectButton';
 import ConnectMessage from '../components/ConnectMessage';
-import AssistantMessages from '../components/AssistantMessages';
+import AssistantMessages from '../components/messages/AssistantMessages';
 
 import { getOpenAIClient, parseOpenaiSetting } from '../lib/openai';
 import { AssistantStream } from 'openai/lib/AssistantStream';
@@ -40,7 +41,7 @@ import { Profiles } from '../lib/Profiles';
 import SpeechTTS from '../components/SpeechTTS';
 
 import { Text, TextDelta } from 'openai/resources/beta/threads/messages';
-import { appendAirConditioningStateToInstructions } from './ConsolePageRealtime';
+import { getInstructions } from '../components/GetInstructions';
 
 export function ConsolePageAssistant() {
   const {
@@ -76,13 +77,7 @@ export function ConsolePageAssistant() {
 
   const updateInstructions = async () => {
     if (assistantRef?.current?.id) {
-      const currentTime = new Date().toLocaleString();
-      let instructions = llmInstructions + `\n当前时间：${currentTime} `;
-
-      instructions = appendAirConditioningStateToInstructions(
-        instructions,
-        profiles.currentProfile?.scene,
-      );
+      const instructions = getInstructions(llmInstructions);
 
       console.log('updateInstructions', instructions);
       await getOpenAIClient().beta.assistants.update(
@@ -267,7 +262,7 @@ export function ConsolePageAssistant() {
 
   // textDelta - append text to last assistant message
   const handleAssistantTextDelta = (delta: TextDelta) => {
-    recordTokenLatency(delta);
+    recordTokenLatency();
 
     if (isDebugModeRef.current) {
       console.log('delta', delta);
@@ -559,7 +554,9 @@ export function ConsolePageAssistant() {
 
         <SettingsComponent connectStatus={connectStatus} />
 
-        <FileViewer connectStatus={connectStatus} />
+        {profiles.currentProfile?.scene === SCENE_DEFAULT && (
+          <FileViewer connectStatus={connectStatus} />
+        )}
 
         <ConnectButton
           connectStatus={connectStatus}
