@@ -1,9 +1,9 @@
 import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/client';
-import { rangeHoodState } from '../RangeHoodState';
+import { dishwasherState } from '../DishwasherState';
 
 export const definition: ToolDefinitionType = {
-  name: 'get_range_hood_info',
-  description: `Gets the information about the range hood.`,
+  name: 'get_dishwasher_info',
+  description: `Gets the information about the dishwasher.`,
   parameters: {
     type: 'object',
     properties: {},
@@ -12,6 +12,6 @@ export const definition: ToolDefinitionType = {
 
 export const handler: Function = async () => {
   return {
-    state: rangeHoodState,
+    state: dishwasherState,
   };
 };

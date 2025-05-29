@@ -1,8 +1,13 @@
 import { SCENE_AIR_CONDITIONING, SCENE_KITCHEN } from '../lib/const';
 import { Profiles } from '../lib/Profiles';
 
-import { airState } from './AirState';
-import { rangeHoodState } from './RangeHood';
+import { airState } from '../tools/AirConditioningState';
+import { rangeHoodState } from '../tools/RangeHoodState';
+import { dishwasherState } from '../tools/DishwasherState';
+import {
+  SteamingOvenMenu,
+  steamingOvenState,
+} from '../tools/SteamingOvenState';
 
 export const getInstructions = (instructions: string) => {
   const profiles = new Profiles();
@@ -22,7 +27,7 @@ export const getInstructions = (instructions: string) => {
   }
 
   if (profile.scene === SCENE_KITCHEN) {
-    return getRangeHoodInstructions(instructions);
+    return getKitchenInstructions(instructions);
   }
 
   return instructions;
@@ -79,25 +84,22 @@ const getAirInstructions = (instructions: string) => {
   return instructions;
 };
 
-const getRangeHoodInstructions = (instructions: string) => {
+const getKitchenInstructions = (instructions: string) => {
   const base_instructions =
-    '你是厨房智能助手，你可以帮助用户控制油烟机、洗碗机、蒸烤箱。回复请务必简短。';
+    '你是厨房智能助手，你可以帮助用户控制以下设备。回复请务必简短。';
 
-  if (!rangeHoodState.on) {
-    instructions =
-      instructions +
-      `\n- ${base_instructions}
+  instructions =
+    instructions +
+    `\n- ${base_instructions}
        \n- 如果是关闭状态，不能进行任何操作。
        \n- 如果用户的操作包含打开设备，那么不用提示，你先打设备，再按照顺序执行其他操作。
   `;
 
-    return instructions;
-  }
-
   instructions =
     instructions +
     `\n${base_instructions}
-    \n油烟机状态状态如下：
+    \n
+    \n油烟机状态如下：
     \n名称：${rangeHoodState.name}
     \n开关机状态：${rangeHoodState.on ? '开' : '关'}
     \n定时开机(分钟)：${rangeHoodState.scheduled_power_on_minutes ?? '未设置'}
@@ -113,6 +115,29 @@ const getRangeHoodInstructions = (instructions: string) => {
     \n锁屏：${rangeHoodState.lockScreen ? '开' : '关'}
     \n定时任务：${rangeHoodState.cron.map((c) => `${c.cron} ${c.cron_action} ${c.cron_value}`).join('\n')}
     \nQ5awi：${rangeHoodState.q5awi_on ? '开' : '关'}
+    \n
+    \n洗碗机状态如下：
+    \n名称：${dishwasherState.name}
+    \n开关机状态：${dishwasherState.on ? '开' : '关'}
+    \n完成时间：${dishwasherState.finish_at ? new Date(dishwasherState.finish_at).toLocaleString() : '未设置'}
+    \n漂洗剂等级：${dishwasherState.detergent_level}
+    \n漂洗剂类型：${dishwasherState.detergent_type}
+    \n门开关状态：${dishwasherState.door_open ? '开' : '关'}
+    \n运行模式：${dishwasherState.run_mode}
+    \n运行状态：${dishwasherState.run_state}
+    \n
+    \n蒸烤箱状态如下：
+    \n名称：${steamingOvenState.name}
+    \n开关机状态：${steamingOvenState.on ? '开' : '关'}
+    \n加湿功能：${steamingOvenState.humidifier_on ? '开' : '关'}
+    \n水箱开关状态：${steamingOvenState.water_tank_on ? '开' : '关'}
+    \n水箱水位：${steamingOvenState.water_tank_level}
+    \n温度：${steamingOvenState.temperature}
+    \n菜单：${Object.values(SteamingOvenMenu).join(', ')}
+    \n模式：${steamingOvenState.run_mode}
+    \n预约开始时间：${steamingOvenState.reservation_start_at}
+    \n预约结束时间：${steamingOvenState.reservation_end_at}
+    \n
   `;
 
   return instructions;

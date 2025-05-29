@@ -12,7 +12,7 @@ import SettingsComponent from '../components/Settings';
 import Avatar from '../components/Avatar';
 import ConnectButton from '../components/ConnectButton';
 import ConnectMessage from '../components/ConnectMessage';
-import AssistantMessages from '../components/AssistantMessages';
+import AssistantMessages from '../components/messages/AssistantMessages';
 
 import { useContexts } from '../providers/AppProvider';
 import { InputBarAssistant } from '../components/InputBarAssistant';

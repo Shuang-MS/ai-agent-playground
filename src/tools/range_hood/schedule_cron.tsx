@@ -1,5 +1,5 @@
 import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/client';
-import { rangeHoodState } from '../../components/RangeHood';
+import { rangeHoodState } from '../RangeHoodState';
 
 export const definition: ToolDefinitionType = {
   name: 'set_schedule_cron',
@@ -15,7 +15,12 @@ export const definition: ToolDefinitionType = {
       cron_action: {
         type: 'string',
         description: 'The cron value to set the range hood to.',
-        enum: ['set_power_on', 'set_power_off', 'set_wind_level'],
+        enum: [
+          'set_power_on',
+          'set_power_off',
+          'set_wind_level',
+          'ventilation',
+        ],
       },
       cron_value: {
         type: 'string',

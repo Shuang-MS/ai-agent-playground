@@ -1,5 +1,5 @@
 import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/client';
-import { rangeHoodState } from '../../components/RangeHood';
+import { rangeHoodState } from '../RangeHoodState';
 
 export const definition: ToolDefinitionType = {
   name: 'set_scheduled_power_on_or_off',

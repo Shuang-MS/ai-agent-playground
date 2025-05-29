@@ -1,8 +1,8 @@
 import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/client';
-import { rangeHoodState } from '../../components/RangeHood';
+import { rangeHoodState } from '../RangeHoodState';
 
 export const definition: ToolDefinitionType = {
-  name: 'turn_on_or_off_power',
+  name: 'turn_on_or_off_power_range_hood',
   description: `Turns on or off the range hood.`,
   parameters: {
     type: 'object',

@@ -81,8 +81,8 @@ import {
 import { VectorStore } from 'openai/resources/vector-stores/vector-stores';
 import { Profiles } from '../lib/Profiles';
 import { GRAPHRAG_ABOUT } from '../tools/default/azure_docs';
-import { range_hood_control_tools } from '../tools/range_hood_control_tools';
-import { air_conditioning_control_tools } from '../tools/air_conditioning_control_tools';
+import { air_conditioning_control_tools } from '../tools/AirConditioningTools';
+import { kitchen_control_tools } from '../tools/KitchenTools';
 
 export type ReplaceInstructionsArray = {
   source: string | RegExp;
@@ -987,7 +987,7 @@ export const AppProvider: React.FC<{
   }
 
   if (profiles.currentProfile?.scene === SCENE_KITCHEN) {
-    merge_tools = range_hood_control_tools;
+    merge_tools = kitchen_control_tools;
   }
 
   // resort merge_tools by ToolDefinitionType name
