@@ -93,6 +93,7 @@ const getKitchenInstructions = (instructions: string) => {
     `\n- ${base_instructions}
        \n- 如果是关闭状态，不能进行任何操作。
        \n- 如果用户的操作包含打开设备，那么不用提示，你先打设备，再按照顺序执行其他操作。
+       \n- 只有蒸烤箱可以做食物，其他设备不能做食物。
   `;
 
   instructions =

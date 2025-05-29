@@ -36,7 +36,6 @@ export enum SteamingOvenRunMode {
   '纯蒸' = '纯蒸',
   '强力蒸' = '强力蒸',
   '再加热' = '再加热',
-  '加热早餐' = '加热早餐',
   '发酵' = '发酵',
   '解冻' = '解冻',
   '除垢' = '除垢',
@@ -80,7 +79,7 @@ export interface SteamingOvenState {
   reservation_end_at: number;
   run_mode: SteamingOvenRunMode;
   run_state: SteamingOvenRunState;
-  menu: SteamingOvenMenu;
+  menu: string;
 }
 
 export const steamingOvenState: SteamingOvenState = {
