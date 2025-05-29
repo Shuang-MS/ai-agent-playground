@@ -6,7 +6,6 @@ import {
   CONNECT_CONNECTED,
   CONNECT_CONNECTING,
   CONNECT_DISCONNECTED,
-  SCENE_DEFAULT,
 } from '../lib/const';
 
 import './ConsolePage.scss';
@@ -554,9 +553,7 @@ export function ConsolePageAssistant() {
 
         <SettingsComponent connectStatus={connectStatus} />
 
-        {profiles.currentProfile?.scene === SCENE_DEFAULT && (
-          <FileViewer connectStatus={connectStatus} />
-        )}
+        <FileViewer connectStatus={connectStatus} />
 
         <ConnectButton
           connectStatus={connectStatus}

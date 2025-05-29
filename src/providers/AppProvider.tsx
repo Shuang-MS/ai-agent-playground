@@ -91,110 +91,110 @@ export type ReplaceInstructionsArray = {
 
 interface AppContextType {
   photos: string[];
-  photosRef: React.MutableRefObject<string[]>;
+  photosRef: React.RefObject<string[]>;
   setPhotos: React.Dispatch<React.SetStateAction<string[]>>;
 
   loading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 
   debug: boolean;
-  debugRef: React.MutableRefObject<boolean>;
+  debugRef: React.RefObject<boolean>;
   setDebug: React.Dispatch<React.SetStateAction<boolean>>;
 
   thread: any | null;
-  threadRef: React.MutableRefObject<any | null>;
+  threadRef: React.RefObject<any | null>;
   setThread: React.Dispatch<React.SetStateAction<any | null>>;
 
   threadJob: any | null;
-  threadJobRef: React.MutableRefObject<any | null>;
+  threadJobRef: React.RefObject<any | null>;
   setThreadJob: React.Dispatch<React.SetStateAction<any | null>>;
 
   responseBuffer: string;
-  responseBufferRef: React.MutableRefObject<string>;
+  responseBufferRef: React.RefObject<string>;
   setResponseBuffer: React.Dispatch<React.SetStateAction<string>>;
 
   speechSentencesCacheArray: string[];
-  speechSentencesCacheArrayRef: React.MutableRefObject<string[]>;
+  speechSentencesCacheArrayRef: React.RefObject<string[]>;
   setSpeechSentencesCacheArray: React.Dispatch<React.SetStateAction<string[]>>;
 
   llmInstructions: string;
-  llmInstructionsRef: React.MutableRefObject<string>;
+  llmInstructionsRef: React.RefObject<string>;
   replaceInstructions: (source: string | RegExp, target: string) => string;
   replaceInstructionsArray: (
     instructions: ReplaceInstructionsArray[],
   ) => string;
 
   cameraStatus: string;
-  cameraStatusRef: React.MutableRefObject<string>;
+  cameraStatusRef: React.RefObject<string>;
   setCameraStatus: React.Dispatch<React.SetStateAction<string>>;
 
   connectStatus: string;
-  connectStatusRef: React.MutableRefObject<string>;
+  connectStatusRef: React.RefObject<string>;
   setConnectStatus: React.Dispatch<React.SetStateAction<string>>;
 
   avatarStatus: string;
-  avatarStatusRef: React.MutableRefObject<string>;
+  avatarStatusRef: React.RefObject<string>;
   setAvatarStatus: React.Dispatch<React.SetStateAction<string>>;
 
   assistant: Assistant | null;
-  assistantRef: React.MutableRefObject<Assistant | null>;
+  assistantRef: React.RefObject<Assistant | null>;
   setAssistant: React.Dispatch<React.SetStateAction<Assistant | null>>;
 
   vectorStore: VectorStore | null;
-  vectorStoreRef: React.MutableRefObject<VectorStore | null>;
+  vectorStoreRef: React.RefObject<VectorStore | null>;
   setVectorStore: React.Dispatch<React.SetStateAction<VectorStore | null>>;
 
   isNightMode: boolean;
-  isNightModeRef: React.MutableRefObject<boolean>;
+  isNightModeRef: React.RefObject<boolean>;
   setIsNightMode: React.Dispatch<React.SetStateAction<boolean>>;
 
   isAvatarSpeaking: boolean;
   setIsAvatarSpeaking: React.Dispatch<React.SetStateAction<boolean>>;
 
   memoryKv: { [key: string]: any };
-  memoryKvRef: React.MutableRefObject<{ [key: string]: any }>;
+  memoryKvRef: React.RefObject<{ [key: string]: any }>;
   setMemoryKv: React.Dispatch<React.SetStateAction<{ [key: string]: any }>>;
 
   inputValue: string;
-  inputValueRef: React.MutableRefObject<string>;
+  inputValueRef: React.RefObject<string>;
   setInputValue: React.Dispatch<React.SetStateAction<string>>;
 
   needSpeechQueue: string[];
-  needSpeechQueueRef: React.MutableRefObject<string[]>;
+  needSpeechQueueRef: React.RefObject<string[]>;
   setNeedSpeechQueue: React.Dispatch<React.SetStateAction<string[]>>;
 
-  functionsToolsRef: React.MutableRefObject<[ToolDefinitionType, Function][]>;
+  functionsToolsRef: React.RefObject<[ToolDefinitionType, Function][]>;
 
   caption: string;
-  captionRef: React.MutableRefObject<string>;
+  captionRef: React.RefObject<string>;
   setCaption: React.Dispatch<React.SetStateAction<string>>;
 
   inputTokens: number;
-  inputTokensRef: React.MutableRefObject<number>;
+  inputTokensRef: React.RefObject<number>;
   setInputTokens: React.Dispatch<React.SetStateAction<number>>;
 
   inputTextTokens: number;
-  inputTextTokensRef: React.MutableRefObject<number>;
+  inputTextTokensRef: React.RefObject<number>;
   setInputTextTokens: React.Dispatch<React.SetStateAction<number>>;
 
   inputAudioTokens: number;
-  inputAudioTokensRef: React.MutableRefObject<number>;
+  inputAudioTokensRef: React.RefObject<number>;
   setInputAudioTokens: React.Dispatch<React.SetStateAction<number>>;
 
   outputTokens: number;
-  outputTokensRef: React.MutableRefObject<number>;
+  outputTokensRef: React.RefObject<number>;
   setOutputTokens: React.Dispatch<React.SetStateAction<number>>;
 
   outputTextTokens: number;
-  outputTextTokensRef: React.MutableRefObject<number>;
+  outputTextTokensRef: React.RefObject<number>;
   setOutputTextTokens: React.Dispatch<React.SetStateAction<number>>;
 
   outputAudioTokens: number;
-  outputAudioTokensRef: React.MutableRefObject<number>;
+  outputAudioTokensRef: React.RefObject<number>;
   setOutputAudioTokens: React.Dispatch<React.SetStateAction<number>>;
 
   captionQueue: string[];
-  captionQueueRef: React.MutableRefObject<string[]>;
+  captionQueueRef: React.RefObject<string[]>;
   setCaptionQueue: React.Dispatch<React.SetStateAction<string[]>>;
   updateCaptionQueue: (caption: string) => void;
   addCaptionQueue: (caption: string) => void;
@@ -204,17 +204,17 @@ interface AppContextType {
 
   isOnline: boolean;
 
-  isFirstTokenRef: React.MutableRefObject<boolean>;
+  isFirstTokenRef: React.RefObject<boolean>;
 
   firstTokenLatencyArray: number[];
-  firstTokenLatencyArrayRef: React.MutableRefObject<number[]>;
+  firstTokenLatencyArrayRef: React.RefObject<number[]>;
   setFirstTokenLatencyArray: React.Dispatch<React.SetStateAction<number[]>>;
 
-  sendTimeRef: React.MutableRefObject<number>;
-  lastTokenTimeRef: React.MutableRefObject<number>;
+  sendTimeRef: React.RefObject<number>;
+  lastTokenTimeRef: React.RefObject<number>;
 
   tokenLatencyArray: number[];
-  tokenLatencyArrayRef: React.MutableRefObject<number[]>;
+  tokenLatencyArrayRef: React.RefObject<number[]>;
   setTokenLatencyArray: React.Dispatch<React.SetStateAction<number[]>>;
 
   resetTokenLatency: () => void;
@@ -226,7 +226,7 @@ interface AppContextType {
   resetApp: () => void;
 
   isDebugMode: boolean;
-  isDebugModeRef: React.MutableRefObject<boolean>;
+  isDebugModeRef: React.RefObject<boolean>;
   setIsDebugMode: React.Dispatch<React.SetStateAction<boolean>>;
 
   appKey: number;
@@ -240,7 +240,7 @@ interface AppContextType {
   camera_on_handler: Function;
 
   lastMessageTextArray: string[];
-  lastMessageTextArrayRef: React.MutableRefObject<string[]>;
+  lastMessageTextArrayRef: React.RefObject<string[]>;
   setLastMessageTextArray: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
