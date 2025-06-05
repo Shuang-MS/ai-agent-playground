@@ -9,7 +9,7 @@ import {
   CONNECT_CONNECTED,
   CONNECT_CONNECTING,
   CONNECT_DISCONNECTED,
-  SPEECH_DEFAULT_Hi,
+  SPEECH_DEFAULT_HI,
 } from '../lib/const';
 
 import './ConsolePage.scss';
@@ -290,8 +290,6 @@ export function ConsolePageRealtime() {
    * All of our variables for displaying application state
    * - items are all conversation items (dialog)
    * - realtimeEvents are event logs, which can be expanded
-   * - memoryKv is for set_memory() function
-   * - coords, marker are for get_weather() function
    */
   const [items, setItems] = useState<ItemType[]>([]);
   useEffect(() => {
@@ -365,8 +363,8 @@ export function ConsolePageRealtime() {
     realtimeClientRef.current.sendUserMessageContent([
       {
         type: `input_text`,
-        text: SPEECH_DEFAULT_Hi[
-          profile?.detectLanguage as keyof typeof SPEECH_DEFAULT_Hi
+        text: SPEECH_DEFAULT_HI[
+          profile?.detectLanguage as keyof typeof SPEECH_DEFAULT_HI
         ],
       },
     ]);

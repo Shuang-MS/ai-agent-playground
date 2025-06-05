@@ -20,6 +20,7 @@ import { Profiles } from '../lib/Profiles';
 import defaultIcon from '../static/logomark.svg';
 import { ConsolePageAgent } from './ConsolePageAgent';
 import { SCENE_DEFAULT } from '../lib/const';
+import { ConsolePageRealtimeWebRTC } from './ConsolePageRealtimeWebRTC';
 
 export function ConsolePage() {
   const { isDebugMode, setIsDebugMode, isNightMode } = useContexts();
@@ -35,7 +36,7 @@ export function ConsolePage() {
   }, []);
 
   useEffect(() => {
-    document.title = profiles.currentProfile?.name || '';
+    document.title = profiles.currentProfile?.title || '';
   }, [profiles]);
 
   function IsDebugMode() {
@@ -96,7 +97,7 @@ export function ConsolePage() {
             }
             alt="logo"
           />
-          <h1 style={styles.title}>{profiles.currentProfile?.name}</h1>
+          <h1 style={styles.title}>{profiles.currentProfile?.title}</h1>
 
           <span style={styles.assistantType}>
             {profiles.currentProfile?.supportedAssistantType}
@@ -133,6 +134,9 @@ export function ConsolePage() {
 
       <div className="content-main">
         {profiles.currentProfile?.isRealtime && <ConsolePageRealtime />}
+        {profiles.currentProfile?.isRealtimeWebRTC && (
+          <ConsolePageRealtimeWebRTC />
+        )}
         {profiles.currentProfile?.isAssistant && <ConsolePageAssistant />}
         {profiles.currentProfile?.isDeepSeek && <ConsolePageDeepSeek />}
         {profiles.currentProfile?.isAgentAI && <ConsolePageAgent />}

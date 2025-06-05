@@ -3,6 +3,7 @@ export type GptImage = {
   prompt: string;
   b64: string;
   mask_b64: string;
+  gpt_image?: boolean;
 };
 
 export type GptImageAction = {

@@ -7,6 +7,7 @@ export const DEFAULT_AGENT_API_URL = 'https://agent-api.azuretsp.com';
 export const ASSISTANT_TYPE_RESPONSES = 'Responses';
 export const ASSISTANT_TYPE_ASSISTANT = 'Assistant';
 export const ASSISTANT_TYPE_REALTIME = 'Realtime';
+export const ASSISTANT_TYPE_REALTIME_WEB_RTC = 'Realtime WebRTC';
 export const ASSISTANT_TYPE_DEEPSEEK = 'DeepSeek';
 export const ASSISTANT_TYPE_AGENT_AI = 'Agent API';
 export const ASSISTANT_TYPE_DEFAULT = ASSISTANT_TYPE_REALTIME;
@@ -14,6 +15,7 @@ export const ASSISTANT_TYPES = [
   ASSISTANT_TYPE_RESPONSES,
   ASSISTANT_TYPE_ASSISTANT,
   ASSISTANT_TYPE_REALTIME,
+  ASSISTANT_TYPE_REALTIME_WEB_RTC,
   ASSISTANT_TYPE_DEEPSEEK,
   ASSISTANT_TYPE_AGENT_AI,
 ];
@@ -73,7 +75,7 @@ export const SPEECH_LANGUAGES = [
   SPEECH_LANGUAGE_ES_ES,
 ];
 
-export const SPEECH_DEFAULT_Hi: Record<string, string> = {
+export const SPEECH_DEFAULT_HI: Record<string, string> = {
   [SPEECH_LANGUAGE_ZH_CN]: '你好！',
   [SPEECH_LANGUAGE_EN_US]: 'Hi!',
   [SPEECH_LANGUAGE_EN_GB]: 'Hi!',
