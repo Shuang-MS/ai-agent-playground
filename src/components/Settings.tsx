@@ -37,6 +37,7 @@ import {
   SPEECH_LANGUAGE_EN_GB,
   SPEECH_LANGUAGE_FR_FR,
   SPEECH_LANGUAGE_ES_ES,
+  ASSISTANT_TYPE_REALTIME_WEB_RTC,
 } from '../lib/const';
 import { useContexts } from '../providers/AppProvider';
 import { svgToBase64 } from '../lib/helper';
@@ -72,6 +73,7 @@ const temperatureOptions = [
 
 export const supportedAssistantTypes = [
   { value: ASSISTANT_TYPE_REALTIME, label: 'Realtime' },
+  { value: ASSISTANT_TYPE_REALTIME_WEB_RTC, label: 'Realtime WebRTC' },
   { value: ASSISTANT_TYPE_AGENT_AI, label: 'Agent API' },
   { value: ASSISTANT_TYPE_ASSISTANT, label: 'STT -> Assistant -> TTS' },
   { value: ASSISTANT_TYPE_DEEPSEEK, label: 'STT -> DeepSeek -> TTS' },
@@ -566,6 +568,19 @@ const SettingsComponent: React.FC<{
           placeholder={''}
           onChange={(e) => {
             profiles.currentProfile!.realtimeKey = e.target.value;
+            profiles.save();
+            setProfiles(new Profiles());
+          }}
+        />
+
+        <div style={styles.settingLabel}>Realtime Region</div>
+        <input
+          type={'text'}
+          style={styles.settingInput}
+          value={profiles.currentProfile?.realtimeRegion || ''}
+          placeholder={'eastus2'}
+          onChange={(e) => {
+            profiles.currentProfile!.realtimeRegion = e.target.value;
             profiles.save();
             setProfiles(new Profiles());
           }}

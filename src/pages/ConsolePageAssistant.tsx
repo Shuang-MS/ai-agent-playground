@@ -129,7 +129,7 @@ export function ConsolePageAssistant() {
         setConnectMessage(
           `Deleting Assistant(${index}/${assistantsPageList.length}): ${assistant.id}`,
         );
-        await getOpenAIClient().beta.assistants.del(assistant.id);
+        await getOpenAIClient().beta.assistants.delete(assistant.id);
       }
     }
   };
@@ -156,7 +156,7 @@ export function ConsolePageAssistant() {
         setConnectMessage(
           `Deleting Vector Store(${index}/${vectorStoresPages.length}): ${vectorStore.id}`,
         );
-        await getOpenAIClient().vectorStores.del(vectorStore.id);
+        await getOpenAIClient().vectorStores.delete(vectorStore.id);
       }
     }
   };
@@ -387,10 +387,8 @@ export function ConsolePageAssistant() {
     }[],
   ) => {
     const stream = getOpenAIClient().beta.threads.runs.submitToolOutputsStream(
-      threadRef.current?.id,
       runId,
-      // { tool_outputs: [{ output: result, tool_call_id: toolCallId }] },
-      { tool_outputs: toolCallOutputs },
+      { tool_outputs: toolCallOutputs, thread_id: threadRef.current?.id },
     );
 
     const new_stream = AssistantStream.fromReadableStream(

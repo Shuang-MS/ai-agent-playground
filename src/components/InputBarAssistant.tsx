@@ -7,7 +7,7 @@ import './InputBar.scss';
 import {
   CONNECT_CONNECTED,
   SHORTCUTS,
-  SPEECH_DEFAULT_Hi,
+  SPEECH_DEFAULT_HI,
   SPEECH_LANGUAGE_DEFAULT,
 } from '../lib/const';
 import { Profiles } from '../lib/Profiles';
@@ -184,8 +184,8 @@ export function InputBarAssistant({
   useEffect(() => {
     if (connectStatus === CONNECT_CONNECTED) {
       sendText(
-        SPEECH_DEFAULT_Hi[
-          profile?.detectLanguage as keyof typeof SPEECH_DEFAULT_Hi
+        SPEECH_DEFAULT_HI[
+          profile?.detectLanguage as keyof typeof SPEECH_DEFAULT_HI
         ],
       );
     }
