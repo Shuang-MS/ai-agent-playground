@@ -6,6 +6,7 @@ import {
   ASSISTANT_TYPE_DEEPSEEK,
   ASSISTANT_TYPE_DEFAULT,
   ASSISTANT_TYPE_REALTIME,
+  ASSISTANT_TYPE_REALTIME_WEB_RTC,
   ASSISTANT_TYPE_RESPONSES,
   ASSISTANT_TYPES,
   DEEPSEEK_FUNCTION_CALL_DISABLE,
@@ -21,6 +22,7 @@ import { supportedAssistantTypes } from '../components/Settings';
 class Profile {
   public id: string = '';
   public name: string = '';
+  public title: string = '';
   public agentApiKey: string = '';
   public agentApiUrl: string = '';
   public appIconDark: string = '';
@@ -57,8 +59,12 @@ class Profile {
   public prompt: string = '';
   public promptUrl: string = '';
   public quoteToken: string = '';
+
+  // Realtime Target URl like: https://xxx.openai.azure.com/openai/realtime?api-version=2024-10-01-preview&deployment=gpt-4o-realtime-preview
   public realtimeEndpoint: string = '';
   public realtimeKey: string = '';
+  public realtimeRegion: string = 'eastus2';
+
   public supportedAssistantType: string = '';
   public temperature: number = 0.5;
   public ttsApiKey: string = '';
@@ -70,6 +76,8 @@ class Profile {
 
   public isAssistant: boolean = this.assistantType === ASSISTANT_TYPE_ASSISTANT;
   public isRealtime: boolean = this.assistantType === ASSISTANT_TYPE_REALTIME;
+  public isRealtimeWebRTC: boolean =
+    this.assistantType === ASSISTANT_TYPE_REALTIME_WEB_RTC;
   public isDeepSeek: boolean = this.assistantType === ASSISTANT_TYPE_DEEPSEEK;
   public isAgentAI: boolean = this.assistantType === ASSISTANT_TYPE_AGENT_AI;
   public isResponses: boolean = this.assistantType === ASSISTANT_TYPE_RESPONSES;
@@ -153,6 +161,19 @@ class Profile {
 
     return `${endpoint}/ws/avatar?api_key=${this.agentApiKey}`;
   }
+
+  getRealtimeSessionUrl(): string {
+    const url = this.realtimeEndpoint.split('/openai/realtime')[0];
+    return `${url}/openai/realtimeapi/sessions?api-version=2025-04-01-preview`;
+  }
+
+  getRealtimeWebRTCUrl(): string {
+    return `https://${this.realtimeRegion}.realtimeapi-preview.ai.azure.com/v1/realtimertc`;
+  }
+
+  getRealtimeDeployment(): string {
+    return this.realtimeEndpoint.split('&deployment=')[1];
+  }
 }
 
 // Profiles is the list of profiles
@@ -225,10 +246,15 @@ export class Profiles {
 
       p.isAssistant = p.assistantType === ASSISTANT_TYPE_ASSISTANT;
       p.isRealtime = p.assistantType === ASSISTANT_TYPE_REALTIME;
+      p.isRealtimeWebRTC = p.assistantType === ASSISTANT_TYPE_REALTIME_WEB_RTC;
       p.isDeepSeek = p.assistantType === ASSISTANT_TYPE_DEEPSEEK;
       p.isAgentAI = p.assistantType === ASSISTANT_TYPE_AGENT_AI;
       p.isResponses = p.assistantType === ASSISTANT_TYPE_RESPONSES;
       p.isDefaultScene = p.scene === SCENE_DEFAULT;
+
+      if (!p.title) {
+        p.title = p.name;
+      }
 
       p.supportedAssistantType =
         supportedAssistantTypes.find((type) => type.value === p.assistantType)

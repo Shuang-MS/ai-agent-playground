@@ -130,10 +130,9 @@ const FileViewer = ({ connectStatus }: { connectStatus: string }) => {
       fileList.data.map(async (file) => {
         const fileDetails = await getOpenAIClient().files.retrieve(file.id);
         const vectorFileDetails =
-          await getOpenAIClient().vectorStores.files.retrieve(
-            vectorStoreId,
-            file.id,
-          );
+          await getOpenAIClient().vectorStores.files.retrieve(file.id, {
+            vector_store_id: vectorStoreId,
+          });
         return {
           file_id: file.id,
           filename: fileDetails.filename,
@@ -148,7 +147,9 @@ const FileViewer = ({ connectStatus }: { connectStatus: string }) => {
   // delete file from assistant's vector store
   const handleFileDelete = async (fileId: string) => {
     const vectorStoreId = vectorStoreRef?.current?.id || '';
-    await getOpenAIClient().vectorStores.files.del(vectorStoreId, fileId); // delete file from vector store
+    await getOpenAIClient().vectorStores.files.delete(fileId, {
+      vector_store_id: vectorStoreId,
+    });
   };
 
   const handleFileUpload = async (event: any) => {

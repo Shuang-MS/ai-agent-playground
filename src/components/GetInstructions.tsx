@@ -41,7 +41,7 @@ const getAirInstructions = (instructions: string) => {
     instructions =
       instructions +
       `\n- ${base_instructions}
-       \n- 空调是关闭状态，不能进行任何操作。
+       \n- 空调【${airState.name}】是关闭状态，不能进行任何操作。
        \n- 如果用户的操作包含打开空调，那么不用提示，你先打空调，再按照顺序执行其他操作。
        \n- 如果用户的操作不包含打开空调，则只能进行定时开机操作，其他操作需要提示空调是关闭状态，只能打开空调，不能进行其他任何操作，并且询问用户是否打开空调。
   `;

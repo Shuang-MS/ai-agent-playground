@@ -78,7 +78,7 @@ function processSentences(inputs: string[]) {
 export function processAndStoreSentence(
   input: string,
   isAvatarStarted: boolean,
-  speechSentencesCacheArrayRef: React.MutableRefObject<string[]>,
+  speechSentencesCacheArrayRef: React.RefObject<string[]>,
 ): SentenceStatus[] {
   if (!input) {
     return [];
