@@ -114,6 +114,8 @@ class Profile {
       return '';
     }
 
+    this.realtimeKey = '';
+
     return `${endpoint}/ws/realtime?api_key=${this.agentApiKey}`;
   }
 
