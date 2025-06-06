@@ -33,7 +33,7 @@
     "isomorphic-fetch": "^3.0.0",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.513.0",
-    "microsoft-cognitiveservices-speech-sdk": "^1.44.0",
+    "microsoft-cognitiveservices-speech-sdk": "^1.44.1",
     "nanoid": "^5.1.5",
     "node-fetch": "^3.3.2",
     "nth-check": "^2.1.1",
@@ -67,7 +67,8 @@
     "@mui/styled-engine-sc": "7.1.1",
     "react-icons": "5.3.0",
     "typescript": "^4.9.5",
-    "web-vitals": "5.0.2"
+    "web-vitals": "5.0.2",
+    "webpack-dev-server": ">=5.2.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -98,7 +99,7 @@
     "@babel/plugin-transform-private-property-in-object": "^7.27.1",
     "@babel/runtime": ">=7.26.10",
     "@types/react": "19.1.6",
-    "@types/react-dom": "19.1.5",
+    "@types/react-dom": "19.1.6",
     "@types/react-transition-group": "^4.4.12",
     "babel-plugin-react-compiler": "19.1.0-rc.1",
     "eslint-config-prettier": "10.1.5",
@@ -110,6 +111,7 @@
     "path-to-regexp": ">=0.1.12",
     "postcss": ">=8.4.31",
     "prettier": "3.5.3",
-    "http-proxy-middleware": ">=2.0.9"
+    "http-proxy-middleware": ">=2.0.9",
+    "webpack-dev-server": ">=5.2.1"
   }
 }
