@@ -122,7 +122,7 @@ export function ConsolePageRealtimeWebRTC() {
 
     async function sendData(data: any) {
       dataChannel.send(JSON.stringify(data));
-      console.log('Sent client event: ');
+      console.log('Sent client event:');
       console.log(data);
     }
 
@@ -147,7 +147,7 @@ export function ConsolePageRealtimeWebRTC() {
 
     dataChannel.addEventListener('message', async (event: MessageEvent) => {
       const realtimeEvent = JSON.parse(event.data) as RealtimeWebRtcEvent;
-
+      console.log('Received Server event:');
       console.log(realtimeEvent);
 
       latencyRecord(realtimeEvent);
