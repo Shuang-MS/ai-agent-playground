@@ -9,6 +9,7 @@ import * as steaming_oven_humidifier_on from './steaming_oven/humidifier_on';
 import * as steaming_oven_water_tank_on from './steaming_oven/water_tank_on';
 import * as steaming_oven_reservation from './steaming_oven/reservation';
 import * as steaming_oven_action from './steaming_oven/action';
+import * as steaming_oven_preheating from './steaming_oven/preheating';
 
 export const steaming_oven_control_tools: [ToolDefinitionType, Function][] = [
   [steaming_oven_turn_on_off.definition, steaming_oven_turn_on_off.handler],
@@ -20,4 +21,5 @@ export const steaming_oven_control_tools: [ToolDefinitionType, Function][] = [
   [steaming_oven_water_tank_on.definition, steaming_oven_water_tank_on.handler],
   [steaming_oven_reservation.definition, steaming_oven_reservation.handler],
   [steaming_oven_action.definition, steaming_oven_action.handler],
+  [steaming_oven_preheating.definition, steaming_oven_preheating.handler],
 ];

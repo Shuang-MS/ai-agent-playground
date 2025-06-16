@@ -2,8 +2,9 @@ import { SCENE_AIR_CONDITIONING, SCENE_KITCHEN } from '../lib/const';
 import { Profiles } from '../lib/Profiles';
 
 import { airState } from '../tools/AirConditioningState';
-import { rangeHoodState } from '../tools/RangeHoodState';
+import { rangeHoodState, rangeHoodState2 } from '../tools/RangeHoodState';
 import { dishwasherState } from '../tools/DishwasherState';
+import { waterHeater } from '../tools/waterHeater';
 import {
   SteamingOvenMenu,
   steamingOvenState,
@@ -89,8 +90,7 @@ const getAirInstructions = (instructions: string) => {
 };
 
 const getKitchenInstructions = (instructions: string) => {
-  const base_instructions =
-    '你是厨房智能助手，你可以帮助用户控制以下设备。回复请务必简短。';
+  const base_instructions = `你是厨房智能助手，你可以帮助用户控制以下设备。回复请务必简短。如果用户得操作设备有多个，请一定不要默认选择设备和型号，你必须反问用户选择哪一个。`;
 
   instructions =
     instructions +
@@ -104,8 +104,53 @@ const getKitchenInstructions = (instructions: string) => {
     instructions +
     `\n${base_instructions}
     \n
-    \n油烟机状态如下：
-    \n名称：${rangeHoodState.name}
+    \n## 洗碗机状态
+    \n名称：${dishwasherState.name}
+    \n开关机状态：${dishwasherState.on ? '开' : '关'}
+    \n完成时间：${dishwasherState.finish_at ? new Date(dishwasherState.finish_at).toLocaleString() : '未设置'}
+    \n漂洗剂等级：${dishwasherState.detergent_level}
+    \n漂洗剂类型：${dishwasherState.detergent_type}
+    \n门开关状态：${dishwasherState.door_open ? '开' : '关'}
+    \n运行模式：${dishwasherState.run_mode}
+    \n运行状态：${dishwasherState.run_state}
+    \n
+    \n## '${rangeHoodState2.name}'状态
+    \n名称：'${rangeHoodState2.name}'
+    \n开关机状态：${rangeHoodState2.on ? '开' : '关'}
+    \n定时开机(分钟)：${rangeHoodState2.scheduled_power_on_minutes ?? '未设置'}
+    \n定时关机(分钟)：${rangeHoodState2.scheduled_power_off_minutes ?? '未设置'}
+    \n灯光/照明灯：${rangeHoodState2.light ? '开' : '关'}
+    \n风量/风速/档位：${rangeHoodState2.level}
+    \n左侧快速吸力：${rangeHoodState2.rapid_suction_left}
+    \n右侧快速吸力：${rangeHoodState2.rapid_suction_right}
+    \n两侧快速吸力：${rangeHoodState2.rapid_suction_both}
+    \nCO值：${rangeHoodState2.co_status}
+    \nCH4值：${rangeHoodState2.ch4_value}
+    \nCH4值状态：${rangeHoodState2.ch4_value > 1000 ? '超标' : '正常'}
+    \n锁屏：${rangeHoodState2.lockScreen ? '开' : '关'}
+    \n定时任务：${rangeHoodState2.cron.map((c) => `${c.cron} ${c.cron_action} ${c.cron_value}`).join('\n')}
+    \n
+    \n## 蒸烤箱状态
+    \n名称：${steamingOvenState.name}
+    \n开关机状态：${steamingOvenState.on ? '开' : '关'}
+    \n加湿功能：${steamingOvenState.humidifier_on ? '开' : '关'}
+    \n水箱开关状态：${steamingOvenState.water_tank_on ? '开' : '关'}
+    \n水箱水位：${steamingOvenState.water_tank_level}
+    \n温度：${steamingOvenState.temperature}
+    \n菜单：${Object.values(SteamingOvenMenu).join(', ')}
+    \n模式：${steamingOvenState.run_mode}
+    \n预约开始时间：${steamingOvenState.reservation_start_at}
+    \n预约结束时间：${steamingOvenState.reservation_end_at}
+    \n
+    \n## 热水器状态
+    \n名称：${waterHeater.name}
+    \n开关机状态：${waterHeater.on ? '开' : '关'}
+    \n温度：${waterHeater.temperature}
+    \n定时关机(温度)：${waterHeater.power_off_when_temperature_is_arrive ?? '未设置'}
+    \n定时任务：${waterHeater.cron.map((c) => `${c.cron} ${c.cron_action} ${c.cron_value}`).join('\n')}
+    \n
+    \n## '${rangeHoodState.name}'状态
+    \n名称：'${rangeHoodState.name}'
     \n开关机状态：${rangeHoodState.on ? '开' : '关'}
     \n定时开机(分钟)：${rangeHoodState.scheduled_power_on_minutes ?? '未设置'}
     \n定时关机(分钟)：${rangeHoodState.scheduled_power_off_minutes ?? '未设置'}
@@ -120,30 +165,13 @@ const getKitchenInstructions = (instructions: string) => {
     \n锁屏：${rangeHoodState.lockScreen ? '开' : '关'}
     \n定时任务：${rangeHoodState.cron.map((c) => `${c.cron} ${c.cron_action} ${c.cron_value}`).join('\n')}
     \nQ5awi：${rangeHoodState.q5awi_on ? '开' : '关'}
-    \n
-    \n洗碗机状态如下：
-    \n名称：${dishwasherState.name}
-    \n开关机状态：${dishwasherState.on ? '开' : '关'}
-    \n完成时间：${dishwasherState.finish_at ? new Date(dishwasherState.finish_at).toLocaleString() : '未设置'}
-    \n漂洗剂等级：${dishwasherState.detergent_level}
-    \n漂洗剂类型：${dishwasherState.detergent_type}
-    \n门开关状态：${dishwasherState.door_open ? '开' : '关'}
-    \n运行模式：${dishwasherState.run_mode}
-    \n运行状态：${dishwasherState.run_state}
-    \n
-    \n蒸烤箱状态如下：
-    \n名称：${steamingOvenState.name}
-    \n开关机状态：${steamingOvenState.on ? '开' : '关'}
-    \n加湿功能：${steamingOvenState.humidifier_on ? '开' : '关'}
-    \n水箱开关状态：${steamingOvenState.water_tank_on ? '开' : '关'}
-    \n水箱水位：${steamingOvenState.water_tank_level}
-    \n温度：${steamingOvenState.temperature}
-    \n菜单：${Object.values(SteamingOvenMenu).join(', ')}
-    \n模式：${steamingOvenState.run_mode}
-    \n预约开始时间：${steamingOvenState.reservation_start_at}
-    \n预约结束时间：${steamingOvenState.reservation_end_at}
-    \n
-  `;
+    `;
+
+  instructions =
+    instructions +
+    `\n\n注意：
+\n- 用户必须明确指定设备型号，否则请按照设备列表反问型号。永远不要默认操作第一个设备。
+\n- 我再强调一遍，用户必须明确指定设备型号，否则请按照设备列表反问型号。`;
 
   return instructions;
 };
