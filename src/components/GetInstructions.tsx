@@ -81,6 +81,10 @@ const getAirInstructions = (instructions: string) => {
     \n连续对话/自然对话：${airState.continuous_dialogue ? '开' : '关'}
   `;
 
+  if (airState.mode === '送风模式') {
+    instructions = instructions + `\n- 送风模式下不能调节温度。`;
+  }
+
   return instructions;
 };
 
