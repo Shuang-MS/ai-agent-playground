@@ -17,6 +17,8 @@ export const definition: ToolDefinitionType = {
           '送风模式',
           '抽湿模式',
           '睡眠模式',
+          '品茗模式',
+          '读书模式',
         ],
       },
     },

@@ -1,5 +1,5 @@
 import { ToolDefinitionType } from '@theodoreniu/realtime-api-beta/dist/lib/client';
-import { rangeHoodState } from '../RangeHoodState';
+import { rangeHoodState, rangeHoodState2 } from '../RangeHoodState';
 
 export const definition: ToolDefinitionType = {
   name: 'get_range_hood_info',
@@ -12,6 +12,6 @@ export const definition: ToolDefinitionType = {
 
 export const handler: Function = async () => {
   return {
-    state: rangeHoodState,
+    state: [rangeHoodState, rangeHoodState2],
   };
 };
