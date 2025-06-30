@@ -79,6 +79,7 @@ export interface SteamingOvenState {
   reservation_end_at: number;
   run_mode: SteamingOvenRunMode;
   run_state: SteamingOvenRunState;
+  preheating: string;
   menu: string;
 }
 
@@ -94,4 +95,5 @@ export const steamingOvenState: SteamingOvenState = {
   run_mode: SteamingOvenRunMode.烤,
   run_state: SteamingOvenRunState.启动,
   menu: SteamingOvenMenu.none,
+  preheating: '',
 };

@@ -123,7 +123,6 @@ class Profile {
     const endpoint = this.agentApiUrl;
 
     if (!this.agentApiKey) {
-      alert('Agent API Key is not set');
       return '';
     }
 
